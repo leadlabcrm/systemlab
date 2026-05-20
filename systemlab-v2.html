@@ -64,7 +64,7 @@ select option{background:var(--canvas-card)}
 /* LOGIN */
 #login-screen{position:fixed;inset:0;background:var(--canvas);z-index:9999;display:flex;align-items:center;justify-content:center}
 .login-card{width:360px;background:var(--canvas-card);border:1px solid var(--hairline);border-radius:var(--r-md);padding:40px;display:flex;flex-direction:column}
-.login-logo{font-size:28px;letter-spacing:-0.05em;color:var(--ink);text-align:center;margin-bottom:8px;font-weight:600}
+.login-logo{font-size:42px;letter-spacing:-0.05em;color:var(--ink);text-align:center;margin-bottom:8px;font-weight:600}
 .login-logo em{font-family:var(--serif);font-style:italic;font-weight:500}
 .login-sub{font-family:var(--mono);font-size:10px;color:var(--mute);text-align:center;margin-bottom:32px;letter-spacing:1px;text-transform:uppercase}
 .login-err{color:var(--red);font-size:12px;text-align:center;margin-top:12px;display:none}
@@ -72,9 +72,7 @@ select option{background:var(--canvas-card)}
 /* TOPBAR */
 #topbar{grid-column:1/-1;display:flex;align-items:center;background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:200;height:48px}
 .topbar-brand{display:flex;align-items:center;gap:8px;padding:0 18px;width:220px;flex-shrink:0;border-right:1px solid var(--hairline);height:100%}
-.brand-mark{width:20px;height:20px;background:var(--ink);border-radius:4px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;padding:4px}
-.brand-mark span{background:#000;border-radius:1px}
-.brand-name{font-size:14px;font-weight:600;letter-spacing:-0.04em;color:var(--ink)}
+.brand-name{font-size:20px;font-weight:600;letter-spacing:-0.04em;color:var(--ink)}
 .brand-tag{font-family:var(--mono);font-size:9px;color:var(--mute);letter-spacing:0.06em;text-transform:uppercase;margin-left:2px;margin-top:1px;display:none}
 .topbar-center{flex:1;display:flex;align-items:center;padding:0 16px;gap:8px}
 .search-bar{display:flex;align-items:center;gap:8px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:var(--r-pill);padding:6px 13px;cursor:text;max-width:320px;width:100%;transition:border-color 0.15s}
@@ -350,7 +348,6 @@ select option{background:var(--canvas-card)}
   <!-- TOPBAR -->
   <div id="topbar">
     <div class="topbar-brand">
-      <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
       <div>
         <div class="brand-name"><em style="font-family:var(--serif);font-weight:500;font-style:italic">system</em>lab.</div>
       </div>
@@ -1154,8 +1151,15 @@ function insDivider()  { insAt('---'); }
 /* ════════════════════════════════
    MARKDOWN RENDERER
 ════════════════════════════════ */
-function updatePreview() {
+async function updatePreview() {
   document.getElementById('ed-preview').innerHTML = mdRender(document.getElementById('ed-ta').value);
+  if (window.mermaid) {
+    try {
+      await window.mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      // Silently ignore mermaid syntax errors while typing
+    }
+  }
 }
 
 function updateWordCount() {
@@ -1173,7 +1177,10 @@ function mdRender(md) {
     const rows = tableBuf.filter(r=>!r.match(/^[\s|:-]+$/));
     let t = '<table>';
     rows.forEach((r,i) => {
-      const cells = r.split('|').filter((_,ci)=>ci>0&&ci<r.split('|').length-1).map(c=>c.trim());
+      let rTrim = r.trim();
+      if (rTrim.startsWith('|')) rTrim = rTrim.substring(1);
+      if (rTrim.endsWith('|')) rTrim = rTrim.substring(0, rTrim.length - 1);
+      const cells = rTrim.split('|').map(c=>c.trim());
       t += '<tr>'+(cells.map(c=>`<${i===0?'th':'td'}>${inlineRender(c)}</${i===0?'th':'td'}>`).join(''))+'</tr>';
     });
     html += t+'</table>';
@@ -1193,7 +1200,7 @@ function mdRender(md) {
     }
     if (inCode) { codeBuf+=line+'\n'; continue; }
 
-    if (line.includes('|') && !line.startsWith('#') && !line.startsWith('>')) {
+    if (line.trim().startsWith('|')) {
       inTable=true; tableBuf.push(line); continue;
     } else if (inTable) { flushTable(); }
 
@@ -1235,44 +1242,8 @@ function loomRender(raw) {
 }
 
 function mermaidRender(raw) {
-  const steps = raw.trim().split(/→|->|–>|\n/).map(s=>s.trim()).filter(Boolean);
-  if (!steps.length) return `<div class="mermaid-wrap"><span class="eyebrow">Empty flowchart</span></div>`;
-  return `<div class="mermaid-wrap">${buildFlowSVG(steps)}</div>`;
-}
-
-function buildFlowSVG(steps) {
-  const BW=112, BH=34, COL=136, ROW=66, PX=20, PY=14;
-  const perRow=Math.min(steps.length,4);
-  const rows=Math.ceil(steps.length/perRow);
-  const W=perRow*COL+PX*2, H=rows*ROW+PY*2;
-  const pos=steps.map((_,i)=>({x:PX+(i%perRow)*COL+COL/2, y:PY+Math.floor(i/perRow)*ROW+ROW/2}));
-  let edges='', nodes='';
-  for(let i=0;i<steps.length-1;i++){
-    const a=pos[i],b=pos[i+1];
-    const sameRow=Math.floor(i/perRow)===Math.floor((i+1)/perRow);
-    if(sameRow){
-      edges+=`<line x1="${a.x+BW/2}" y1="${a.y}" x2="${b.x-BW/2}" y2="${b.y}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" marker-end="url(#ar)"/>`;
-    } else {
-      const midY=a.y+BH/2+12;
-      edges+=`<path d="M${a.x} ${a.y+BH/2} L${a.x} ${midY} L${pos[i+1].x} ${midY} L${pos[i+1].x} ${b.y-BH/2}" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" marker-end="url(#ar)"/>`;
-    }
-  }
-  steps.forEach((s,i)=>{
-    const {x,y}=pos[i];
-    const first=i===0, last=i===steps.length-1;
-    const fill=first?'rgba(255,255,255,0.1)':last?'rgba(34,197,94,0.12)':'rgba(255,255,255,0.03)';
-    const stroke=first?'rgba(255,255,255,0.25)':last?'rgba(34,197,94,0.35)':'rgba(255,255,255,0.08)';
-    const label=s.length>15?s.slice(0,14)+'…':s;
-    nodes+=`<rect x="${x-BW/2}" y="${y-BH/2}" width="${BW}" height="${BH}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;
-    nodes+=`<text x="${x}" y="${y+4.5}" text-anchor="middle" fill="rgba(218,219,223,0.88)" font-family="Inter,sans-serif" font-size="10.5" font-weight="400">${esc(label)}</text>`;
-    if(first||last){
-      nodes+=`<rect x="${x-BW/2}" y="${y-BH/2}" width="${BW}" height="${BH}" rx="5" fill="none" stroke="${stroke}" stroke-width="1.5"/>`;
-    }
-  });
-  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%;display:block">
-    <defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="rgba(255,255,255,0.18)"/></marker></defs>
-    ${edges}${nodes}
-  </svg>`;
+  if (!raw.trim()) return `<div class="mermaid-wrap"><span class="eyebrow">Empty flowchart</span></div>`;
+  return `<div class="mermaid-wrap" style="display:flex;justify-content:center"><pre class="mermaid">${esc(raw)}</pre></div>`;
 }
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -1313,17 +1284,24 @@ function addFlowNode() {
 
 function removeFlowNode(i) { flowSteps.splice(i,1); renderFlowNodes(); renderFlowPrev(); }
 
-function renderFlowPrev() {
+async function renderFlowPrev() {
   const steps = flowSteps.filter(s=>s.trim());
-  document.getElementById('flow-preview').innerHTML = steps.length>=2
-    ? `<div class="eyebrow" style="margin-bottom:10px">Preview</div>${buildFlowSVG(steps)}`
-    : `<span class="eyebrow">Add steps to preview</span>`;
+  if (steps.length < 2) {
+    document.getElementById('flow-preview').innerHTML = `<span class="eyebrow">Add steps to preview</span>`;
+    return;
+  }
+  let mermaidSyntax = 'flowchart TD\n' + steps.map((s,i) => `  node${i}["${esc(s)}"]`).join('\n') + '\n' + steps.map((s,i) => i < steps.length-1 ? `  node${i} --> node${i+1}` : '').filter(Boolean).join('\n');
+  document.getElementById('flow-preview').innerHTML = `<div class="eyebrow" style="margin-bottom:10px">Preview</div><div class="mermaid-wrap" style="display:flex;justify-content:center"><pre class="mermaid" id="flow-preview-mermaid">${mermaidSyntax}</pre></div>`;
+  if (window.mermaid) {
+    try { await window.mermaid.run({ querySelector: '#flow-preview-mermaid' }); } catch(e) {}
+  }
 }
 
 function insertFlowChart() {
   const steps = flowSteps.filter(s=>s.trim());
   if (steps.length<2) { showToast('Add at least 2 steps'); return; }
-  if (flowTargetInsert) insAt('```mermaid\n'+steps.join(' → ')+'\n```');
+  let mermaidSyntax = 'flowchart TD\n' + steps.map((s,i) => `  node${i}["${s}"]`).join('\n') + '\n' + steps.map((s,i) => i < steps.length-1 ? `  node${i} --> node${i+1}` : '').filter(Boolean).join('\n');
+  if (flowTargetInsert) insAt('```mermaid\n' + mermaidSyntax + '\n```');
   closeFlowModal();
   showToast('⬡ Flowchart inserted');
 }
@@ -1551,6 +1529,29 @@ document.addEventListener('keydown', e => {
 
 /* GO */
 init();
+</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  window.mermaid = mermaid;
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#191919',
+      primaryTextColor: '#dadbdf',
+      primaryBorderColor: '#2c2f35',
+      lineColor: '#7d8187',
+      secondaryColor: '#222327',
+      tertiaryColor: '#0a0a0a',
+      fontSize: '14px',
+    },
+    flowchart: {
+      htmlLabels: true,
+      curve: 'smoothstep',
+      padding: 20,
+    },
+    securityLevel: 'loose',
+  });
 </script>
 </body>
 </html>
