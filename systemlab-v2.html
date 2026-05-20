@@ -328,6 +328,30 @@ select option{background:var(--canvas-card)}
 .dept-tab{padding:8px 14px;font-size:12px;color:var(--mute);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.12s;font-weight:400}
 .dept-tab:hover{color:var(--body)}
 .dept-tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* PRINT STYLES */
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  #topbar, #sidebar, .ed-bar, .ed-meta, .ins-bar, .ed-foot, .pane-head, .ed-pane:first-child, .drawer-bg, .ver-drawer, .pal-overlay, #toast, .modal-overlay, .confirm-box { display: none !important; }
+  #app { display: block !important; height: auto !important; overflow: visible !important; }
+  #main { display: block !important; height: auto !important; overflow: visible !important; background: #fff !important; }
+  .view { display: none !important; }
+  #v-editor { display: block !important; height: auto !important; overflow: visible !important; }
+  .ed-body { display: block !important; height: auto !important; overflow: visible !important; }
+  .ed-pane.preview-pane { display: block !important; height: auto !important; overflow: visible !important; border: none !important; }
+  .ed-preview-scroll { overflow: visible !important; height: auto !important; padding: 0 !important; }
+  .ed-title-zone { padding: 0 0 20px 0 !important; border-bottom: 2px solid #eee !important; margin-bottom: 20px !important; }
+  .ed-title { color: #000 !important; }
+  .md-out { color: #000 !important; }
+  .md-out h1, .md-out h2, .md-out h3, .md-out strong { color: #000 !important; border-color: #ddd !important; }
+  .md-out p, .md-out li, .md-out table td { color: #222 !important; }
+  .md-out code { background: #f5f5f5 !important; color: #333 !important; border: 1px solid #e5e5e5 !important; }
+  .md-out pre { background: #f5f5f5 !important; border-color: #ddd !important; }
+  .md-out table th { background: #eee !important; color: #000 !important; border-color: #ddd !important; }
+  .md-out table td { border-color: #ddd !important; }
+  .md-out blockquote { border-left-color: #ccc !important; color: #555 !important; background: transparent !important; }
+  .mermaid-wrap { background: #111 !important; border-radius: 8px !important; padding: 20px !important; }
+}
 </style>
 </head>
 <body>
@@ -509,6 +533,7 @@ select option{background:var(--canvas-card)}
           History
         </button>
         <button class="btn btn-xs btn-ghost" onclick="shareDoc()">Share</button>
+        <button class="btn btn-xs btn-ghost" onclick="printDoc()">Export PDF</button>
         <button class="btn btn-xs btn-primary" onclick="saveDoc()">Save</button>
       </div>
       <div class="ed-meta">
@@ -1129,6 +1154,7 @@ function toggleEdCanvas() {
 }
 
 function shareDoc() { showToast('🔗 Share link copied'); }
+function printDoc() { window.print(); }
 
 /* ════════════════════════════════
    INSERT SNIPPETS
