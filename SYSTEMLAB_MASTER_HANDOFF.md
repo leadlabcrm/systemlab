@@ -82,9 +82,10 @@
 
 - **No build tools** — vanilla HTML + CSS + JS only
 - **No frameworks** — zero React, Vue, Angular
-- **External deps** — Mermaid.js (CDN), Firebase v10 (CDN), Google Fonts
-- **State** — global `S` object synced in real-time to Firebase Firestore (`onSnapshot`) + cached in `localStorage`
-- **Auth** — "Workspace Passcode" multi-tenant login (anyone with the passcode can access their team's workspace)
+- **External deps** — Mermaid.js (CDN), Google Fonts
+- **State** — global `S` object; saved to `localStorage` (`systemlab_ws_<workspaceId>`) and synced to Firebase RTDB in background
+- **Auth** — Workspace Passcode login: any name + passcode → logs into that team's workspace
+- **Cloud DB** — Firebase Realtime Database REST API (`https://system-labs-default-rtdb.firebaseio.com`), accessed via plain `fetch()`, no SDK needed
 
 ---
 
@@ -127,13 +128,15 @@
 - [x] Flowchart builder modal (visual step editor)
 - [x] Loom embed modal
 - [x] Department manager modal (add/remove/color picker)
-- [x] Version history drawer (with actual local state history and restore)
-- [x] PDF Export (native browser print with optimized CSS)
+- [x] Version history drawer (with actual snapshots and restore)
+- [x] PDF Export (new window, light-mode print, multi-page)
 - [x] Command palette (`⌘K`)
 - [x] Confirm-delete dialog
 - [x] Toast notifications
 - [x] Word count + read time in editor footer
 - [x] Grid/List layout toggle
+- [x] Firebase RTDB cloud sync (background, non-blocking)
+- [x] Offline-first: works without internet, syncs when available
 
 ---
 
@@ -184,8 +187,9 @@ npx netlify-cli deploy --prod --dir=dist
 - [ ] Custom domain (e.g. `app.systemlab.io`)
 - [ ] Role-based access (Admin / Editor / Viewer)
 - [ ] SOP template library
-- [ ] Real version diffing
+- [ ] Real version diffing (line-by-line diff view)
 - [ ] Rich text (WYSIWYG) editor mode
+- [ ] Invite team members flow with email notification
 
 ---
 
@@ -204,4 +208,7 @@ Every session, the agent MUST:
 
 ---
 
-*Last updated: 2026-05-20 by Antigravity AI (Session 08)*
+*Last updated: 2026-05-21 by Antigravity AI (Session 09)*
+
+## ⚠️ Critical Bug History
+- **Session 09**: `printDoc()` had literal `<script>` tags inside a JS template literal. HTML parser closed the main `<script>` block early, making all JS after line ~1346 unreachable. Fixed by using `<${'script'}>` escape.
