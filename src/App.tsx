@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Target, Users, BookOpen, Settings } from 'lucide-react';
 import SopRenderer from './components/SopRenderer';
 import './App.css';
 
 const navItems = [
-  { id: 'sales', label: 'Sales & Closing', icon: Target, sops: ['inbound-qualification', 'discovery-call', 'proposal-generation'] },
-  { id: 'seo', label: 'SEO Operations', icon: LayoutDashboard, sops: ['keyword-research', 'on-page-audit', 'backlink-outreach'] },
-  { id: 'marketing', label: 'Marketing', icon: Users, sops: ['content-publishing', 'social-media-sop'] },
-  { id: 'operations', label: 'Operations', icon: Settings, sops: ['client-onboarding', 'monthly-reporting'] },
+  { id: 'sales', label: 'Sales & Closing', sops: ['inbound-qualification', 'discovery-call', 'proposal-generation'] },
+  { id: 'seo', label: 'SEO Operations', sops: ['keyword-research', 'on-page-audit', 'backlink-outreach'] },
+  { id: 'marketing', label: 'Marketing', sops: ['content-publishing', 'social-media-sop'] },
+  { id: 'operations', label: 'Operations', sops: ['client-onboarding', 'monthly-reporting'] },
 ];
 
 function Sidebar() {
@@ -27,7 +26,6 @@ function Sidebar() {
             return (
               <div key={category.id} className="nav-category">
                 <Link to={`/category/${category.id}/${category.sops[0]}`} className={`nav-item ${isActive ? 'active' : ''}`}>
-                  <category.icon size={18} />
                   {category.label}
                 </Link>
                 {isActive && (
@@ -55,9 +53,8 @@ function Sidebar() {
 function Dashboard() {
   return (
     <div className="empty-state">
-      <BookOpen size={48} className="empty-icon" />
-      <h2>Welcome to SystemLab</h2>
-      <p>Select a category from the sidebar to view standard operating procedures.</p>
+      <h2>SYSTEMLAB</h2>
+      <p>Select a category from the sidebar to view or edit standard operating procedures.</p>
     </div>
   );
 }
