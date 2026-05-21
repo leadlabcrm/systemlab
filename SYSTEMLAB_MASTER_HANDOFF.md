@@ -117,7 +117,7 @@
 - [x] Session persistence (stays logged in on refresh)
 - [x] Full data persistence — all SOPs and departments synced to Firebase in real-time
 - [x] Autosave every 1.2s while editing
-- [x] Dashboard with stats (Total SOPs, Active, Departments, Drafts)
+- [x] Dashboard with stats and quick actions (removed dummy team activity feed for a cleaner UI)
 - [x] Sidebar with department navigation
 - [x] All SOPs grid/list view with search + status filter
 - [x] SOP Editor — split pane (Markdown | Live Preview)
@@ -129,7 +129,7 @@
 - [x] Loom embed modal
 - [x] Department manager modal (add/remove/color picker)
 - [x] Version history drawer (with actual snapshots and restore)
-- [x] PDF Export (new window, light-mode print, multi-page)
+- [x] PDF Export (native browser print via `@media print`, robust CSS, light-mode SVG forced)
 - [x] Command palette (`⌘K`)
 - [x] Confirm-delete dialog
 - [x] Toast notifications
@@ -211,4 +211,5 @@ Every session, the agent MUST:
 *Last updated: 2026-05-21 by Antigravity AI (Session 09)*
 
 ## ⚠️ Critical Bug History
-- **Session 09**: `printDoc()` had literal `<script>` tags inside a JS template literal. HTML parser closed the main `<script>` block early, making all JS after line ~1346 unreachable. Fixed by using `<${'script'}>` escape.
+- **Session 09 (Script Block)**: `printDoc()` had literal `<script>` tags inside a JS template literal. HTML parser closed the main `<script>` block early, making all JS after line ~1346 unreachable. Fixed by using `<${'script'}>` escape.
+- **Session 09 (PDF Export popup blocker)**: `window.open` used for PDF export was unreliable (popup blockers, missing CSS). Replaced with robust `@media print` rules and direct `window.print()` call.
