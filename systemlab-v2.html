@@ -1315,6 +1315,15 @@ function toggleEdCanvas() {
 
 function shareDoc() { showToast('🔗 Share link copied'); }
 function printDoc() { 
+  const sop = curSOP();
+  const originalTitle = document.title;
+  if (sop && sop.title) {
+    document.title = sop.title;
+  }
+  window.addEventListener('afterprint', function onAfterPrint() {
+    document.title = originalTitle;
+    window.removeEventListener('afterprint', onAfterPrint);
+  });
   window.print();
 }
 
@@ -1416,7 +1425,8 @@ function inlineRender(s) {
   s = s.replace(/\*(.+?)\*/g,'<em>$1</em>');
   s = s.replace(/`(.+?)`/g,'<code>$1</code>');
   s = s.replace(/~~(.+?)~~/g,'<del>$1</del>');
-  s = s.replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2">$1</a>');
+  s = s.replace(/!\[(.*?)\]\((.+?)\)/g,'<img src="$2" alt="$1" style="max-width:100%;border-radius:4px;margin-top:8px">');
+  s = s.replace(/\[(.*?)\]\((.+?)\)/g,'<a href="$2" target="_blank" style="text-decoration:underline;color:var(--accent)">$1</a>');
   return s;
 }
 
