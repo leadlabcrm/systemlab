@@ -549,6 +549,7 @@ select option{background:var(--canvas-card)}
         </button>
         <button class="btn btn-xs btn-ghost" onclick="shareDoc()">Share</button>
         <button class="btn btn-xs btn-ghost" onclick="printDoc()">Export PDF</button>
+        <button class="btn btn-xs btn-ghost" onclick="exportDocx()">Export DOCX</button>
         <button class="btn btn-xs btn-primary" onclick="saveDoc()">Save SOP</button>
       </div>
       <div class="ed-meta">
@@ -1389,6 +1390,44 @@ function printDoc() {
     window.removeEventListener('afterprint', onAfterPrint);
   });
   window.print();
+}
+
+function exportDocx() {
+  const sop = curSOP();
+  if (!sop) return;
+  const title = sop.title || 'Untitled_SOP';
+  const deptSelect = document.getElementById('ed-dept-sel');
+  const dept = deptSelect && deptSelect.selectedIndex >= 0 ? deptSelect.options[deptSelect.selectedIndex].text : '';
+  const content = document.getElementById('ed-preview').innerHTML;
+  
+  const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
+  "<head><meta charset='utf-8'><title>" + title + "</title>" +
+  "<style>" +
+  "body { font-family: Arial, sans-serif; color: #111; line-height: 1.6; font-size: 14px; }" +
+  "h1, h2, h3 { color: #000; }" +
+  "pre, code { background: #f4f4f5; padding: 4px; border-radius: 4px; font-family: monospace; }" +
+  "blockquote { border-left: 3px solid #ccc; padding-left: 10px; color: #555; }" +
+  "table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }" +
+  "th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }" +
+  "img { max-width: 100%; height: auto; }" +
+  "</style></head><body>" +
+  "<h1>" + title + "</h1>" +
+  (dept ? "<p><strong>Department:</strong> " + dept + "</p>" : "") +
+  "<hr>";
+  
+  const footer = "</body></html>";
+  const sourceHTML = header + content + footer;
+  
+  const blob = new Blob(['\\ufeff', sourceHTML], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = title.replace(/\\s+/g, '_') + '.doc';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+  showToast('SOP exported to Word document');
 }
 
 /* ════════════════════════════════
