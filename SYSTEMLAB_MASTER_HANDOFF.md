@@ -215,3 +215,4 @@ Every session, the agent MUST:
 ## ⚠️ Critical Bug History
 - **Session 09 (Script Block)**: `printDoc()` had literal `<script>` tags inside a JS template literal. HTML parser closed the main `<script>` block early, making all JS after line ~1346 unreachable. Fixed by using `<${'script'}>` escape.
 - **Session 09 (PDF Export popup blocker)**: `window.open` used for PDF export was unreliable (popup blockers, missing CSS). Replaced with robust `@media print` rules and direct `window.print()` call.
+- **Session 09 (CSS Grid Selector)**: The CSS rule `.preview-full-mode .ed-body` was failing to collapse the editor layout to a single column because both classes exist on the same element. It was correctly rewritten as `.ed-body.preview-full-mode{grid-template-columns:1fr}`.
