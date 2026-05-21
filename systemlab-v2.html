@@ -800,12 +800,12 @@ Start → Step 1 → Step 2 → Review → Done
 `;
 
 const SEEDS = [
-  {title:'Customer Onboarding',deptId:'d2',status:'active',emoji:'🤝',body:`# Customer Onboarding\n\n## Purpose\n\nEnsure every new customer gets set up successfully within 7 days.\n\n## Process Steps\n\n### Step 1 — Contract Signed\n\nVerify contract in DocuSign and send welcome email within 2 hours.\n\n### Step 2 — Assign CSM\n\nTeam lead assigns a Customer Success Manager based on account size.\n\n### Step 3 — Kickoff Call\n\nSchedule within 48 hours. Use the kickoff call template.\n\n\`\`\`mermaid\nContract Signed → Assign CSM → Kickoff Call → Discovery → Setup → Go Live\n\`\`\`\n\n## Notes\n\n> 💡 Enterprise accounts get a dedicated CSM. SMB accounts are pooled.\n`,author:'Team Member',updated:'2 days ago'},
-  {title:'Sales Handoff Protocol',deptId:'d2',status:'active',emoji:'🤝',body:`# Sales Handoff Protocol\n\n## Purpose\n\nClean handoff from Sales to Customer Success.\n\n## Required Information\n\n- Contract value and term\n- Key stakeholders + decision maker\n- Agreed success metrics\n- Known risks or concerns\n\n## Checklist\n\n- [ ] CRM updated\n- [ ] Handoff doc complete\n- [ ] CS notified in Slack\n- [ ] Kickoff call booked\n`,author:'Sam Patel',updated:'5 days ago'},
-  {title:'Incident Response',deptId:'d5',status:'active',emoji:'🚨',body:`# Incident Response Runbook\n\n## Severity Levels\n\n**P0** — Full outage. Page all engineers immediately.\n**P1** — Major degradation. On-call responds within 15 min.\n**P2** — Minor issue. Fix within business hours.\n\n## Steps\n\n1. Acknowledge in PagerDuty\n2. Post in #incidents Slack channel\n3. Start incident call\n4. Identify root cause\n5. Fix and verify\n6. Write post-mortem within 48h\n\n\`\`\`mermaid\nAlert → Acknowledge → Diagnose → Fix → Verify → Post-mortem\n\`\`\`\n`,author:'Alex Chen',updated:'1 week ago'},
-  {title:'Employee Offboarding',deptId:'d4',status:'draft',emoji:'📋',body:`# Employee Offboarding Checklist\n\n## Day of Last Work\n\n- [ ] Revoke all system access\n- [ ] Retrieve hardware (laptop, badge, etc.)\n- [ ] Remove from all shared accounts\n- [ ] Notify IT and Finance\n\n## HR Tasks\n\n- [ ] Process final payroll\n- [ ] Send COBRA / benefits information\n- [ ] Schedule exit interview\n- [ ] Archive employee records\n`,author:'Maria L',updated:'3 days ago'},
-  {title:'Website Release Process',deptId:'d6',status:'review',emoji:'🌐',body:`# Website Release Process\n\n## Process\n\nAll website changes must go through QA before merging to main.\n\n### Steps\n\n1. Open a PR with clear description\n2. QA reviews and signs off\n3. Merge to staging branch\n4. Smoke test on staging\n5. Deploy to production (Tuesday/Thursday releases only)\n6. Monitor for 30 minutes post-deploy\n\n> 💡 Hotfixes can bypass the schedule with lead approval.\n`,author:'Dev Team',updated:'Today'},
-  {title:'Marketing Campaign Playbook',deptId:'d3',status:'active',emoji:'📣',body:`# Marketing Campaign Playbook\n\n## Pre-Launch (T-14 days)\n\n- Define target audience and ICP\n- Set KPIs: reach, CTR, conversion target\n- Draft creative brief and get approval\n- Build landing page and tracking\n\n## Launch Week\n\n- Publish across all channels on launch day\n- Monitor daily: spend, CTR, conversion rate\n- Pause underperforming ad sets at day 3\n\n## Post-Campaign\n\n- Compile results vs KPIs\n- Write retrospective doc\n- Share learnings with team\n`,author:'Priya M',updated:'1 week ago'},
+  {title:'Customer Onboarding',deptId:'d2',status:'active',emoji:'🤝',body:`# Customer Onboarding\n\n## Purpose\n\nEnsure every new customer gets set up successfully within 7 days.\n\n## Process Steps\n\n### Step 1 — Contract Signed\n\nVerify contract in DocuSign and send welcome email within 2 hours.\n\n### Step 2 — Assign CSM\n\nTeam lead assigns a Customer Success Manager based on account size.\n\n### Step 3 — Kickoff Call\n\nSchedule within 48 hours. Use the kickoff call template.\n\n\`\`\`mermaid\nContract Signed → Assign CSM → Kickoff Call → Discovery → Setup → Go Live\n\`\`\`\n\n## Notes\n\n> 💡 Enterprise accounts get a dedicated CSM. SMB accounts are pooled.\n`,author:'Team Member',updated:new Date(Date.now()-2*86400000).toISOString()},
+  {title:'Sales Handoff Protocol',deptId:'d2',status:'active',emoji:'🤝',body:`# Sales Handoff Protocol\n\n## Purpose\n\nClean handoff from Sales to Customer Success.\n\n## Required Information\n\n- Contract value and term\n- Key stakeholders + decision maker\n- Agreed success metrics\n- Known risks or concerns\n\n## Checklist\n\n- [ ] CRM updated\n- [ ] Handoff doc complete\n- [ ] CS notified in Slack\n- [ ] Kickoff call booked\n`,author:'Sam Patel',updated:new Date(Date.now()-5*86400000).toISOString()},
+  {title:'Incident Response',deptId:'d5',status:'active',emoji:'🚨',body:`# Incident Response Runbook\n\n## Severity Levels\n\n**P0** — Full outage. Page all engineers immediately.\n**P1** — Major degradation. On-call responds within 15 min.\n**P2** — Minor issue. Fix within business hours.\n\n## Steps\n\n1. Acknowledge in PagerDuty\n2. Post in #incidents Slack channel\n3. Start incident call\n4. Identify root cause\n5. Fix and verify\n6. Write post-mortem within 48h\n\n\`\`\`mermaid\nAlert → Acknowledge → Diagnose → Fix → Verify → Post-mortem\n\`\`\`\n`,author:'Alex Chen',updated:new Date(Date.now()-7*86400000).toISOString()},
+  {title:'Employee Offboarding',deptId:'d4',status:'draft',emoji:'📋',body:`# Employee Offboarding Checklist\n\n## Day of Last Work\n\n- [ ] Revoke all system access\n- [ ] Retrieve hardware (laptop, badge, etc.)\n- [ ] Remove from all shared accounts\n- [ ] Notify IT and Finance\n\n## HR Tasks\n\n- [ ] Process final payroll\n- [ ] Send COBRA / benefits information\n- [ ] Schedule exit interview\n- [ ] Archive employee records\n`,author:'Maria L',updated:new Date(Date.now()-3*86400000).toISOString()},
+  {title:'Website Release Process',deptId:'d6',status:'review',emoji:'🌐',body:`# Website Release Process\n\n## Process\n\nAll website changes must go through QA before merging to main.\n\n### Steps\n\n1. Open a PR with clear description\n2. QA reviews and signs off\n3. Merge to staging branch\n4. Smoke test on staging\n5. Deploy to production (Tuesday/Thursday releases only)\n6. Monitor for 30 minutes post-deploy\n\n> 💡 Hotfixes can bypass the schedule with lead approval.\n`,author:'Dev Team',updated:new Date(Date.now()-3600000).toISOString()},
+  {title:'Marketing Campaign Playbook',deptId:'d3',status:'active',emoji:'📣',body:`# Marketing Campaign Playbook\n\n## Pre-Launch (T-14 days)\n\n- Define target audience and ICP\n- Set KPIs: reach, CTR, conversion target\n- Draft creative brief and get approval\n- Build landing page and tracking\n\n## Launch Week\n\n- Publish across all channels on launch day\n- Monitor daily: spend, CTR, conversion rate\n- Pause underperforming ad sets at day 3\n\n## Post-Campaign\n\n- Compile results vs KPIs\n- Write retrospective doc\n- Share learnings with team\n`,author:'Priya M',updated:new Date(Date.now()-7*86400000).toISOString()},
 ];
 
 const DIFFS = {
@@ -1176,7 +1176,7 @@ function sopCardHtml(s) {
     <div class="sop-card-foot">
       <div class="sop-card-meta">
         ${d?`<span style="width:5px;height:5px;border-radius:50%;background:${d.color};display:inline-block;flex-shrink:0"></span><span>${d.name}</span>`:''}
-        <span style="color:var(--mute2)">·</span><span>${s.updated||'—'}</span>
+        <span style="color:var(--mute2)">·</span><span>${formatSopDate(s.updated)}</span>
       </div>
       <div style="display:flex;align-items:center;gap:5px">
         <div class="sop-card-actions">
@@ -1196,7 +1196,7 @@ function sopRowHtml(s) {
       <div class="sop-row-title">${esc(s.title||'Untitled')}</div>
       <div class="sop-row-meta">
         ${d?`<span style="width:5px;height:5px;border-radius:50%;background:${d.color};display:inline-block;flex-shrink:0"></span><span>${d.name}</span>`:''}
-        <span>${s.updated||'—'}</span>
+        <span>${formatSopDate(s.updated)}</span>
       </div>
     </div>
     <span class="badge badge-${s.status}">${s.status}</span>
@@ -1213,6 +1213,13 @@ function firstLine(body) {
   return (lines[0]||'').slice(0,80);
 }
 
+function formatSopDate(d) {
+  if (!d) return '—';
+  const t = new Date(d);
+  if (isNaN(t)) return d;
+  return t.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
 /* ════════════════════════════════
    EDITOR
 ════════════════════════════════ */
@@ -1223,7 +1230,7 @@ function newSOP() {
   const sop = {
     id: 's'+Date.now(), title:'', deptId: S.deptFilter||S.depts[0]?.id||'',
     status:'draft', emoji:'📄', body: STARTER,
-    author: currentUser || 'Team Member', updated:'Just now', versions: makeVersions(STARTER)
+    author: currentUser || 'Team Member', updated: new Date().toISOString(), versions: makeVersions(STARTER)
   };
   S.sops.push(sop);
   persist();
@@ -1296,7 +1303,7 @@ function schedAutosave() {
   if (sop) {
     sop.title = document.getElementById('ed-title').value;
     sop.body  = document.getElementById('ed-ta').value;
-    sop.updated = 'Just now';
+    sop.updated = new Date().toISOString();
   }
   setSave('saving');
   clearTimeout(autoSaveT);
@@ -1323,7 +1330,7 @@ function saveDoc() {
   const currentBody = document.getElementById('ed-ta').value;
   sop.title = document.getElementById('ed-title').value;
   sop.body  = currentBody;
-  sop.updated = 'Just now';
+  sop.updated = new Date().toISOString();
   
   const cv = sop.versions.find(v => v.current);
   if (cv && cv.body !== currentBody) {
