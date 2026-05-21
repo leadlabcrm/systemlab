@@ -754,6 +754,7 @@ let S = {
     {id:'d6',name:'Website',    color:'#34d399'},
   ],
   sops: [],
+  workspaceName: 'My Workspace',
   cur: null,          // current SOP id in editor
   deptFilter: null,   // dept id for list view
   layout: 'grid',
@@ -916,15 +917,21 @@ async function connectToWorkspace(workspaceId, userName) {
   const localKey = 'systemlab_ws_' + workspaceId;
   const localData = localStorage.getItem(localKey);
   if (localData) {
-    try { const d = JSON.parse(localData); S.depts = d.depts || S.depts; S.sops = d.sops || []; } catch(e) {}
+    try {
+      const d = JSON.parse(localData);
+      S.depts = d.depts || S.depts;
+      S.sops = d.sops || [];
+      S.workspaceName = d.workspaceName || S.workspaceName;
+    } catch(e) {}
   } else {
     S.depts = [{id:'d1',name:'Operations',color:'#ff7a17'},{id:'d2',name:'Sales',color:'#22c55e'},{id:'d3',name:'Marketing',color:'#60a5fa'},{id:'d4',name:'HR',color:'#a78bfa'}];
     S.sops = [];
+    S.workspaceName = 'My Workspace';
     SEEDS.forEach((s,i) => S.sops.push({...s, id:'s'+i, versions:makeVersions(s.body)}));
   }
 
   localStorage.setItem('systemlab_auth', JSON.stringify({workspaceId, userEmail: userName}));
-  localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops}));
+  localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName}));
 
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'grid';
@@ -963,9 +970,13 @@ async function tryCloudSync(path, workspaceId) {
         const remoteS = JSON.parse(existing.data);
         S.depts = remoteS.depts || S.depts;
         S.sops = remoteS.sops || S.sops;
-        localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops}));
+        if (remoteS.workspaceName) S.workspaceName = remoteS.workspaceName;
+        localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName}));
         renderSidebar();
         renderDashboard();
+        updateGreeting();
+        const emailEl = document.getElementById('topbar-email');
+        if (emailEl) emailEl.textContent = currentUser || '';
         showToast('✅ Workspace synced from cloud');
       } catch(e) { console.error('Failed to parse cloud data', e); }
     } else {
@@ -1006,13 +1017,12 @@ async function tryCloudSync(path, workspaceId) {
 
 
 function persist() {
-  const payload = {depts: S.depts, sops: S.sops};
+  const payload = {depts: S.depts, sops: S.sops, workspaceName: S.workspaceName};
   const str = JSON.stringify(payload);
   localStorage.setItem('systemlab_v2', str);
   if (currentWorkspaceId) {
     localStorage.setItem('systemlab_ws_' + currentWorkspaceId, str);
     // Always attempt Firebase write when we have a workspaceId.
-    // The fetch will simply fail quietly if Firebase is unreachable.
     rtdbSet('workspaces/' + currentWorkspaceId, { data: str })
       .then(() => { cloudEnabled = true; })
       .catch(e => console.log('Firebase write skipped (offline):', e.message));
@@ -1033,12 +1043,12 @@ function makeVersions(body) {
 
 function updateGreeting() {
   const h = new Date().getHours();
-  const g = h<12?'Good morning':'Good afternoon';
-  const name = currentUser || 'Jordan';
-  document.getElementById('greeting').textContent = g+', '+name;
-  
+  const g = h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  const wsName = S.workspaceName || 'Your Workspace';
+  document.getElementById('greeting').textContent = g+', '+wsName;
+
   const topbarUser = document.querySelector('.topbar-user .eyebrow');
-  if (topbarUser) topbarUser.innerHTML = `${name} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-top:1px"><polyline points="6 9 12 15 18 9"/></svg>`;
+  if (topbarUser) topbarUser.innerHTML = `${wsName} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-top:1px"><polyline points="6 9 12 15 18 9"/></svg>`;
 }
 
 /* ════════════════════════════════
