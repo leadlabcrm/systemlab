@@ -218,6 +218,7 @@ select option{background:var(--canvas-card)}
 /* FULL EDITOR (single pane canvas mode) */
 .ed-canvas-mode .ed-body{grid-template-columns:1fr}
 .ed-canvas-mode .ed-pane.preview-pane{display:none}
+.preview-full-mode .ed-pane:first-child{display:none}
 
 /* ── MODALS ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:900;opacity:0;pointer-events:none;transition:opacity 0.18s}
@@ -540,8 +541,7 @@ select option{background:var(--canvas-card)}
         </button>
         <button class="btn btn-xs btn-ghost" onclick="shareDoc()">Share</button>
         <button class="btn btn-xs btn-ghost" onclick="printDoc()">Export PDF</button>
-        <button class="btn btn-xs btn-ghost" onclick="saveNewVersion()">Save Version</button>
-        <button class="btn btn-xs btn-primary" onclick="saveDoc()">Save</button>
+        <button class="btn btn-xs btn-primary" onclick="saveDoc()">Save SOP</button>
       </div>
       <div class="ed-meta">
         <select id="ed-dept-sel" style="padding:4px 10px;font-size:11px;background:transparent;border-radius:var(--r-pill);color:var(--mute)" onchange="edDeptChange(this.value)"></select>
@@ -583,8 +583,11 @@ select option{background:var(--canvas-card)}
         </div>
         <div class="ed-pane preview-pane">
           <div class="pane-head">
-            <span class="eyebrow">Preview</span>
-            <span class="eyebrow" style="color:var(--mute2)">Live</span>
+            <div>
+              <span class="eyebrow">Preview</span>
+              <span class="eyebrow" style="color:var(--mute2); margin-left:8px">Live</span>
+            </div>
+            <button class="btn btn-xs btn-ghost" onclick="togglePreviewFull()" title="Toggle Full Screen">⛶ Full Screen</button>
           </div>
           <div class="ed-preview-scroll"><div class="md-out" id="ed-preview"></div></div>
         </div>
@@ -1259,32 +1262,31 @@ function setSave(state) {
 
 function saveDoc() {
   const sop = curSOP(); if (!sop) return;
+  const currentBody = document.getElementById('ed-ta').value;
   sop.title = document.getElementById('ed-title').value;
-  sop.body  = document.getElementById('ed-ta').value;
+  sop.body  = currentBody;
   sop.updated = 'Just now';
-  // Update the current version body as well
+  
   const cv = sop.versions.find(v => v.current);
-  if(cv) cv.body = sop.body;
+  if (cv && cv.body !== currentBody) {
+    const newV = 'v' + (sop.versions.length + 1) + '.0';
+    sop.versions.forEach(v => v.current = false);
+    sop.versions.unshift({
+      v: newV,
+      author: currentUser || 'Team Member',
+      time: new Date().toLocaleString(),
+      summary: 'Manual save',
+      current: true,
+      body: currentBody
+    });
+    showToast(`Version ${newV} saved`);
+  } else if (cv) {
+    cv.body = currentBody;
+    showToast('✓ SOP saved');
+  }
+
   persist();
   setSave('saved'); lastSaved=Date.now(); startSaveAgo();
-  renderSidebar();
-  showToast('✓ SOP saved');
-}
-
-function saveNewVersion() {
-  const sop = curSOP(); if (!sop) return;
-  const newV = 'v' + (sop.versions.length + 1) + '.0';
-  sop.versions.forEach(v => v.current = false);
-  sop.versions.unshift({
-    v: newV,
-    author: currentUser || 'Team Member',
-    time: new Date().toLocaleString(),
-    summary: 'Manual save',
-    current: true,
-    body: document.getElementById('ed-ta').value
-  });
-  persist();
-  showToast(`Version ${newV} saved!`);
   renderSidebar();
 }
 
@@ -1633,9 +1635,15 @@ function restoreVer(i) {
   if (!v) return;
   document.getElementById('ed-ta').value = v.body || '';
   onMdInput();
-  saveNewVersion();
+  saveDoc();
   closeVersionDrawer();
   showToast(`Restored from ${v.v}`);
+}
+
+let previewFullMode = false;
+function togglePreviewFull() {
+  previewFullMode = !previewFullMode;
+  document.getElementById('ed-body').classList.toggle('preview-full-mode', previewFullMode);
 }
 
 /* ════════════════════════════════

@@ -123,6 +123,7 @@
 - [x] SOP Editor — split pane (Markdown | Live Preview)
 - [x] Custom Markdown renderer (no library needed)
 - [x] Click-to-Edit Scroll Sync (clicking preview elements jumps editor to the exact line)
+- [x] Full Screen Preview Toggle (expands preview pane to 100% width)
 - [x] Mermaid.js flowchart support in editor
 - [x] Loom video embed support in editor
 - [x] Insert toolbar (H2, List, Checklist, Callout, Loom, Flowchart, Table, Divider)
