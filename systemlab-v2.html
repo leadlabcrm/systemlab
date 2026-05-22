@@ -710,6 +710,7 @@ select option{background:var(--canvas-card)}
       <div class="task-toolbar">
         <input type="text" id="newTaskInput" placeholder="Add a task for today (e.g. Daily Standup)" onkeydown="if(event.key==='Enter') addTask()">
         <select id="newTaskDur">
+          <option value="5">5m</option>
           <option value="15">15m</option>
           <option value="30" selected>30m</option>
           <option value="45">45m</option>
@@ -2208,7 +2209,7 @@ function renderTeam() {
           <tr style="border-bottom:1px solid var(--hairline)">
             <td style="padding:12px; font-size:13px; font-weight:500; color:var(--ink)">
               <div style="display:flex; align-items:center; gap:8px">
-                <div style="width:24px;height:24px;border-radius:50%;background:${tt_col(e.ci).bg};color:${tt_col(e.ci).fg};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700">${tt_initials(e.name)}</div>
+                
                 <div>
                   <div style="color:var(--body)">${e.name}</div>
                   <div style="font-size:11px;color:var(--mute)">${e.role || ''}</div>
@@ -2243,8 +2244,8 @@ function renderTeam() {
         const pct = Math.min(100, (doneH / 8) * 100);
         rosterHtml += `
           <div class="emp-row" onclick="openEmployee('${e.id}')">
-            <div class="emp-avatar" style="background:${c.bg}; color:${c.fg}">${tt_initials(e.name)}</div>
-            <div class="emp-details" style="flex:2">
+            
+            <div class="emp-details" style="flex:2; padding-left:8px;">
               <div class="emp-name">${e.name}</div>
               <div class="emp-role">${e.role || 'No Role'}</div>
             </div>
@@ -2336,6 +2337,18 @@ function addTask() {
   openEmployee(curEmp);
 }
 
+
+function promptNote(tid) {
+  const t = S.tasks.find(x => x.id === tid);
+  if (!t) return;
+  const note = prompt('Why is this task blocked or incomplete?', t.note || '');
+  if (note !== null) {
+    t.note = note.trim();
+    persist();
+    openEmployee(curEmp);
+  }
+}
+
 function toggleTask(tid) {
   const t = S.tasks.find(x => x.id === tid);
   if (!t) return;
@@ -2400,8 +2413,8 @@ function openEmployee(eid) {
   const deptObj = S.depts.find(d => d.id === e.dept);
   const deptName = deptObj ? deptObj.name : 'No Dept';
 document.getElementById('empDetailHead').innerHTML = `
-    <div class="emp-av" style="background:${c.bg};color:${c.fg};width:34px;height:34px;font-size:11px;font-weight:700;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">${tt_initials(e.name)}</div>
-    <div><div class="dash-h1" style="font-size:18px">${e.name}</div><div class="dash-sub" style="font-size:12px;margin-top:2px">${e.role || 'Role'} · ${deptName}</div></div>
+    
+    <div style="padding-left:8px;"><div class="dash-h1" style="font-size:18px">${e.name}</div><div class="dash-sub" style="font-size:12px;margin-top:2px">${e.role || 'Role'} · ${deptName}</div></div>
     
     <div style="margin-left:auto; display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.02); padding:4px; border-radius:var(--r-pill); border:1px solid var(--hairline); margin-right:12px">
       <button class="btn" style="padding:2px 8px; border:none; background:transparent" onclick="changeTTDate(-1)">❮</button>
@@ -2463,13 +2476,20 @@ document.getElementById('empDetailHead').innerHTML = `
     document.getElementById('taskList').innerHTML = `<div class="empty" style="padding:40px;text-align:center;color:var(--mute)"><div style="font-size:28px;opacity:0.2;margin-bottom:8px">📋</div><div style="font-weight:600;color:var(--body)">No tasks yet</div><div style="font-size:12px;margin-top:4px">Add tasks above — plan for 8 hours</div></div>`;
   } else {
     document.getElementById('taskList').innerHTML = tasks.map(t => `
-      <div class="task-row ${t.done?'done':''}">
-        <div class="tcheck ${t.done?'checked':''}" onclick="toggleTask('${t.id}')"></div>
-        <div class="tname ${t.done?'struck':''}">${t.name}</div>
-        <div class="tdur">${fmtMins(t.mins)}</div>
-        <div class="tlogged ${t.done?'has':''}">${t.done ? fmtMins(t.mins) : '—'}</div>
-        <div class="tdoneat ${t.doneAt?'has':''}">${t.doneAt || '—'}</div>
-        <button class="tdel" onclick="deleteTask('${t.id}')">×</button>
+      <div class="task-row ${t.done?'done':''}" style="flex-wrap:wrap;">
+        <div style="display:flex; width:100%; align-items:center;">
+          <div class="tcheck ${t.done?'checked':''}" onclick="toggleTask('${t.id}')"></div>
+          <div class="tname ${t.done?'struck':''}">${t.name}</div>
+          <div class="tdur">${fmtMins(t.mins)}</div>
+          <div class="tlogged ${t.done?'has':''}">${t.done ? fmtMins(t.mins) : '—'}</div>
+          <div class="tdoneat ${t.doneAt?'has':''}">${t.doneAt || '—'}</div>
+          <button class="tdel" onclick="deleteTask('${t.id}')">×</button>
+        </div>
+        ${!t.done ? `
+          <div style="width:100%; padding-left:36px; margin-top:4px;">
+            ${t.note ? `<div style="font-size:11px; color:var(--red); font-weight:500;">Blocker: ${t.note} <button style="background:transparent;border:none;color:var(--mute);cursor:pointer;font-size:10px" onclick="promptNote('${t.id}')">Edit</button></div>` : `<button class="btn btn-xs btn-ghost" style="font-size:10px; color:var(--red); padding:2px 6px; border:1px solid rgba(255,100,100,0.2)" onclick="promptNote('${t.id}')">+ Add Blocker Note</button>`}
+          </div>
+        ` : ''}
       </div>`).join('');
   }
   
