@@ -764,16 +764,44 @@ select option{background:var(--canvas-card)}
           <option value="120">2h</option>
           <option value="240">4h</option>
         </select>
-        <select id="recType" class="inp" style="flex:1" onchange="document.getElementById('recValGroup').style.display = this.value==='daily' ? 'none' : 'block'">
+        <select id="recType" class="inp" style="flex:1" ">
           <option value="daily">Every Day</option>
           <option value="weekly">Weekly (Certain Day)</option>
           <option value="monthly">Monthly (Certain Date)</option>
         </select>
       </div>
-      <div class="form-group" id="recValGroup" style="display:none; margin-bottom:12px">
-        <input type="number" id="recVal" class="inp" placeholder="e.g. 1 for Monday, or 15 for 15th of month">
-        <div style="font-size:10px; color:var(--mute); margin-top:4px">For Weekly: 0=Sun, 1=Mon, 2=Tue... 6=Sat. For Monthly: 1-31.</div>
+      <div class="form-group" id="recValGroupWeekly" style="display:none; margin-bottom:12px">
+        <div style="display:flex; gap:4px; margin-top:4px" id="recWeeklyPills">
+          <button class="btn btn-xs btn-ghost week-pill" data-val="1">M</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="2">T</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="3">W</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="4">T</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="5">F</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="6">S</button>
+          <button class="btn btn-xs btn-ghost week-pill" data-val="0">S</button>
+        </div>
       </div>
+      <div class="form-group" id="recValGroupMonthly" style="display:none; margin-bottom:12px">
+        <input type="text" id="recValMonth" class="inp" placeholder="e.g. 1, 15, 30">
+        <div style="font-size:10px; color:var(--mute); margin-top:4px">Enter comma-separated dates (1-31).</div>
+      </div>
+      
+      <script>
+        // Setup pill toggles
+        document.querySelectorAll('.week-pill').forEach(btn => {
+          btn.onclick = (e) => {
+            e.target.classList.toggle('active');
+            e.target.style.background = e.target.classList.contains('active') ? 'var(--body)' : 'transparent';
+            e.target.style.color = e.target.classList.contains('active') ? 'var(--canvas)' : 'var(--mute)';
+          }
+        });
+        
+        // Handle type select switch
+        document.getElementById('recType').onchange = (e) => {
+          document.getElementById('recValGroupWeekly').style.display = e.target.value === 'weekly' ? 'block' : 'none';
+          document.getElementById('recValGroupMonthly').style.display = e.target.value === 'monthly' ? 'block' : 'none';
+        }
+      </script>
       <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="addRecurring()">Save Template</button>
     </div>
   </div>
@@ -2126,8 +2154,14 @@ function getTasks(eid, date) {
     
     let shouldSpawn = false;
     if (r.type === 'daily') shouldSpawn = true;
-    else if (r.type === 'weekly' && parseInt(r.val) === dayOfWeek) shouldSpawn = true;
-    else if (r.type === 'monthly' && parseInt(r.val) === dayOfMonth) shouldSpawn = true;
+    else if (r.type === 'weekly') {
+      const days = r.val.split(',').map(n => parseInt(n.trim()));
+      if (days.includes(dayOfWeek)) shouldSpawn = true;
+    }
+    else if (r.type === 'monthly') {
+      const dates = r.val.split(',').map(n => parseInt(n.trim()));
+      if (dates.includes(dayOfMonth)) shouldSpawn = true;
+    }
     
     if (shouldSpawn) {
       const newTask = {
@@ -2555,18 +2589,12 @@ document.getElementById('empDetailHead').innerHTML = `
   const assignedH = tasks.reduce((a,t) => a + t.mins, 0) / 60;
   const hp_pct = Math.min(100, (doneH / 8) * 100);
   document.getElementById('hourProg').innerHTML = `
-    <div style="flex:1; display:flex; align-items:center; gap:8px">
-      <div class="hp-bar"><div class="hp-fill" style="width:${hp_pct.toFixed(0)}%"></div></div>
-      <span style="color:var(--sunset);font-weight:600">${doneH.toFixed(1)}h</span>
-      <span>Completed</span>
-      <span style="color:var(--mute2)">·</span>
-      <span style="color:var(--ink);font-weight:600">${assignedH.toFixed(1)}h</span>
-      <span>Assigned</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:4px; font-size:13px">
-      <span style="color:var(--mute)">Target:</span>
-      <span style="color:var(--ink);font-weight:600">8.0h</span>
-    </div>`;
+    <div class="hp-bar"><div class="hp-fill" style="width:${hp_pct.toFixed(0)}%"></div></div>
+    <span style="color:var(--sunset);font-weight:600">${doneH.toFixed(1)}h</span>
+    <span>of 8h target</span>
+    <span style="color:var(--mute2)">·</span>
+    <span style="color:var(--ink);font-weight:600">${assignedH.toFixed(1)}h</span>
+    <span>Assigned</span>`;
 
   // TASKS
   if (!tasks.length) {
@@ -2684,14 +2712,21 @@ function addRecurring() {
   const name = document.getElementById('recName').value.trim();
   const mins = parseInt(document.getElementById('recDur').value);
   const type = document.getElementById('recType').value;
-  let val = document.getElementById('recVal').value;
+  let val = '';
+  
+  if (type === 'weekly') {
+    const pills = document.querySelectorAll('.week-pill.active');
+    val = Array.from(pills).map(p => p.getAttribute('data-val')).join(',');
+  } else if (type === 'monthly') {
+    val = document.getElementById('recValMonth').value.trim();
+  }
   
   if (!name || isNaN(mins)) {
     showToast('Please enter a valid task name.');
     return;
   }
   if (type !== 'daily' && !val) {
-    showToast('Please enter a day/date value.');
+    showToast('Please select at least one day/date.');
     return;
   }
   
@@ -2702,12 +2737,21 @@ function addRecurring() {
     name, mins, type, val
   });
   
+  // Reset form
   document.getElementById('recName').value = '';
-  document.getElementById('recVal').value = '';
+  document.getElementById('recValMonth').value = '';
+  document.querySelectorAll('.week-pill').forEach(p => {
+    p.classList.remove('active');
+    p.style.background = 'transparent';
+    p.style.color = 'var(--mute)';
+  });
+  document.getElementById('recType').value = 'daily';
+  document.getElementById('recValGroupWeekly').style.display = 'none';
+  document.getElementById('recValGroupMonthly').style.display = 'none';
+  
   persist();
   renderRecurringList();
   
-  // Re-render current employee view to instantly trigger JIT spawn if the new template applies to today!
   openEmployee(curEmp);
 }
 window.addRecurring = addRecurring;
