@@ -143,6 +143,7 @@
 - [x] Favicon — premium `S.` lettermark PNG (black rounded square, matches LeadLab brand style)
 - [x] `SYSTEMLAB_USER_GUIDE.md` — comprehensive user-facing documentation
 - [x] **TeamTrack Integration** (Session 10) — Built-in employee attendance and task tracking module embedded in the main sidebar. Shares identical Firebase real-time sync with SystemLab core.
+- [x] **TeamTrack Task & Attendance Enrichment** (Session 11) — Re-implemented the detailed daily task planner, metrics strip, and timestamped attendance into the native view.
 
 ---
 
@@ -222,7 +223,7 @@ Every session, the agent MUST:
 
 ---
 
-*Last updated: 2026-05-21 by Antigravity AI (Session 09)*
+*Last updated: 2026-05-22 by Antigravity AI (Session 11)*
 
 ## ⚠️ Critical Bug History
 - **Session 09 (Script Block)**: `printDoc()` had literal `<script>` tags inside a JS template literal. HTML parser closed the main `<script>` block early, making all JS after line ~1346 unreachable. Fixed by using `<${'script'}>` escape.
@@ -235,4 +236,6 @@ Every session, the agent MUST:
 - **Session 09 (Sync Race Condition / Complete Rewrite)**: `connectToWorkspace` was loading UI and fallback seed data *before* `tryCloudSync` could fetch cloud data. This caused an intermediate state where the app thought it had new local data and pushed it to Firebase, overwriting cloud state. Rewrote `connectToWorkspace` to **await** cloud fetch first, then fallback to local storage, then fallback to seeds. UI only shows after data resolution.
 - **Session 09 (UI Flash during Async Load)**: Because `connectToWorkspace` became fully async, the raw HTML `display:grid` showed for ~3 seconds while awaiting Firebase. This raw HTML had hardcoded strings like "Good morning, Jordan" and an empty topbar email. Fixed by removing hardcoded strings and adding an **Optimistic UI Update** step before the `await` that instantly populates the topbar email from login args and the greeting from localStorage `workspaceName`.
 - **Session 09 (Exact SOP Timestamps)**: Replaced vague relative timestamps (e.g. "Just now", "2 days ago") with exact ISO 8601 strings in save functions and seed data. Built a Python migration script to retroactively update Firebase legacy data. Added `formatSopDate()` helper to format UI timestamps cleanly (e.g. `May 21, 2026, 10:44 AM`).
+- [x] **TeamTrack Task & Attendance Enrichment** (Session 11) — Re-implemented the detailed daily task planner, metrics strip, and timestamped attendance.
 - **Session 09 (Team Pixelizt Guide)**: Created a condensed, simplified standard operating procedure on how to use SystemLab itself (`TEAM_PIXELIZT_GUIDE.md`). Includes login steps, a working YouTube tutorial link, emphasis on Loom video usage, and an exact copy-paste prompt for getting Claude to generate clean SOPs from raw business process transcripts without adding fluff. Later expanded this document to include the highly valuable systemization principles (the "4-Step Checklist" and "Why & When to Create an SOP") from a previous generic guide, tailoring everything specifically for Team Pixelizt's immediate usage.
+- **Session 11 (Regex DOM Breakage)**: When injecting HTML into the middle of the main file, a non-greedy regex `.*?</div>\n` incorrectly matched an inner nested `</div>`, instead of the outer container's `</div>`. This orphaned the rest of the layout and broke the grid. Fixed by writing an exact python injection script that finds the absolute index of explicit start/end HTML comments (`<!-- EMPLOYEE DETAIL VIEW -->`) to guarantee structural integrity before replacement.
