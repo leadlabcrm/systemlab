@@ -707,9 +707,9 @@ select option{background:var(--canvas-card)}
       <div class="stats-row" id="empMetrics" style="border-bottom:1px solid var(--hairline)"></div>
       <div class="hour-prog-row" id="hourProg"></div>
       
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px; padding:0 24px;">
         <div style="font-size:14px; font-weight:600; color:var(--ink)">Daily Tasks</div>
-        <button class="btn btn-xs" style="background:transparent; border:1px solid var(--hairline); color:var(--mute)" onclick="openRecurringModal()">⚡ Manage Recurring</button>
+        <button class="btn btn-xs" style="background:transparent; border:1px solid var(--hairline); color:var(--mute)" onclick="openRecurringModal()">↻ Manage Recurring</button>
       </div>
       <div class="task-toolbar">
         <input type="text" id="newTaskInput" placeholder="Add a task for today (e.g. Daily Standup)" onkeydown="if(event.key==='Enter') addTask()">
@@ -2552,14 +2552,12 @@ document.getElementById('empDetailHead').innerHTML = `
     <div class="stat-cell" style="padding:16px 24px;flex:1"><div class="stat-n" style="color:var(--yellow);font-size:24px;font-weight:700">${streak}d</div><div style="font-size:10px;color:var(--mute);text-transform:uppercase;font-weight:600;letter-spacing:0.05em;margin-top:2px">Present Streak</div></div>`;
 
   // HOUR PROGRESS
+  const assignedH = tasks.reduce((a,t) => a + t.mins, 0) / 60;
+  const hp_pct = assignedH > 0 ? Math.min(100, (doneH / assignedH) * 100) : 0;
   document.getElementById('hourProg').innerHTML = `
-    <div class="hp-bar"><div class="hp-fill" style="width:${pct.toFixed(0)}%"></div></div>
-    <span style="color:var(--sunset);font-weight:600">${doneH.toFixed(1)}h</span>
-    <span>of 8h target</span>
-    <span style="color:var(--mute2)">·</span>
-    <span>${Math.max(0,8-doneH).toFixed(1)}h left</span>
-    <span style="color:var(--mute2)">·</span>
-    <span style="color:var(--sunset);font-weight:600">${pct.toFixed(0)}%</span>`;
+    <div class="hp-bar"><div class="hp-fill" style="width:${hp_pct.toFixed(0)}%"></div></div>
+    <span style="color:var(--ink);font-weight:600">${assignedH.toFixed(1)}h</span>
+    <span>Assigned</span>`;
 
   // TASKS
   if (!tasks.length) {
@@ -2714,6 +2712,68 @@ function saveEmployee() {
     },
     securityLevel: 'loose',
   });
+
+// RECURRING TASKS
+function openRecurringModal() {
+  if (!curEmp) return;
+  if (!S.recurring) S.recurring = [];
+  renderRecurringList();
+  document.getElementById('recurring-modal').classList.add('open');
+}
+
+function renderRecurringList() {
+  const list = S.recurring.filter(r => r.empId === curEmp);
+  let html = list.map(r => `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div>
+        <div style="font-size:13px; font-weight:500; color:var(--ink)">${r.name}</div>
+        <div style="font-size:11px; color:var(--mute)">${r.type.toUpperCase()} ${r.type !== 'daily' ? '(Val: '+r.val+')' : ''} · ${fmtMins(r.mins)}</div>
+      </div>
+      <button class="btn btn-xs btn-ghost" style="color:var(--red)" onclick="deleteRecurring('${r.id}')">Delete</button>
+    </div>
+  `).join('');
+  if (!html) html = `<div style="padding:16px; text-align:center; color:var(--mute); font-size:12px;">No recurring templates yet.</div>`;
+  document.getElementById('recurringList').innerHTML = html;
+}
+
+function deleteRecurring(rid) {
+  S.recurring = S.recurring.filter(r => r.id !== rid);
+  persist();
+  renderRecurringList();
+}
+
+function addRecurring() {
+  const name = document.getElementById('recName').value.trim();
+  const mins = parseInt(document.getElementById('recDur').value);
+  const type = document.getElementById('recType').value;
+  let val = document.getElementById('recVal').value;
+  
+  if (!name || isNaN(mins)) {
+    showToast('Please enter a valid task name.');
+    return;
+  }
+  if (type !== 'daily' && !val) {
+    showToast('Please enter a day/date value.');
+    return;
+  }
+  
+  S.recurring.push({
+    id: 'rec_' + Math.random().toString(36).substr(2, 9),
+    empId: curEmp,
+    name, mins, type, val
+  });
+  
+  document.getElementById('recName').value = '';
+  document.getElementById('recVal').value = '';
+  persist();
+  renderRecurringList();
+  
+  // Re-render current employee view to instantly trigger JIT spawn if the new template applies to today!
+  openEmployee(curEmp);
+}
+
+// Ensure the functions exist
+
 </script>
 </body>
 </html>
