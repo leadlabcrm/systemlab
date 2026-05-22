@@ -2558,11 +2558,14 @@ document.getElementById('empDetailHead').innerHTML = `
     <div style="flex:1; display:flex; align-items:center; gap:8px">
       <div class="hp-bar"><div class="hp-fill" style="width:${hp_pct.toFixed(0)}%"></div></div>
       <span style="color:var(--sunset);font-weight:600">${doneH.toFixed(1)}h</span>
-      <span style="color:var(--mute); font-size:11px; text-transform:uppercase; letter-spacing:0.05em">Completed</span>
+      <span>Completed</span>
+      <span style="color:var(--mute2)">·</span>
+      <span style="color:var(--ink);font-weight:600">${assignedH.toFixed(1)}h</span>
+      <span>Assigned</span>
     </div>
     <div style="display:flex; align-items:center; gap:4px; font-size:13px">
-      <span style="color:var(--ink);font-weight:600">${assignedH.toFixed(1)}h</span>
-      <span style="color:var(--mute)">Assigned</span>
+      <span style="color:var(--mute)">Target:</span>
+      <span style="color:var(--ink);font-weight:600">8.0h</span>
     </div>`;
 
   // TASKS
