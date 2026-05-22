@@ -707,6 +707,10 @@ select option{background:var(--canvas-card)}
       <div class="stats-row" id="empMetrics" style="border-bottom:1px solid var(--hairline)"></div>
       <div class="hour-prog-row" id="hourProg"></div>
       
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px;">
+        <div style="font-size:14px; font-weight:600; color:var(--ink)">Daily Tasks</div>
+        <button class="btn btn-xs" style="background:transparent; border:1px solid var(--hairline); color:var(--mute)" onclick="openRecurringModal()">⚡ Manage Recurring</button>
+      </div>
       <div class="task-toolbar">
         <input type="text" id="newTaskInput" placeholder="Add a task for today (e.g. Daily Standup)" onkeydown="if(event.key==='Enter') addTask()">
         <select id="newTaskDur">
@@ -728,6 +732,50 @@ select option{background:var(--canvas-card)}
     </div>
 
 
+  </div>
+</div>
+
+
+<!-- RECURRING MODAL -->
+<div class="modal-overlay" id="recurring-modal">
+  <div class="modal" style="width:480px">
+    <div class="modal-head">
+      <div class="modal-title">⚡ Recurring Templates</div>
+      <button class="btn btn-xs btn-ghost" onclick="this.closest('.modal-overlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="eyebrow" style="margin-bottom:10px;color:var(--mute)">Active Templates for this Team Member</div>
+      <div id="recurringList" style="margin-bottom:20px; border:1px solid var(--hairline); border-radius:var(--r-md); background:var(--canvas-soft); padding:8px"></div>
+      
+      <div style="border-top:1px dashed var(--hairline); margin: 0 -24px 20px -24px;"></div>
+      
+      <div style="font-size:13px; font-weight:600; margin-bottom:12px; color:var(--ink)">+ Create New Template</div>
+      <div class="form-group" style="margin-bottom:12px">
+        <input type="text" id="recName" class="inp" placeholder="Task Name (e.g. Server Checks)">
+      </div>
+      <div style="display:flex; gap:12px; margin-bottom:12px">
+        <select id="recDur" class="inp" style="width:100px">
+          <option value="5">5m</option>
+          <option value="15">15m</option>
+          <option value="30" selected>30m</option>
+          <option value="45">45m</option>
+          <option value="60">1h</option>
+          <option value="90">1.5h</option>
+          <option value="120">2h</option>
+          <option value="240">4h</option>
+        </select>
+        <select id="recType" class="inp" style="flex:1" onchange="document.getElementById('recValGroup').style.display = this.value==='daily' ? 'none' : 'block'">
+          <option value="daily">Every Day</option>
+          <option value="weekly">Weekly (Certain Day)</option>
+          <option value="monthly">Monthly (Certain Date)</option>
+        </select>
+      </div>
+      <div class="form-group" id="recValGroup" style="display:none; margin-bottom:12px">
+        <input type="number" id="recVal" class="inp" placeholder="e.g. 1 for Monday, or 15 for 15th of month">
+        <div style="font-size:10px; color:var(--mute); margin-top:4px">For Weekly: 0=Sun, 1=Mon, 2=Tue... 6=Sat. For Monthly: 1-31.</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="addRecurring()">Save Template</button>
+    </div>
   </div>
 </div>
 
@@ -2063,7 +2111,43 @@ function formatTTDate() {
 }
 
 function getTasks(eid, date) {
-  return S.tasks.filter(t => t.empId === eid && t.date === date);
+  if (!S.recurring) S.recurring = [];
+  let tasks = S.tasks.filter(t => t.empId === eid && t.date === date);
+  
+  // JIT Spawn Logic for Recurring Tasks
+  let spawned = false;
+  const d = new Date(date + "T12:00:00Z"); // Safe noon parse
+  const dayOfWeek = d.getUTCDay(); // 0-6
+  const dayOfMonth = d.getUTCDate();
+  
+  S.recurring.filter(r => r.empId === eid).forEach(r => {
+    // Check if we already spawned this template for this date
+    if (tasks.find(t => t.spawnedFrom === r.id)) return;
+    
+    let shouldSpawn = false;
+    if (r.type === 'daily') shouldSpawn = true;
+    else if (r.type === 'weekly' && parseInt(r.val) === dayOfWeek) shouldSpawn = true;
+    else if (r.type === 'monthly' && parseInt(r.val) === dayOfMonth) shouldSpawn = true;
+    
+    if (shouldSpawn) {
+      const newTask = {
+        id: 'tt_' + Math.random().toString(36).substr(2, 9),
+        empId: eid,
+        date: date,
+        name: r.name,
+        mins: parseInt(r.mins),
+        done: false,
+        spawnedFrom: r.id
+      };
+      S.tasks.push(newTask);
+      tasks.push(newTask);
+      spawned = true;
+    }
+  });
+  
+  if (spawned && window.persist) persist();
+  
+  return tasks;
 }
 
 function getAtt(eid, date) {
