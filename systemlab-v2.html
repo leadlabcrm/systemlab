@@ -61,6 +61,23 @@ select option{background:var(--canvas-card)}
 /* EYEBROW */
 .eyebrow{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute)}
 
+
+/* TEAM CSS */
+.emp-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #000; flex-shrink: 0; }
+.emp-row { display: flex; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--hairline); transition: background 0.1s; cursor: pointer; gap: 14px; }
+.emp-row:hover { background: rgba(255,255,255,0.02); }
+.emp-details { flex: 1; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+.emp-name { font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.emp-role { font-size: 11px; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.att-toggle { display: flex; background: var(--canvas-soft); border-radius: var(--r-pill); padding: 2px; gap: 2px; }
+.att-btn { font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill); cursor: pointer; color: var(--mute); transition: all 0.1s; user-select: none; border: none; background: transparent; }
+.att-btn:hover { color: var(--body); }
+.att-btn.present.active { background: rgba(34,197,94,0.15); color: var(--green); }
+.att-btn.absent.active { background: rgba(239,68,68,0.15); color: var(--red); }
+.team-stat-card { background: var(--canvas-card); border: 1px solid var(--hairline); padding: 16px; border-radius: var(--r-md); display: flex; flex-direction: column; gap: 4px; }
+.team-stat-val { font-size: 24px; font-weight: 600; color: var(--ink); font-family: var(--f-mono, monospace); }
+.team-stat-lbl { font-size: 11px; color: var(--mute); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
 /* APP SHELL */
 #app{display:none;grid-template-columns:220px 1fr;grid-template-rows:48px 1fr;height:100vh;overflow:hidden}
 
@@ -420,9 +437,9 @@ select option{background:var(--canvas-card)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Dashboard
         </div>
-        <div class="nav-item" data-view="teamtrack" onclick="showView('teamtrack',this)">
+        <div class="nav-item" data-view="team" onclick="showView('team',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          TeamTrack
+          Team
         </div>
         <div class="nav-item" data-view="all" onclick="showView('all',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -451,9 +468,8 @@ select option{background:var(--canvas-card)}
   <div id="main">
 
     <!-- DASHBOARD -->
-    <div id="v-dashboard" class="view active" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
-
-            <div class="dash-head">
+    <div id="v-dashboard" class="view active">
+      <div class="dash-head">
         <div class="dash-h1" id="greeting">Loading...</div>
         <div class="dash-sub">Your team's operating system — every process, SOP, and system in one place.</div>
         <div class="hint-chip" id="onboard-hint" style="display:none">
@@ -502,113 +518,7 @@ select option{background:var(--canvas-card)}
       </div>
     </div>
 
-    
-      </div>
-
-    <!-- TEAMTRACK -->
-    <div id="v-teamtrack" class="view" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
-        <div id="tt-app" style="height:100%; border:none;">
-          
-
-<!-- SIDEBAR -->
-<div id="tt-sidebar">
-  <div class="sidebar-scroll">
-    <div class="sidebar-section">
-      <div class="tt-nav-item active" onclick="ttShowView('today',this)" data-view="today">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Today
-      </div>
-      <div class="tt-nav-item" onclick="ttShowView('dashboard',this)" data-view="dashboard">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Dashboard
-      </div>
-      <div class="tt-nav-item" onclick="ttShowView('history',this)" data-view="history">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        History
-      </div>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-lbl">Employees</div>
-      <div id="empNavList"></div>
-    </div>
-  </div>
-  <div class="sidebar-bottom" id="sidebarFooter"></div>
-</div>
-
-<!-- MAIN -->
-<div id="tt-main">
-
-  <!-- TODAY VIEW -->
-  <div id="v-today" class="tt-view active">
-    <div class="tt-view-head">
-      <div class="view-h1">Today</div>
-      <div class="view-sub" id="todayDateLabel"></div>
-    </div>
-    <div class="stats-strip" id="todayStats" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="view-body">
-      <div class="section-hd"><div class="section-title">Team Status</div></div>
-      <div class="emp-grid" id="empGrid"></div>
-    </div>
-  </div>
-
-  <!-- DASHBOARD VIEW -->
-  <div id="v-dashboard" class="tt-view">
-    <div class="tt-view-head">
-      <div class="view-h1">Dashboard</div>
-      <div style="margin-left:auto">
-        <div class="month-sel">
-          <button onclick="ttShiftMonth(-1)">‹</button>
-          <div class="cur-month" id="curMonthLabel"></div>
-          <button onclick="ttShiftMonth(1)">›</button>
-        </div>
-      </div>
-    </div>
-    <div class="view-body" id="dashBody"></div>
-  </div>
-
-  <!-- EMPLOYEE DETAIL -->
-  <div id="v-employee" class="tt-view">
-    <div class="tt-view-head" id="empDetailHead"></div>
-    <div class="att-bar" id="empAttBar"></div>
-    <div class="stats-strip" id="empMetrics" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="hour-prog-row" id="hourProg"></div>
-    <div class="task-toolbar">
-      <input id="taskInput" placeholder="What needs to get done today…" onkeydown="if(event.key==='Enter')ttAddTask()">
-      <select id="taskDur">
-        <option value="5">5 min</option>
-        <option value="10">10 min</option>
-        <option value="15">15 min</option>
-        <option value="30">30 min</option>
-        <option value="45">45 min</option>
-        <option value="60" selected>1 hr</option>
-        <option value="90">1.5 hr</option>
-        <option value="120">2 hr</option>
-        <option value="180">3 hr</option>
-        <option value="240">4 hr</option>
-      </select>
-      <button class="btn btn-primary btn-sm" onclick="ttAddTask()">Add</button>
-    </div>
-    <div class="task-thead">
-      <span></span><span>Task</span><span>Duration</span><span>Logged</span><span>Completed At</span><span></span>
-    </div>
-    <div class="task-scroll" id="taskList"></div>
-  </div>
-
-  <!-- HISTORY VIEW -->
-  <div id="v-history" class="tt-view">
-    <div class="tt-view-head">
-      <div class="view-h1">History</div>
-      <div class="view-sub">All attendance records</div>
-    </div>
-    <div class="hist-tabs" id="histTabs"></div>
-    <div style="flex:1;overflow-y:auto;padding:18px 24px" id="histBody"></div>
-  </div>
-
-</div>
-
-        </div>
-      </div>
-<!-- ALL SOPs / DEPT VIEW -->
+    <!-- ALL SOPs / DEPT VIEW -->
     <div id="v-all" class="view">
       <div class="listview-head">
         <div class="listview-dot" id="lv-dot"></div>
@@ -720,6 +630,51 @@ select option{background:var(--canvas-card)}
         </div>
         <button class="btn btn-xs btn-ghost" onclick="exitEditor()">Discard</button>
         <button class="btn btn-xs btn-primary" onclick="saveDoc()">Save SOP</button>
+      </div>
+    </div>
+
+
+    <!-- TEAM VIEW -->
+    <div id="v-team" class="view">
+      <div class="dash-head" style="border-bottom:1px solid var(--hairline); padding-bottom:20px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div>
+            <div class="dash-h1">Team</div>
+            <div class="dash-sub">Track daily attendance and active execution.</div>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="openAddEmpModal()">Add Employee</button>
+        </div>
+      </div>
+      <div class="stats-row" id="team-stats" style="margin-bottom:24px;"></div>
+      <div class="dash-body">
+        <div class="panel-hd">Team Roster</div>
+        <div id="team-roster" style="background:var(--canvas-card); border:1px solid var(--hairline); border-radius:var(--r-md); overflow:hidden;">
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEE DETAIL VIEW -->
+    <div id="v-employee" class="view">
+      <div class="dash-head" style="border-bottom:1px solid var(--hairline); padding-bottom:20px; margin-bottom:20px; display:flex; gap:16px; align-items:center;">
+        <button class="btn btn-xs btn-ghost" onclick="showView('team')" style="padding:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div id="emp-det-avatar" class="emp-avatar" style="width:40px;height:40px;font-size:16px;"></div>
+        <div style="flex:1;">
+          <div class="dash-h1" id="emp-det-name">Name</div>
+          <div class="dash-sub" id="emp-det-role">Role</div>
+        </div>
+        <button class="btn btn-xs btn-danger" onclick="deleteEmployee()">Remove Employee</button>
+      </div>
+      <div class="dash-body">
+        <div class="panel-hd">Recent Activity</div>
+        <div id="emp-activity" style="padding:40px 0;">
+          <div class="empty">
+            <div class="empty-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div style="font-weight:600;color:var(--body);margin-bottom:4px">No Activity Found</div>
+            <div style="font-size:12px">This employee hasn't executed any SOPs recently.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -846,6 +801,30 @@ select option{background:var(--canvas-card)}
   </div>
 </div>
 
+
+<!-- ADD EMPLOYEE MODAL -->
+<div class="modal-overlay" id="add-emp-modal">
+  <div class="modal" style="width:360px">
+    <div class="modal-head">
+      <div class="modal-title">Add Employee</div>
+      <button class="btn btn-xs btn-ghost" onclick="closeAddEmpModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-group"><div class="field-lbl">Full Name</div><input type="text" id="newEmpName" placeholder="e.g. John Doe"></div>
+      <div class="field-group"><div class="field-lbl">Role / Title</div><input type="text" id="newEmpRole" placeholder="e.g. Sales Associate"></div>
+      <div class="field-group"><div class="field-lbl">Department</div>
+        <select id="newEmpDept">
+          <option value="">(None)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-sm" onclick="closeAddEmpModal()">Cancel</button>
+      <button class="btn btn-sm btn-primary" onclick="saveEmployee()">Add Employee</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -867,15 +846,10 @@ let S = {
   ],
   sops: [],
   workspaceName: 'My Workspace',
-  cur: null,
-  deptFilter: null,
+  cur: null,          // current SOP id in editor
+  deptFilter: null,   // dept id for list view
   layout: 'grid',
   canvasMode: false,
-  
-  // TeamTrack data
-  employees: [],
-  att: {},
-  tasks: {}
 };
 
 const STARTER = `# SOP Title
@@ -1205,10 +1179,10 @@ function renderSidebar() {
 function showView(id, navEl) {
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('v-'+id).classList.add('active');
-  if(id === 'teamtrack') { ttRenderSidebar(); ttRenderToday(); }
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if (navEl) navEl.classList.add('active');
   if (id==='dashboard') renderDashboard();
+  if (id==='team') renderTeam();
   if (id==='all') { S.deptFilter=null; renderListView(S.sops,'All SOPs','var(--mute)'); }
 }
 
@@ -1885,7 +1859,7 @@ const PAL_STATIC = [
   {g:'Actions',icon:'✍️',title:'New SOP',short:['⌘','N'],fn:()=>newSOP()},
   {g:'Actions',icon:'⬡', title:'Build Flowchart',short:[],fn:()=>openFlowModal()},
   {g:'Actions',icon:'🏢',title:'Manage Departments',short:[],fn:()=>openDeptManager()},
-  {g:'Navigate',icon:'🏠',title:'Go to Dashboard',short:['G','D'],fn:()=>ttShowView('dashboard',document.querySelector('.nav-item[data-view="dashboard"]'))},
+  {g:'Navigate',icon:'🏠',title:'Go to Dashboard',short:['G','D'],fn:()=>showView('dashboard',document.querySelector('.nav-item[data-view="dashboard"]'))},
   {g:'Navigate',icon:'📋',title:'All SOPs',short:['G','A'],fn:()=>showView('all',document.querySelector('.nav-item[data-view="all"]'))},
 ];
 
@@ -1982,508 +1956,122 @@ document.getElementById('ed-preview').addEventListener('click', e => {
 });
 
 
-/* ════════════════════════════════
-   TEAMTRACK — HELPERS & STATE
-════════════════════════════════ */
-let curEmp = null;
-let dashMonth = new Date();
-
+// --- NATIVE TEAM LOGIC ---
+const TT_TODAY = new Date().toISOString().split('T')[0];
 const TT_COLORS = [
-  {bg:'rgba(255,122,23,0.15)',fg:'#ff7a17'},
-  {bg:'rgba(34,197,94,0.15)',fg:'#22c55e'},
-  {bg:'rgba(96,165,250,0.15)',fg:'#60a5fa'},
-  {bg:'rgba(167,139,250,0.15)',fg:'#a78bfa'},
-  {bg:'rgba(244,114,182,0.15)',fg:'#f472b6'},
-  {bg:'rgba(52,211,153,0.15)',fg:'#34d399'},
-  {bg:'rgba(251,146,60,0.15)',fg:'#fb923c'},
-  {bg:'rgba(250,204,21,0.15)',fg:'#facc15'},
-  {bg:'rgba(232,121,249,0.15)',fg:'#e879f9'},
-  {bg:'rgba(45,212,191,0.15)',fg:'#2dd4bf'},
+  {bg:'#fecaca',fg:'#991b1b'},{bg:'#fef08a',fg:'#854d0e'},{bg:'#bbf7d0',fg:'#166534'},
+  {bg:'#bfdbfe',fg:'#1e40af'},{bg:'#e9d5ff',fg:'#6b21a8'},{bg:'#fbcfe8',fg:'#9d174d'}
 ];
-function col(ci){return TT_COLORS[ci % TT_COLORS.length]}
 
-function p2(n){return String(n).padStart(2,'0')}
-function nowNoSec(){
-  const d=new Date();
-  let h=d.getHours(),m=d.getMinutes();
-  const ap=h>=12?'PM':'AM';h=h%12||12;
-  return `${p2(h)}:${p2(m)} ${ap}`;
-}
-function initials(n){return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
-function getAtt(eid,dk){return (S.att[eid]||{})[dk]||null}
-function getTasks(eid,dk){return ((S.tasks[eid]||{})[dk])||[]}
-function fmtMins(m){if(!m)return '0m';if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return r?`${h}h ${r}m`:`${h}h`}
-function dateLabel(k){const[y,mo,d]=k.split('-').map(Number);return new Date(y,mo-1,d).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})}
-function calcDur(loginStr,logoutStr){
-  try{
-    function pt(s){const[t,ap]=s.split(' ');let[h,m]=t.split(':').map(Number);if(ap==='PM'&&h!==12)h+=12;if(ap==='AM'&&h===12)h=0;return h*60+m}
-    const diff=pt(logoutStr)-pt(loginStr);
-    if(diff<=0)return '—';return fmtMins(diff);
-  }catch{return '—'}
-}
-function monthKey(d){return `${d.getFullYear()}-${p2(d.getMonth()+1)}`}
-function daysInMonth(y,m){return new Date(y,m+1,0).getDate()}
-function allDateKeys(){
-  const s=new Set();
-  Object.values(S.att).forEach(ea=>Object.keys(ea).forEach(d=>s.add(d)));
-  return [...s].sort();
-}
+function tt_col(i) { return TT_COLORS[i % TT_COLORS.length]; }
+function tt_initials(n) { return n.split(' ').map(x=>x[0]).join('').substring(0,2).toUpperCase(); }
 
-/* ════════════════════════════════
-   TEAMTRACK — CLOCK
-════════════════════════════════ */
-function ttTick(){
-  const d=new Date();
-  let h=d.getHours(),m=d.getMinutes(),s=d.getSeconds();
-  const ap=h>=12?'PM':'AM';h=h%12||12;
-  const cl=document.getElementById('liveClock');
-  const dl=document.getElementById('liveDate');
-  if(cl) cl.textContent=`${p2(h)}:${p2(m)}:${p2(s)} ${ap}`;
-  if(dl) dl.textContent=d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-}
-setInterval(ttTick,1000);ttTick();
+let curEmp = null;
 
-/* ════════════════════════════════
-   TEAMTRACK — DASHBOARD TAB SWITCH
-════════════════════════════════ */
-function switchDashTab(tab) {
-  document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
-  const btn = document.querySelector(`.dash-tab[onclick*="${tab}"]`);
-  if(btn) btn.classList.add('active');
-  const ov = document.getElementById('dash-overview-tab');
-  const tt = document.getElementById('dash-tt-tab');
-  if(ov) ov.style.display = tab === 'overview' ? '' : 'none';
-  if(tt) tt.style.display = tab === 'teamtrack' ? 'flex' : 'none';
-  if(tab === 'teamtrack') {
-    ttRenderSidebar();
-    ttRenderToday();
-  }
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — VIEW ROUTING
-════════════════════════════════ */
-function ttShowView(id,el){
-  document.querySelectorAll('#tt-main .tt-view').forEach(v=>v.classList.remove('active'));
-  const target=document.getElementById('tt-v-'+id);
-  if(target) target.classList.add('active');
-  document.querySelectorAll('#tt-sidebar .tt-nav-item').forEach(n=>n.classList.remove('active'));
-  if(el) el.classList.add('active');
-  if(id==='today') ttRenderToday();
-  else if(id==='dashboard') ttRenderDashboard();
-  else if(id==='history') ttRenderHistory();
-}
-function ttOpenEmp(eid){
-  curEmp=eid;
-  document.querySelectorAll('#tt-main .tt-view').forEach(v=>v.classList.remove('active'));
-  const ev=document.getElementById('tt-v-employee');
-  if(ev) ev.classList.add('active');
-  document.querySelectorAll('#tt-sidebar .tt-nav-item').forEach(n=>n.classList.remove('active'));
-  const ni=document.querySelector(`#tt-sidebar .tt-nav-item[data-emp="${eid}"]`);
-  if(ni)ni.classList.add('active');
-  ttRenderEmpView();
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — SIDEBAR
-════════════════════════════════ */
-function ttRenderSidebar(){
-  const navList=document.getElementById('empNavList');
-  if(!navList)return;
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  navList.innerHTML=S.employees.map(e=>{
-    const att=getAtt(e.id,TODAY_KEY);
-    const c=col(e.ci);
-    const dotColor=att?.status==='present'?'var(--green)':att?.status==='absent'?'var(--red)':'var(--mute2)';
-    return `<div class="tt-nav-item" data-emp="${e.id}" onclick="ttOpenEmp('${e.id}')">
-      <div style="width:18px;height:18px;border-radius:50%;background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;flex-shrink:0">${initials(e.name)}</div>
-      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.name}</span>
-      <div class="emp-dot" style="background:${dotColor}"></div>
-    </div>`;
-  }).join('');
-  const sf=document.getElementById('sidebarFooter');
-  if(sf){
-    const TODAY_KEY2=new Date().toISOString().slice(0,10);
-    const present=S.employees.filter(e=>getAtt(e.id,TODAY_KEY2)?.status==='present').length;
-    sf.textContent=`${present} / ${S.employees.length} present today`;
-  }
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — TODAY VIEW
-════════════════════════════════ */
-function ttRenderToday(){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const todayLabel=document.getElementById('todayDateLabel');
-  if(todayLabel) todayLabel.textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const total=S.employees.length;
-  const present=S.employees.filter(e=>getAtt(e.id,TODAY_KEY)?.status==='present').length;
-  const absent=S.employees.filter(e=>getAtt(e.id,TODAY_KEY)?.status==='absent').length;
-  const allT=S.employees.flatMap(e=>getTasks(e.id,TODAY_KEY));
-  const doneT=allT.filter(t=>t.done).length;
-  const hoursL=allT.filter(t=>t.done).reduce((a,t)=>a+t.mins,0)/60;
-  const compRate=allT.length?Math.round(doneT/allT.length*100):0;
-  const tsEl=document.getElementById('todayStats');
-  if(tsEl) tsEl.innerHTML=`
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--green)">${present}</div><div class="stat-lbl">Present</div><div class="stat-sub">${absent} absent · ${total-present-absent} unmarked</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--sunset)">${doneT}/${allT.length}</div><div class="stat-lbl">Tasks Done</div><div class="stat-sub">${compRate}% completion rate</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--blue)">${hoursL.toFixed(1)}h</div><div class="stat-lbl">Hours Logged</div><div class="stat-sub">Target ${present*8}h</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--purple)">${compRate}%</div><div class="stat-lbl">Completion Rate</div><div class="stat-sub">Team average today</div></div>
+function renderTeam() {
+  if (!S.employees) S.employees = [];
+  if (!S.att) S.att = {};
+  
+  const total = S.employees.length;
+  const present = S.employees.filter(e => S.att[e.id] && S.att[e.id][TT_TODAY] === 'present').length;
+  const absent = S.employees.filter(e => S.att[e.id] && S.att[e.id][TT_TODAY] === 'absent').length;
+  
+  document.getElementById('team-stats').innerHTML = `
+    <div class="stat-cell"><div class="stat-n">${total}</div><div class="stat-lbl eyebrow">Total Members</div></div>
+    <div class="stat-cell"><div class="stat-n" style="color:var(--green)">${present}</div><div class="stat-lbl eyebrow">Present Today</div></div>
+    <div class="stat-cell"><div class="stat-n" style="color:var(--red)">${absent}</div><div class="stat-lbl eyebrow">Absent Today</div></div>
   `;
-  const grid=document.getElementById('empGrid');
-  if(!grid)return;
-  if(!S.employees.length){
-    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👥</div><div style="font-weight:600;color:var(--body)">No employees yet</div><div style="font-size:12px;margin-top:4px">Click Add Employee to get started</div></div>`;
-    return;
-  }
-  grid.innerHTML=S.employees.map(e=>{
-    const c=col(e.ci);
-    const att=getAtt(e.id,TODAY_KEY);
-    const status=att?.status||null;
-    const tasks=getTasks(e.id,TODAY_KEY);
-    const done=tasks.filter(t=>t.done).length;
-    const doneH=tasks.filter(t=>t.done).reduce((a,t)=>a+t.mins,0)/60;
-    const totalH=tasks.reduce((a,t)=>a+t.mins,0)/60;
-    const pct=Math.min(100,(doneH/8)*100);
-    const loginT=att?.loginTime||null;
-    const logoutT=att?.logoutTime||null;
-    const badge=status?`<span class="badge badge-${status}"><span class="badge-dot"></span>${status}</span>`:`<span class="badge badge-none">—</span>`;
-    return `<div class="emp-card" onclick="ttOpenEmp('${e.id}')">
-      <div class="emp-card-head">
-        <div class="emp-av" style="background:${c.bg};color:${c.fg}">${initials(e.name)}</div>
-        <div style="flex:1;min-width:0">
-          <div class="emp-card-name">${e.name}</div>
-          <div class="emp-card-role">${e.role} · ${e.dept}</div>
-        </div>
-        ${badge}
-      </div>
-      <div class="emp-3stat">
-        <div class="mini-stat"><div class="mini-stat-n" style="color:${c.fg}">${done}/${tasks.length}</div><div class="mini-stat-l">Tasks</div></div>
-        <div class="mini-stat"><div class="mini-stat-n" style="color:var(--green)">${doneH.toFixed(1)}h</div><div class="mini-stat-l">Done</div></div>
-        <div class="mini-stat"><div class="mini-stat-n" style="color:var(--mute)">${totalH.toFixed(1)}h</div><div class="mini-stat-l">Planned</div></div>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${pct.toFixed(0)}%;background:${c.fg}"></div></div>
-      <div style="font-size:10px;color:var(--mute2);font-weight:500">${doneH.toFixed(1)}h / 8h · ${pct.toFixed(0)}%</div>
-      <div class="time-row">
-        <div class="time-chip ${loginT?'has-val':''}">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          In: ${loginT||'—'}
-        </div>
-        <div class="time-chip ${logoutT?'has-val':''}">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 8 14"/></svg>
-          Out: ${logoutT||'—'}
-        </div>
-        ${loginT&&logoutT?`<div class="time-chip has-val">⏱ ${calcDur(loginT,logoutT)}</div>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — EMPLOYEE DETAIL
-════════════════════════════════ */
-function ttRenderEmpView(){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const e=S.employees.find(x=>x.id===curEmp);if(!e)return;
-  const c=col(e.ci);
-  const tasks=getTasks(e.id,TODAY_KEY);
-  const att=getAtt(e.id,TODAY_KEY);
-  const status=att?.status||null;
-  const loginT=att?.loginTime||null;
-  const logoutT=att?.logoutTime||null;
-  const done=tasks.filter(t=>t.done).length;
-  const doneH=tasks.filter(t=>t.done).reduce((a,t)=>a+t.mins,0)/60;
-  const totalH=tasks.reduce((a,t)=>a+t.mins,0)/60;
-  const pct=Math.min(100,(doneH/8)*100);
-  const dh=document.getElementById('empDetailHead');
-  if(dh) dh.innerHTML=`
-    <div class="emp-av" style="background:${c.bg};color:${c.fg};width:34px;height:34px;font-size:11px;font-weight:700;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">${initials(e.name)}</div>
-    <div><div class="view-h1">${e.name}</div><div style="font-size:11px;color:var(--mute);font-weight:400;margin-top:1px">${e.role} · ${e.dept}</div></div>
-    <div style="margin-left:auto;display:flex;gap:6px">
-      <button class="btn btn-ghost btn-sm" onclick="ttShowView('today',document.querySelector('[data-view=today]'))">← Back</button>
-      <button class="btn btn-danger btn-xs" onclick="ttRemoveEmp('${e.id}')">Remove</button>
-    </div>`;
-  let attBtns='';
-  if(!status){
-    attBtns=`<button class="btn btn-green btn-sm" onclick="ttMarkAtt('${e.id}','present')">Mark Present</button>
-      <button class="btn btn-danger btn-sm" onclick="ttMarkAtt('${e.id}','absent')">Mark Absent</button>`;
-  } else if(status==='present'){
-    attBtns=`<button class="btn btn-sm" onclick="ttMarkLogout('${e.id}')" ${logoutT?'disabled style="opacity:0.35;cursor:not-allowed"':''}>
-      ${logoutT?'Logged Out':'Log Out Now'}</button>
-    <button class="btn btn-ghost btn-xs" onclick="ttMarkAtt('${e.id}','absent')">Switch Absent</button>`;
+  
+  let rosterHtml = '';
+  if (total === 0) {
+    rosterHtml = `<div style="padding:24px; text-align:center; color:var(--mute); font-size:13px;">No employees added yet.</div>`;
   } else {
-    attBtns=`<button class="btn btn-green btn-xs" onclick="ttMarkAtt('${e.id}','present')">Switch Present</button>`;
-  }
-  const ab=document.getElementById('empAttBar');
-  if(ab) ab.innerHTML=`
-    <div class="att-bar-left">
-      ${status?`<span class="badge badge-${status}"><span class="badge-dot"></span>${status}</span>`:`<span class="badge badge-none">Not marked</span>`}
-      <div class="time-block"><span class="time-block-label">Login</span><span class="time-block-val ${loginT?'':'empty'}">${loginT||'—'}</span></div>
-      <div class="divider-v"></div>
-      <div class="time-block"><span class="time-block-label">Logout</span><span class="time-block-val ${logoutT?'':'empty'}">${logoutT||'—'}</span></div>
-      ${loginT&&logoutT?`<div class="divider-v"></div><div class="time-block"><span class="time-block-label">Duration</span><span class="time-block-val" style="color:var(--sunset)">${calcDur(loginT,logoutT)}</span></div>`:''}
-    </div>
-    <div style="display:flex;gap:6px">${attBtns}</div>`;
-  const compRate=tasks.length?Math.round(done/tasks.length*100):0;
-  const streak=ttCalcStreak(e.id);
-  const em=document.getElementById('empMetrics');
-  if(em) em.innerHTML=`
-    <div class="tt-stat-cell"><div class="stat-n" style="color:${c.fg}">${done}/${tasks.length}</div><div class="stat-lbl">Tasks Done</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--green)">${doneH.toFixed(1)}h</div><div class="stat-lbl">Hours Logged</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--sunset)">${compRate}%</div><div class="stat-lbl">Completion</div></div>
-    <div class="tt-stat-cell"><div class="stat-n" style="color:var(--yellow)">${streak}d</div><div class="stat-lbl">Present Streak</div></div>`;
-  const hp=document.getElementById('hourProg');
-  if(hp) hp.innerHTML=`
-    <div class="hp-bar"><div class="hp-fill" style="width:${pct.toFixed(0)}%"></div></div>
-    <span style="color:var(--sunset);font-weight:600">${doneH.toFixed(1)}h</span>
-    <span>of 8h target</span>
-    <span style="color:var(--mute2)">·</span>
-    <span>${Math.max(0,8-doneH).toFixed(1)}h left</span>
-    <span style="color:var(--mute2)">·</span>
-    <span style="color:var(--sunset);font-weight:600">${pct.toFixed(0)}%</span>`;
-  const tl=document.getElementById('taskList');
-  if(!tl)return;
-  if(!tasks.length){
-    tl.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div style="font-weight:600;color:var(--body)">No tasks yet</div><div style="font-size:12px;margin-top:4px">Add tasks above — plan for 8 hours</div></div>`;
-    return;
-  }
-  tl.innerHTML=tasks.map(t=>`
-    <div class="task-row ${t.done?'done':''}">
-      <div class="tcheck ${t.done?'checked':''}" onclick="ttToggleTask('${t.id}')"></div>
-      <div class="tname ${t.done?'struck':''}">${t.name}</div>
-      <div class="tdur">${fmtMins(t.mins)}</div>
-      <div class="tlogged ${t.done?'has':''}">${t.done?fmtMins(t.mins):'—'}</div>
-      <div class="tdoneat ${t.doneAt?'has':''}">${t.doneAt||'—'}</div>
-      <button class="tdel" onclick="ttDeleteTask('${t.id}')">×</button>
-    </div>`).join('');
-}
-
-function ttCalcStreak(eid){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const attMap=S.att[eid]||{};
-  const keys=Object.keys(attMap).sort().reverse();
-  let streak=0;
-  for(const k of keys){
-    if(k>TODAY_KEY) continue;
-    if(attMap[k]?.status==='present') streak++;
-    else break;
-  }
-  return streak;
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — DASHBOARD
-════════════════════════════════ */
-function ttShiftMonth(d){
-  dashMonth=new Date(dashMonth.getFullYear(),dashMonth.getMonth()+d,1);
-  ttRenderDashboard();
-}
-function ttRenderDashboard(){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const y=dashMonth.getFullYear(),m=dashMonth.getMonth();
-  const lbl=document.getElementById('curMonthLabel');
-  if(lbl) lbl.textContent=dashMonth.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
-  const days=daysInMonth(y,m);
-  const monthDates=[];
-  for(let d=1;d<=days;d++) monthDates.push(`${y}-${p2(m+1)}-${p2(d)}`);
-  const empStats=S.employees.map(e=>{
-    let presentDays=0,absentDays=0,totalTasks=0,doneTasks=0,totalMins=0,doneMins=0;
-    monthDates.forEach(dk=>{
-      const att=getAtt(e.id,dk);
-      if(att?.status==='present') presentDays++;
-      else if(att?.status==='absent') absentDays++;
-      const tasks=getTasks(e.id,dk);
-      totalTasks+=tasks.length;
-      doneTasks+=tasks.filter(t=>t.done).length;
-      doneMins+=tasks.filter(t=>t.done).reduce((a,t)=>a+t.mins,0);
-      totalMins+=tasks.reduce((a,t)=>a+t.mins,0);
+    S.employees.forEach(e => {
+      const c = tt_col(e.ci);
+      const status = (S.att[e.id] && S.att[e.id][TT_TODAY]) || null;
+      rosterHtml += `
+        <div class="emp-row" onclick="openEmployee('${e.id}')">
+          <div class="emp-avatar" style="background:${c.bg}; color:${c.fg}">${tt_initials(e.name)}</div>
+          <div class="emp-details">
+            <div class="emp-name">${e.name}</div>
+            <div class="emp-role">${e.role || 'No Role'}</div>
+          </div>
+          <div class="att-toggle" onclick="event.stopPropagation()">
+            <button class="att-btn present ${status==='present'?'active':''}" onclick="setAtt('${e.id}','present')">Present</button>
+            <button class="att-btn absent ${status==='absent'?'active':''}" onclick="setAtt('${e.id}','absent')">Absent</button>
+          </div>
+        </div>
+      `;
     });
-    const compRate=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;
-    const avgDailyHrs=presentDays>0?(doneMins/60/presentDays):0;
-    const streak=ttCalcStreak(e.id);
-    return {e,presentDays,absentDays,totalTasks,doneTasks,compRate,doneMins,totalMins,avgDailyHrs,streak};
-  });
-  const teamPresent=empStats.reduce((a,x)=>a+x.presentDays,0);
-  const teamAbsent=empStats.reduce((a,x)=>a+x.absentDays,0);
-  const teamComp=empStats.length>0?Math.round(empStats.reduce((a,x)=>a+x.compRate,0)/empStats.length):0;
-  const teamHrs=empStats.reduce((a,x)=>a+x.doneMins,0)/60;
-  const workDays=monthDates.filter(dk=>dk<=TODAY_KEY).length;
-  const chartDays=monthDates.filter(dk=>dk<=TODAY_KEY).slice(-20);
-  const body=document.getElementById('dashBody');
-  if(!body)return;
-  body.innerHTML=`
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px">
-      <div class="dash-card" style="padding:16px"><div class="kpi-l" style="margin-bottom:8px">Attendance Rate</div><div class="kpi-n" style="color:var(--green)">${teamPresent+teamAbsent>0?Math.round(teamPresent/(teamPresent+teamAbsent)*100):0}%</div><div style="font-size:11px;color:var(--mute);margin-top:4px;font-weight:400">${teamPresent} present-days this month</div></div>
-      <div class="dash-card" style="padding:16px"><div class="kpi-l" style="margin-bottom:8px">Avg Task Completion</div><div class="kpi-n" style="color:var(--sunset)">${teamComp}%</div><div style="font-size:11px;color:var(--mute);margin-top:4px;font-weight:400">Team average</div></div>
-      <div class="dash-card" style="padding:16px"><div class="kpi-l" style="margin-bottom:8px">Total Hours Logged</div><div class="kpi-n" style="color:var(--blue)">${teamHrs.toFixed(1)}h</div><div style="font-size:11px;color:var(--mute);margin-top:4px;font-weight:400">Across all employees</div></div>
-      <div class="dash-card" style="padding:16px"><div class="kpi-l" style="margin-bottom:8px">Working Days Tracked</div><div class="kpi-n" style="color:var(--purple)">${workDays}</div><div style="font-size:11px;color:var(--mute);margin-top:4px;font-weight:400">of ${days} total days</div></div>
-    </div>
-    <div class="dash-grid">
-      <div class="dash-card dash-card-full"><div class="dash-card-title">Daily Team Attendance — ${chartDays.length} days<span style="font-size:11px;color:var(--mute2);text-transform:none;letter-spacing:0;font-weight:400">bars = present count</span></div><div class="bar-chart" id="attChart"></div></div>
-      <div class="dash-card"><div class="dash-card-title">Task Completion Leaderboard</div><div class="leaderboard" id="leaderboard"></div></div>
-      <div class="dash-card"><div class="dash-card-title">Attendance Heatmap</div><div id="heatmap"></div></div>
-      <div class="dash-card dash-card-full"><div class="dash-card-title">Employee Monthly Summary</div><div style="overflow-x:auto"><table class="hist-table" style="width:100%"><thead><tr><th>Employee</th><th>Present</th><th>Absent</th><th>Att. Rate</th><th>Tasks Done</th><th>Comp. Rate</th><th>Hours</th><th>Avg/Day</th><th>Streak</th></tr></thead><tbody id="empSummaryBody"></tbody></table></div></div>
-    </div>`;
-  const maxPresent=Math.max(1,...chartDays.map(dk=>S.employees.filter(e=>getAtt(e.id,dk)?.status==='present').length));
-  const ac=document.getElementById('attChart');
-  if(ac) ac.innerHTML=chartDays.map(dk=>{
-    const cnt=S.employees.filter(e=>getAtt(e.id,dk)?.status==='present').length;
-    const h=Math.max(4,Math.round((cnt/maxPresent)*100));
-    const isToday=dk===TODAY_KEY;
-    return `<div class="bar-col"><div class="bar-body" data-tip="${dateLabel(dk)}: ${cnt} present" style="height:${h}px;background:${isToday?'var(--sunset)':'rgba(96,165,250,0.5)'};border:1px solid ${isToday?'var(--sunset)':'rgba(96,165,250,0.2)'}"></div><div class="bar-label">${dk.slice(8)}</div></div>`;
-  }).join('');
-  const sorted=[...empStats].sort((a,b)=>b.compRate-a.compRate);
-  const medals=['🥇','🥈','🥉'];
-  const lb=document.getElementById('leaderboard');
-  if(lb) lb.innerHTML=sorted.map((x,i)=>{
-    const c=col(x.e.ci);
-    return `<div class="lb-row"><div class="lb-rank">${medals[i]||i+1}</div><div style="width:22px;height:22px;border-radius:50%;background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0">${initials(x.e.name)}</div><div class="lb-name">${x.e.name}</div><div class="lb-bar-wrap"><div class="lb-bar-fill" style="width:${x.compRate}%;background:${c.fg}"></div></div><div class="lb-pct" style="color:${c.fg}">${x.compRate}%</div></div>`;
-  }).join('');
-  const hmDays=monthDates.filter(dk=>dk<=TODAY_KEY);
-  const hmHTML=S.employees.map(e=>{
-    const cells=hmDays.map(dk=>{
-      const att=getAtt(e.id,dk);const status=att?.status;
-      const tasks=getTasks(e.id,dk);
-      const compR=tasks.length?Math.round(tasks.filter(t=>t.done).length/tasks.length*100):0;
-      let bg='var(--hairline)';
-      if(status==='present'){bg=compR>=80?'rgba(34,197,94,0.7)':compR>=50?'rgba(255,122,23,0.5)':'rgba(34,197,94,0.25)'}
-      else if(status==='absent')bg='rgba(239,68,68,0.35)';
-      const tip=`${dateLabel(dk)}: ${status||'unmarked'}${status==='present'?` · ${compR}% tasks`:''}`;
-      return `<div class="hm-cell" style="background:${bg}" data-tip="${tip}"></div>`;
-    }).join('');
-    return `<div class="hm-row"><div class="hm-label" title="${e.name}">${e.name.split(' ')[0]}</div><div class="hm-cells">${cells}</div></div>`;
-  }).join('');
-  const hmEl=document.getElementById('heatmap');
-  if(hmEl) hmEl.innerHTML=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mute);font-weight:500"><div style="width:12px;height:12px;border-radius:2px;background:rgba(34,197,94,0.7)"></div>Present (high)</div><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mute);font-weight:500"><div style="width:12px;height:12px;border-radius:2px;background:rgba(34,197,94,0.25)"></div>Present (low)</div><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mute);font-weight:500"><div style="width:12px;height:12px;border-radius:2px;background:rgba(239,68,68,0.35)"></div>Absent</div><div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mute);font-weight:500"><div style="width:12px;height:12px;border-radius:2px;background:var(--hairline)"></div>Unmarked</div></div>${hmHTML}`;
-  const esb=document.getElementById('empSummaryBody');
-  if(esb) esb.innerHTML=empStats.map(x=>{
-    const c=col(x.e.ci);const attRate=x.presentDays+x.absentDays>0?Math.round(x.presentDays/(x.presentDays+x.absentDays)*100):0;
-    return `<tr><td><div style="display:flex;align-items:center;gap:8px"><div style="width:22px;height:22px;border-radius:50%;background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0">${initials(x.e.name)}</div><div><div style="font-weight:600;font-size:13px">${x.e.name}</div><div style="font-size:11px;color:var(--mute)">${x.e.role}</div></div></div></td><td style="color:var(--green);font-weight:600">${x.presentDays}d</td><td style="color:var(--red);font-weight:600">${x.absentDays}d</td><td><div style="display:flex;align-items:center;gap:6px"><div style="width:50px;height:4px;background:var(--hairline);border-radius:2px;overflow:hidden"><div style="height:100%;width:${attRate}%;background:var(--green);border-radius:2px"></div></div><span style="font-weight:600;font-size:12px">${attRate}%</span></div></td><td style="font-weight:500">${x.doneTasks}/${x.totalTasks}</td><td><div style="display:flex;align-items:center;gap:6px"><div style="width:50px;height:4px;background:var(--hairline);border-radius:2px;overflow:hidden"><div style="height:100%;width:${x.compRate}%;background:${c.fg};border-radius:2px"></div></div><span style="font-weight:600;font-size:12px;color:${c.fg}">${x.compRate}%</span></div></td><td style="color:var(--blue);font-weight:600">${(x.doneMins/60).toFixed(1)}h</td><td style="font-weight:500">${x.avgDailyHrs.toFixed(1)}h/day</td><td><span style="color:var(--yellow);font-weight:600">${x.streak>0?`🔥 ${x.streak}d`:'—'}</span></td></tr>`;
-  }).join('');
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — HISTORY
-════════════════════════════════ */
-function ttRenderHistory(){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const tabs=document.getElementById('histTabs');
-  if(!tabs)return;
-  tabs.innerHTML=['All',...S.employees.map(e=>e.name)].map((l,i)=>
-    `<div class="hist-tab ${i===0?'active':''}" onclick="ttSelHistTab(${i})">${l}</div>`).join('');
-  ttRenderHistBody('__all__');
-}
-function ttSelHistTab(idx){
-  document.querySelectorAll('.hist-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
-  const ids=['__all__',...S.employees.map(e=>e.id)];
-  ttRenderHistBody(ids[idx]);
-}
-function ttRenderHistBody(feid){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const emps=feid==='__all__'?S.employees:S.employees.filter(e=>e.id===feid);
-  const dates=allDateKeys().reverse();
-  const hb=document.getElementById('histBody');if(!hb)return;
-  if(!dates.length){
-    hb.innerHTML=`<div class="empty"><div class="empty-icon">📅</div><div style="font-weight:600;color:var(--body)">No records yet</div></div>`;
-    return;
   }
-  let rows='';
-  dates.forEach(dk=>{
-    emps.forEach(e=>{
-      const att=getAtt(e.id,dk);if(!att)return;
-      const status=att.status;const loginT=att.loginTime||null;const logoutT=att.logoutTime||null;
-      const tasks=getTasks(e.id,dk);const done=tasks.filter(t=>t.done).length;
-      const doneH=tasks.filter(t=>t.done).reduce((a,t)=>a+t.mins,0)/60;
-      const compR=tasks.length?Math.round(done/tasks.length*100):0;const c=col(e.ci);
-      rows+=`<tr><td style="font-size:11px;color:var(--mute);font-weight:500;white-space:nowrap">${dateLabel(dk)}</td><td><div style="display:flex;align-items:center;gap:7px"><div style="width:22px;height:22px;border-radius:50%;background:${c.bg};color:${c.fg};display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0">${initials(e.name)}</div><span style="font-weight:500">${e.name}</span></div></td><td><span class="badge badge-${status}"><span class="badge-dot"></span>${status}</span></td><td style="color:var(--green);font-weight:600">${loginT||'—'}</td><td style="color:var(--red);font-weight:600">${logoutT||'—'}</td><td style="font-weight:500;color:var(--sunset)">${loginT&&logoutT?calcDur(loginT,logoutT):'—'}</td><td style="font-weight:500">${done}/${tasks.length}</td><td><span style="font-weight:600;color:${c.fg}">${compR}%</span></td><td style="color:var(--blue);font-weight:600">${doneH.toFixed(1)}h</td></tr>`;
-    });
+  document.getElementById('team-roster').innerHTML = rosterHtml;
+}
+
+function setAtt(eid, status) {
+  if (!S.att[eid]) S.att[eid] = {};
+  if (S.att[eid][TT_TODAY] === status) {
+    delete S.att[eid][TT_TODAY]; // Toggle off
+  } else {
+    S.att[eid][TT_TODAY] = status;
+  }
+  if(window.persist) persist();
+  renderTeam();
+}
+
+function openEmployee(eid) {
+  curEmp = eid;
+  const e = S.employees.find(x => x.id === eid);
+  if (!e) return;
+  const c = tt_col(e.ci);
+  
+  document.getElementById('emp-det-avatar').style.background = c.bg;
+  document.getElementById('emp-det-avatar').style.color = c.fg;
+  document.getElementById('emp-det-avatar').textContent = tt_initials(e.name);
+  document.getElementById('emp-det-name').textContent = e.name;
+  document.getElementById('emp-det-role').textContent = e.role || 'No Role';
+  
+  showView('employee', document.querySelector('.nav-item[data-view="team"]'));
+}
+
+function deleteEmployee() {
+  if (!curEmp) return;
+  requestConfirm("Remove Employee", "Are you sure? This cannot be undone.", () => {
+    S.employees = S.employees.filter(x => x.id !== curEmp);
+    delete S.att[curEmp];
+    if(window.persist) persist();
+    showView('team');
   });
-  hb.innerHTML=rows?`<div style="background:var(--canvas-card);border:1px solid var(--hairline);border-radius:var(--r-md);overflow:hidden"><table class="hist-table" style="width:100%"><thead><tr><th>Date</th><th>Employee</th><th>Status</th><th>Login</th><th>Logout</th><th>Duration</th><th>Tasks</th><th>Rate</th><th>Hours</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="empty"><div class="empty-icon">📅</div><div style="font-weight:600;color:var(--body)">No records</div></div>`;
 }
 
-/* ════════════════════════════════
-   TEAMTRACK — ATTENDANCE ACTIONS
-════════════════════════════════ */
-function ttMarkAtt(eid,status){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  if(!S.att[eid])S.att[eid]={};
-  const existing=S.att[eid][TODAY_KEY]||{};
-  const loginTime=status==='present'?(existing.loginTime||nowNoSec()):null;
-  S.att[eid][TODAY_KEY]={status,loginTime,logoutTime:existing.logoutTime||null};
-  persist();ttRenderSidebar();
-  if(curEmp===eid)ttRenderEmpView();
-  showToast(status==='present'?`✓ ${S.employees.find(e=>e.id===eid)?.name} — Login: ${loginTime}`:'Marked absent');
+function openAddEmpModal() {
+  document.getElementById('newEmpName').value = '';
+  document.getElementById('newEmpRole').value = '';
+  const ds = document.getElementById('newEmpDept');
+  ds.innerHTML = '<option value="">(None)</option>' + S.depts.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+  document.getElementById('add-emp-modal').classList.add('open');
+  document.getElementById('newEmpName').focus();
 }
-function ttMarkLogout(eid){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  if(!S.att[eid]?.[TODAY_KEY])return;
-  const rec=S.att[eid][TODAY_KEY];
-  if(rec.logoutTime)return;
-  rec.logoutTime=nowNoSec();
-  persist();
-  if(curEmp===eid)ttRenderEmpView();
-  showToast(`Logged out at ${rec.logoutTime}`);
+function closeAddEmpModal() {
+  document.getElementById('add-emp-modal').classList.remove('open');
 }
-
-/* ════════════════════════════════
-   TEAMTRACK — TASK ACTIONS
-════════════════════════════════ */
-function ttAddTask(){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const name=document.getElementById('taskInput').value.trim();
-  const mins=parseInt(document.getElementById('taskDur').value);
-  if(!name||!curEmp)return;
-  if(!S.tasks[curEmp])S.tasks[curEmp]={};
-  if(!S.tasks[curEmp][TODAY_KEY])S.tasks[curEmp][TODAY_KEY]=[];
-  S.tasks[curEmp][TODAY_KEY].push({id:uid(),name,mins,done:false,doneAt:null});
-  document.getElementById('taskInput').value='';
-  persist();ttRenderEmpView();
+function saveEmployee() {
+  const name = document.getElementById('newEmpName').value.trim();
+  const role = document.getElementById('newEmpRole').value.trim();
+  const dept = document.getElementById('newEmpDept').value;
+  if (!name) return showToast("Name is required", "error");
+  
+  S.employees.push({
+    id: 'emp_' + Date.now().toString(36),
+    name,
+    role,
+    dept,
+    ci: Math.floor(Math.random() * TT_COLORS.length),
+    joined: Date.now()
+  });
+  if(window.persist) persist();
+  closeAddEmpModal();
+  renderTeam();
 }
-function ttToggleTask(tid){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  const tasks=S.tasks[curEmp]?.[TODAY_KEY];if(!tasks)return;
-  const t=tasks.find(x=>x.id===tid);if(!t)return;
-  t.done=!t.done;t.doneAt=t.done?nowNoSec():null;
-  persist();ttRenderEmpView();
-  if(t.done)showToast(`✓ ${t.name} · ${fmtMins(t.mins)} logged`);
-}
-function ttDeleteTask(tid){
-  const TODAY_KEY=new Date().toISOString().slice(0,10);
-  if(!S.tasks[curEmp]?.[TODAY_KEY])return;
-  S.tasks[curEmp][TODAY_KEY]=S.tasks[curEmp][TODAY_KEY].filter(x=>x.id!==tid);
-  persist();ttRenderEmpView();
-}
-
-/* ════════════════════════════════
-   TEAMTRACK — EMPLOYEE CRUD
-════════════════════════════════ */
-function ttOpenAddEmp(){
-  document.getElementById('addEmpModal').classList.add('open');
-  setTimeout(()=>document.getElementById('newName').focus(),80);
-}
-function ttCloseAddEmp(){document.getElementById('addEmpModal').classList.remove('open')}
-function ttSaveEmp(){
-  const name=document.getElementById('newName').value.trim();
-  const role=document.getElementById('newRole').value.trim();
-  const dept=document.getElementById('newDept').value;
-  if(!name||!role){showToast('Name and role required');return}
-  S.employees.push({id:uid(),name,role,dept,ci:S.employees.length});
-  persist();ttCloseAddEmp();
-  document.getElementById('newName').value='';
-  document.getElementById('newRole').value='';
-  ttRenderSidebar();ttRenderToday();
-  showToast(`${name} added to team`);
-}
-function ttRemoveEmp(eid){
-  const e=S.employees.find(x=>x.id===eid);
-  if(!confirm(`Remove ${e.name}? All their data will be deleted.`))return;
-  S.employees=S.employees.filter(x=>x.id!==eid);
-  delete S.att[eid];delete S.tasks[eid];
-  persist();curEmp=null;
-  ttShowView('today',document.querySelector('[data-view=today]'));
-  ttRenderSidebar();
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('addEmpModal')?.classList.contains('open'))ttCloseAddEmp();});
 
 /* GO */
 // bootApp() will be called by Firebase module below

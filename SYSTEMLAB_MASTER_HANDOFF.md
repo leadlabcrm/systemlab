@@ -142,7 +142,7 @@
 - [x] Firebase RTDB cloud sync (background, non-blocking, offline-first)
 - [x] Favicon — premium `S.` lettermark PNG (black rounded square, matches LeadLab brand style)
 - [x] `SYSTEMLAB_USER_GUIDE.md` — comprehensive user-facing documentation
-- [x] **TeamTrack Integration** (Session 10) — Built-in employee attendance and task tracking module embedded inside the Dashboard tab. Shares identical Firebase real-time sync with SystemLab core.
+- [x] **TeamTrack Integration** (Session 10) — Built-in employee attendance and task tracking module embedded in the main sidebar. Shares identical Firebase real-time sync with SystemLab core.
 
 ---
 
