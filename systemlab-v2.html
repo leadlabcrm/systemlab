@@ -1094,6 +1094,53 @@ let currentWorkspaceId = '';
 let currentUser = '';
 let unsubSnapshot = null;
 
+
+// EDIT TASK
+function openEditTask(tid) {
+  const t = S.tasks.find(x => x.id === tid);
+  if (!t) return;
+  document.getElementById('editTaskId').value = t.id;
+  document.getElementById('editTaskName').value = t.name;
+  document.getElementById('editTaskDur').value = t.mins;
+  document.getElementById('edit-task-modal').classList.add('open');
+}
+window.openEditTask = openEditTask;
+
+function saveEditTask() {
+  const tid = document.getElementById('editTaskId').value;
+  const t = S.tasks.find(x => x.id === tid);
+  if (!t) return;
+  t.name = document.getElementById('editTaskName').value.trim();
+  t.mins = parseInt(document.getElementById('editTaskDur').value);
+  document.getElementById('edit-task-modal').classList.remove('open');
+  if(window.persist) persist();
+  openEmployee(curEmp);
+}
+window.saveEditTask = saveEditTask;
+
+// MEMO
+function openMemoModal() {
+  if (!curEmp) return;
+  const e = S.employees.find(x => x.id === curEmp);
+  if (!e) return;
+  document.getElementById('empMemoText').value = e.memo || '';
+  document.getElementById('memo-modal').classList.add('open');
+}
+window.openMemoModal = openMemoModal;
+
+function saveMemo() {
+  if (!curEmp) return;
+  const e = S.employees.find(x => x.id === curEmp);
+  if (!e) return;
+  const val = document.getElementById('empMemoText').value.trim();
+  e.memo = val;
+  document.getElementById('memo-modal').classList.remove('open');
+  if(window.persist) persist();
+  // re-render header to update icon color
+  openEmployee(curEmp);
+}
+window.saveMemo = saveMemo;
+
 window.bootApp = function() {
   const auth = localStorage.getItem('systemlab_auth');
   if (!auth) {
