@@ -1317,8 +1317,7 @@ async function connectToWorkspace(workspaceId, userName) {
   else if (cloudEnabled) showToast('☁️ Cloud sync active');
 
   // ─── STEP 7: Start live polling for changes from other browsers ───
-  if (cloudEnabled) {
-    if (unsubSnapshot) unsubSnapshot();
+  if (unsubSnapshot) unsubSnapshot();
     unsubSnapshot = rtdbListen(path, (remoteData) => {
       if (!remoteData || !remoteData.data) return;
       try {
@@ -1344,15 +1343,18 @@ async function connectToWorkspace(workspaceId, userName) {
           const activeId = typeof curSOP === 'function' ? curSOP()?.id : null;
           if (activeId) {
             const updatedSOP = S.sops.find(s=>s.id===activeId);
-            if (updatedSOP && document.getElementById('ed-ta').value !== updatedSOP.body) {
-              document.getElementById('ed-ta').value = updatedSOP.body;
-              onMdInput();
+            const edTa = document.getElementById('ed-ta');
+            if (updatedSOP && edTa && edTa.value !== updatedSOP.body) {
+              // Only overwrite if the user is NOT actively typing in it right now
+              if (document.activeElement !== edTa) {
+                edTa.value = updatedSOP.body;
+                onMdInput();
+              }
             }
           }
         }
       } catch(e) { console.error('Poll parse error', e); }
     });
-  }
 }
 
 
