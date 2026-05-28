@@ -388,16 +388,23 @@ select option{background:var(--canvas-card)}
 @media print {
   html, body { height: auto !important; overflow: visible !important; }
   body { background: #fff !important; color: #000 !important; }
-  #topbar, #sidebar, .ed-bar, .ed-meta, .ins-bar, .ed-foot, .pane-head, .ed-pane:first-child, .drawer-bg, .ver-drawer, .pal-overlay, #toast, .modal-overlay, .confirm-box { display: none !important; }
+  #topbar, #sidebar, .ed-bar, .ed-meta, .ins-bar, .ed-foot, .pane-head, .ed-pane:first-child, .drawer-bg, .ver-drawer, .pal-overlay, #toast, .modal-overlay, .confirm-box, .lg-toolbar, .lg-tabs { display: none !important; }
   #app { display: block !important; height: auto !important; overflow: visible !important; }
   #main { display: block !important; height: auto !important; overflow: visible !important; background: #fff !important; }
   .view { display: none !important; }
-  #v-editor { display: block !important; height: auto !important; overflow: visible !important; }
+  .view.active { display: flex !important; height: auto !important; overflow: visible !important; }
+  
+  /* Editor specific print */
   .ed-body { display: block !important; height: auto !important; overflow: visible !important; }
   .ed-pane.preview-pane { display: block !important; height: auto !important; overflow: visible !important; border: none !important; }
   .ed-preview-scroll { overflow: visible !important; height: auto !important; padding: 0 !important; }
   .ed-title-zone { padding: 0 0 20px 0 !important; border-bottom: 2px solid #eee !important; margin-bottom: 20px !important; }
   .ed-title { color: #000 !important; }
+  
+  /* LeadGen specific print */
+  .lg-dash-cards { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+  .lg-grid-wrap { overflow: visible !important; height: auto !important; }
+}
   .md-out { color: #000 !important; }
   .md-out h1, .md-out h2, .md-out h3, .md-out strong { color: #000 !important; border-color: #ddd !important; }
   .md-out p, .md-out li, .md-out table td { color: #222 !important; }
@@ -811,20 +818,19 @@ select option{background:var(--canvas-card)}
         </div>
       </div>
       <div class="lg-tabs" id="lg-tabs">
-        <div class="lg-tab active" data-ch="overview" onclick="lgSwitchChannel('overview',this)">📊 Overview</div>
-        <div class="lg-tab" data-ch="linkedin" onclick="lgSwitchChannel('linkedin',this)">💼 LinkedIn</div>
-        <div class="lg-tab" data-ch="meta" onclick="lgSwitchChannel('meta',this)">📱 Meta Ads</div>
-        <div class="lg-tab" data-ch="whatsapp" onclick="lgSwitchChannel('whatsapp',this)">💬 WhatsApp</div>
-        <div class="lg-tab" data-ch="email" onclick="lgSwitchChannel('email',this)">✉️ Email</div>
-        <div class="lg-tab" data-ch="coldcall" onclick="lgSwitchChannel('coldcall',this)">📞 Cold Calling</div>
+        <div class="lg-tab active" data-ch="overview" onclick="lgSwitchChannel('overview',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>Overview</div>
+        <div class="lg-tab" data-ch="linkedin" onclick="lgSwitchChannel('linkedin',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</div>
+        <div class="lg-tab" data-ch="meta" onclick="lgSwitchChannel('meta',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Meta Ads</div>
+        <div class="lg-tab" data-ch="whatsapp" onclick="lgSwitchChannel('whatsapp',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp</div>
+        <div class="lg-tab" data-ch="email" onclick="lgSwitchChannel('email',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</div>
+        <div class="lg-tab" data-ch="coldcall" onclick="lgSwitchChannel('coldcall',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Cold Calling</div>
       </div>
       <div class="lg-stats" id="lg-stats"></div>
       <div class="lg-toolbar" id="lg-toolbar">
         <button class="btn btn-sm" onclick="lgExportPDF()">📄 Export PDF</button>
         <button class="btn btn-sm" onclick="lgExportCSV()">📊 Export CSV</button>
-        <button class="btn btn-sm" id="lg-btn-leads" style="display:none" onclick="lgShowLeadList('positive')">👥 View Positive Replies</button>
-        <button class="btn btn-sm" id="lg-btn-meetings" style="display:none" onclick="lgShowLeadList('meeting')">📅 View Meetings Booked</button>
-        <button class="btn btn-sm" id="lg-btn-converted" style="display:none" onclick="lgShowLeadList('converted')">🏆 View Conversions</button>
+        <button class="btn btn-sm" id="lg-btn-followups-month" style="display:none" onclick="lgShowLeadList('month')">📋 View Followups (Month)</button>
+        <button class="btn btn-sm" id="lg-btn-followups-all" style="display:none" onclick="lgShowLeadList('all')">🌍 View Followups (All Time)</button>
         <div style="flex:1"></div>
         <span class="eyebrow" id="lg-save-status" style="color:var(--green)"></span>
       </div>
@@ -3115,35 +3121,39 @@ if (!S.leadgen) S.leadgen = {};
 
 const LG_CHANNELS = {
   linkedin: {
-    label: 'LinkedIn', icon: '💼', color: '#0a66c2',
+    label: 'LinkedIn', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>', color: '#0a66c2',
     cols: ['requestsSent','accepted','positiveReplies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Requests Sent','Accepted','Positive Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
-    target: {requestsSent: 800},
+    defaultTarget: {requestsSent: 800},
     hasLeadDetails: true
   },
   meta: {
-    label: 'Meta Ads', icon: '📱', color: '#1877f2',
+    label: 'Meta Ads', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>', color: '#1877f2',
     cols: ['adSpent','totalLeads','meetingsBooked','clientsConverted','revenue'],
     headers: ['Ad Spent (₹)','Total Leads','Meetings Booked','Clients Converted','Revenue (₹)'],
     hasBudget: true,
+    defaultTarget: {totalLeads: 100},
     hasLeadDetails: true
   },
   whatsapp: {
-    label: 'WhatsApp', icon: '💬', color: '#25d366',
+    label: 'WhatsApp', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>', color: '#25d366',
     cols: ['messagesSent','replies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Messages Sent','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
+    defaultTarget: {messagesSent: 500},
     hasLeadDetails: true
   },
   email: {
-    label: 'Email', icon: '✉️', color: '#ea4335',
+    label: 'Email', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', color: '#ea4335',
     cols: ['emailsSent','opens','replies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Emails Sent','Opens','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
+    defaultTarget: {emailsSent: 1000},
     hasLeadDetails: true
   },
   coldcall: {
-    label: 'Cold Calling', icon: '📞', color: '#f59e0b',
-    cols: ['callsMade','connected','interested','meetingsBooked','clientsConverted','revenue'],
-    headers: ['Calls Made','Connected','Interested','Meetings Booked','Clients Converted','Revenue (₹)'],
+    label: 'Cold Calling', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>', color: '#f59e0b',
+    cols: ['callsAnswered','connected','interested','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Calls Answered','Connected','Interested','Meetings Booked','Clients Converted','Revenue (₹)'],
+    defaultTarget: {callsAnswered: 200},
     hasLeadDetails: true
   }
 };
@@ -3177,6 +3187,16 @@ function lgSetVal(channel, day, col, val) {
   data.days[day][col] = parseFloat(val) || 0;
   persist();
   lgRenderStats();
+  document.getElementById('lg-save-status').textContent = '✓ Saved';
+  setTimeout(() => { document.getElementById('lg-save-status').textContent = ''; }, 1500);
+}
+
+function lgSetTarget(channel, col, val) {
+  const data = lgGetData(channel);
+  if (!data.target) data.target = {};
+  data.target[col] = parseFloat(val) || 0;
+  persist();
+  lgRender();
   document.getElementById('lg-save-status').textContent = '✓ Saved';
   setTimeout(() => { document.getElementById('lg-save-status').textContent = ''; }, 1500);
 }
@@ -3305,13 +3325,11 @@ function lgRenderChannel(ch) {
 
   // Show/hide lead detail buttons
   if (cfg.hasLeadDetails) {
-    document.getElementById('lg-btn-leads').style.display = 'inline-flex';
-    document.getElementById('lg-btn-meetings').style.display = 'inline-flex';
-    document.getElementById('lg-btn-converted').style.display = 'inline-flex';
+    document.getElementById('lg-btn-followups-month').style.display = 'inline-flex';
+    document.getElementById('lg-btn-followups-all').style.display = 'inline-flex';
   } else {
-    document.getElementById('lg-btn-leads').style.display = 'none';
-    document.getElementById('lg-btn-meetings').style.display = 'none';
-    document.getElementById('lg-btn-converted').style.display = 'none';
+    document.getElementById('lg-btn-followups-month').style.display = 'none';
+    document.getElementById('lg-btn-followups-all').style.display = 'none';
   }
 
   lgRenderStats();
@@ -3431,35 +3449,56 @@ function lgSaveLeadDetail() {
 window.lgSaveLeadDetail = lgSaveLeadDetail;
 
 function lgShowLeadList(filterType) {
-  const data = lgGetData(lgChannel);
-  const leads = (data.leads || []).filter(l => {
-    if (filterType === 'positive') return true;
-    if (filterType === 'meeting') return l.status === 'meeting' || l.type === 'meeting';
-    if (filterType === 'converted') return l.status === 'converted' || l.type === 'converted';
-    return true;
-  });
+  let leads = [];
+  let title = '';
+  
+  if (filterType === 'month') {
+    const data = lgGetData(lgChannel);
+    leads = data.leads || [];
+    title = '📋 Followups — ' + lgMonthLabel();
+  } else if (filterType === 'all') {
+    if (S.leadgen && S.leadgen[lgChannel]) {
+      Object.keys(S.leadgen[lgChannel]).forEach(mo => {
+        const moData = S.leadgen[lgChannel][mo];
+        if (moData && moData.leads) {
+          moData.leads.forEach(l => {
+            leads.push({ ...l, monthKey: mo });
+          });
+        }
+      });
+    }
+    title = '🌍 Followups (All Time) — ' + LG_CHANNELS[lgChannel].label;
+  }
 
-  const titles = { positive: '👥 All Leads — ' + lgMonthLabel(), meeting: '📅 Meetings Booked — ' + lgMonthLabel(), converted: '🏆 Converted Clients — ' + lgMonthLabel() };
-  document.getElementById('lead-modal-title').textContent = titles[filterType] || 'Leads';
+  // Sort newest first
+  leads.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  document.getElementById('lead-modal-title').textContent = title;
 
   if (leads.length === 0) {
-    document.getElementById('lead-modal-body').innerHTML = '<div style="text-align:center;padding:30px;color:var(--mute)">No leads recorded yet for this month.</div>';
+    document.getElementById('lead-modal-body').innerHTML = '<div style="text-align:center;padding:30px;color:var(--mute)">No followups recorded yet.</div>';
   } else {
-    document.getElementById('lead-modal-body').innerHTML = leads.map(l => `
+    document.getElementById('lead-modal-body').innerHTML = leads.map(l => {
+      let dateDisplay = lgDateLabel(l.day);
+      if (l.monthKey && l.monthKey !== lgMonthKey()) {
+        const [y, m] = l.monthKey.split('-');
+        dateDisplay = new Date(parseInt(y), parseInt(m)-1, l.day).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'});
+      }
+      return `
       <div class="lg-detail-item">
-        <div class="lg-lead-date">${lgDateLabel(l.day)}</div>
-        <div class="lg-lead-name">${l.name}</div>
+        <div class="lg-lead-date">${dateDisplay}</div>
+        <div class="lg-lead-name" style="font-weight:500">${l.name}</div>
         ${l.link ? `<a class="lg-lead-link" href="${l.link}" target="_blank">${l.link}</a>` : ''}
         <div class="lg-lead-note">${l.notes || '—'}</div>
-        <select style="font-size:10px;padding:2px 6px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:4px;color:var(--body)" onchange="lgUpdateLeadStatus('${l.id}',this.value)">
+        <select style="font-size:10px;padding:2px 6px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:4px;color:var(--body)" onchange="lgUpdateLeadStatus('${l.id}','${l.monthKey || lgMonthKey()}',this.value)">
           <option value="positive" ${l.status==='positive'?'selected':''}>Positive Reply</option>
           <option value="meeting" ${l.status==='meeting'?'selected':''}>Meeting Booked</option>
           <option value="converted" ${l.status==='converted'?'selected':''}>Converted</option>
           <option value="lost" ${l.status==='lost'?'selected':''}>Lost</option>
         </select>
-        <button class="tdel" onclick="lgDeleteLead('${l.id}')" style="color:var(--mute2)">×</button>
+        <button class="tdel" onclick="lgDeleteLead('${l.id}','${l.monthKey || lgMonthKey()}')" style="color:var(--mute2)">×</button>
       </div>
-    `).join('');
+    `}).join('');
   }
 
   document.getElementById('lead-detail-modal').classList.add('open');
@@ -3493,43 +3532,88 @@ function lgExportPDF() {
 window.lgExportPDF = lgExportPDF;
 
 function lgExportCSV() {
-  if (lgChannel === 'overview') { showToast('Select a channel first','error'); return; }
-  const cfg = LG_CHANNELS[lgChannel];
-  const data = lgGetData(lgChannel);
   const days = lgDaysInMonth();
+  let csv = '';
+  let filename = '';
 
-  let csv = 'Date,Day,' + cfg.headers.join(',') + '\n';
-  const totals = {};
-  cfg.cols.forEach(c => totals[c] = 0);
-
-  for (let d = 1; d <= days; d++) {
-    const row = data.days[d] || {};
-    csv += `${lgDateLabel(d)},${lgDayLabel(d)},`;
-    csv += cfg.cols.map(c => {
-      const v = row[c] || 0;
-      totals[c] += v;
-      return v;
-    }).join(',') + '\n';
-  }
-  csv += 'Total,,' + cfg.cols.map(c => totals[c]).join(',') + '\n';
-
-  // Add leads if any
-  if (data.leads && data.leads.length > 0) {
-    csv += '\nLead Details\nDate,Name,Link,Notes,Status\n';
-    data.leads.forEach(l => {
-      csv += `${lgDateLabel(l.day)},"${l.name}","${l.link || ''}","${l.notes || ''}",${l.status}\n`;
+  if (lgChannel === 'overview') {
+    csv += 'SYSTEMLAB GROWTH REPORT - ' + lgMonthLabel() + '\n\n';
+    
+    // Overview metrics
+    const totals = { meetings: 0, converted: 0, revenue: 0 };
+    Object.keys(LG_CHANNELS).forEach(ch => {
+      const t = lgCalcTotals(ch);
+      totals.meetings += (t.meetingsBooked || 0);
+      totals.converted += (t.clientsConverted || 0);
+      totals.revenue += (t.revenue || 0);
     });
+    csv += 'OVERVIEW\n';
+    csv += 'Total Meetings,' + totals.meetings + '\n';
+    csv += 'Clients Converted,' + totals.converted + '\n';
+    csv += 'Total Revenue,' + totals.revenue + '\n';
+    csv += 'Close Rate,' + (totals.meetings > 0 ? ((totals.converted/totals.meetings)*100).toFixed(1) : 0) + '%\n\n';
+    
+    // Channel Breakdown
+    csv += 'CHANNEL BREAKDOWN\n';
+    Object.keys(LG_CHANNELS).forEach(ch => {
+      const cfg = LG_CHANNELS[ch];
+      const t = lgCalcTotals(ch);
+      csv += `${cfg.label} Summary\n`;
+      csv += cfg.headers.join(',') + '\n';
+      csv += cfg.cols.map(c => t[c] || 0).join(',') + '\n\n';
+    });
+
+    // Followups List
+    csv += 'ALL FOLLOWUPS FOR ' + lgMonthLabel() + '\n';
+    csv += 'Date,Channel,Name,Link,Notes,Status\n';
+    Object.keys(LG_CHANNELS).forEach(ch => {
+      const data = lgGetData(ch);
+      if (data.leads && data.leads.length > 0) {
+        data.leads.forEach(l => {
+          csv += `${lgDateLabel(l.day)},${LG_CHANNELS[ch].label},"${l.name}","${l.link||''}","${l.notes||''}",${l.status}\n`;
+        });
+      }
+    });
+
+    filename = `SystemLab_Report_${lgMonthLabel().replace(' ','_')}.csv`;
+
+  } else {
+    const cfg = LG_CHANNELS[lgChannel];
+    const data = lgGetData(lgChannel);
+    csv += `${cfg.label} Report - ${lgMonthLabel()}\n\n`;
+    csv += 'Date,Day,' + cfg.headers.join(',') + '\n';
+    const totals = {};
+    cfg.cols.forEach(c => totals[c] = 0);
+
+    for (let d = 1; d <= days; d++) {
+      const row = data.days[d] || {};
+      csv += `${lgDateLabel(d)},${lgDayLabel(d)},`;
+      csv += cfg.cols.map(c => {
+        const v = row[c] || 0;
+        totals[c] += v;
+        return v;
+      }).join(',') + '\n';
+    }
+    csv += 'Total,,' + cfg.cols.map(c => totals[c]).join(',') + '\n';
+
+    if (data.leads && data.leads.length > 0) {
+      csv += '\nFollowups\nDate,Name,Link,Notes,Status\n';
+      data.leads.forEach(l => {
+        csv += `${lgDateLabel(l.day)},"${l.name}","${l.link || ''}","${l.notes || ''}",${l.status}\n`;
+      });
+    }
+    filename = `SystemLab_${cfg.label}_${lgMonthLabel().replace(' ','_')}.csv`;
   }
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `SystemLab_${cfg.label}_${lgMonthLabel().replace(' ','_')}.csv`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  showToast(`📊 ${cfg.label} report exported`);
+  showToast('📊 Report exported');
 }
 window.lgExportCSV = lgExportCSV;
 
