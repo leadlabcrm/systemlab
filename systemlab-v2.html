@@ -1274,7 +1274,7 @@ function saveEditTask() {
   t.name = document.getElementById('editTaskName').value.trim();
   t.mins = parseInt(document.getElementById('editTaskDur').value);
   document.getElementById('edit-task-modal').classList.remove('open');
-  if(window.persist) persist();
+  persist();
   openEmployee(curEmp);
 }
 window.saveEditTask = saveEditTask;
@@ -1296,7 +1296,7 @@ function saveMemo() {
   const val = document.getElementById('empMemoText').value.trim();
   e.memo = val;
   document.getElementById('memo-modal').classList.remove('open');
-  if(window.persist) persist();
+  persist();
   // re-render header to update icon color
   openEmployee(curEmp);
 }
@@ -1536,7 +1536,7 @@ async function connectToWorkspace(workspaceId, userName) {
       } catch(e) { console.error('Poll parse error', e); }
     });
 
-  // HYBRID FALLBACK: Silent background polling every 8s to catch any dropped EventSource packets
+  // HYBRID FALLBACK: Silent background polling every 4s to catch any dropped EventSource packets
   if (window.hybridSyncInterval) clearInterval(window.hybridSyncInterval);
   window.hybridSyncInterval = setInterval(async () => {
     try {
@@ -1560,16 +1560,22 @@ async function connectToWorkspace(workspaceId, userName) {
         if (typeof renderSidebar === 'function') renderSidebar();
         if (typeof renderDashboard === 'function') renderDashboard();
         if (typeof updateGreeting === 'function') updateGreeting();
-        if (typeof renderTeam === 'function' && document.getElementById('v-team').classList.contains('active')) renderTeam();
-        if (typeof renderRecurringList === 'function') renderRecurringList();
-        if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function') {
-          const empView = document.getElementById('v-employee');
-          if (empView && empView.classList.contains('active')) openEmployee(curEmp);
+        
+        const empView = document.getElementById('v-employee');
+        const teamView = document.getElementById('v-team');
+        const recurModal = document.getElementById('recurring-modal');
+        const leadgenView = document.getElementById('v-leadgen');
+        
+        if (typeof renderTeam === 'function' && teamView && teamView.classList.contains('active')) renderTeam();
+        if (typeof renderRecurringList === 'function' && recurModal && recurModal.classList.contains('open')) renderRecurringList();
+        
+        if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function' && empView && empView.classList.contains('active')) {
+          openEmployee(curEmp);
         }
-        if (typeof lgRender === 'function' && document.getElementById('v-leadgen').classList.contains('active')) lgRender();
+        if (typeof lgRender === 'function' && leadgenView && leadgenView.classList.contains('active')) lgRender();
       }
     } catch (err) {}
-  }, 8000);
+  }, 4000);
 }
 
 
@@ -2461,7 +2467,7 @@ function changeTTDate(offset) {
   TT_TODAY = d.toISOString().split('T')[0];
   const realToday = new Date().toISOString().split('T')[0];
   isCustomDate = (TT_TODAY !== realToday);
-  if (window.persist) persist();
+  persist();
   if (document.getElementById('v-team').classList.contains('active')) {
     renderTeam();
   } else if (document.getElementById('v-employee').classList.contains('active')) {
@@ -2520,7 +2526,7 @@ function getTasks(eid, date) {
     }
   });
   
-  if (spawned && window.persist) persist();
+  if (spawned) persist();
   
   return tasks.sort((a,b) => (a.order || 0) - (b.order || 0));
 }
@@ -2774,7 +2780,7 @@ function setAtt(eid, status) {
   } else {
     S.att[eid][TT_TODAY] = status;
   }
-  if(window.persist) persist();
+  persist();
   renderTeam();
 }
 
@@ -2798,7 +2804,7 @@ function addTask() {
   });
   
   input.value = '';
-  if(window.persist) persist();
+  persist();
   openEmployee(curEmp);
 }
 
@@ -2819,13 +2825,13 @@ function toggleTask(tid) {
   if (!t) return;
   t.done = !t.done;
   t.doneAt = t.done ? nowTime() : null;
-  if(window.persist) persist();
+  persist();
   openEmployee(curEmp);
 }
 
 function deleteTask(tid) {
   S.tasks = S.tasks.filter(x => x.id !== tid);
-  if(window.persist) persist();
+  persist();
   openEmployee(curEmp);
 }
 
@@ -2840,7 +2846,7 @@ function markAtt(eid, st) {
     S.att[eid][TT_TODAY].loginTime = nowTime();
   }
   
-  if(window.persist) persist();
+  persist();
   if (curEmp === eid && document.getElementById('v-employee').classList.contains('active')) {
     openEmployee(eid);
   } else {
@@ -2851,7 +2857,7 @@ function markAtt(eid, st) {
 function markLogout(eid) {
   if (S.att[eid] && S.att[eid][TT_TODAY]) {
     S.att[eid][TT_TODAY].logoutTime = nowTime();
-    if(window.persist) persist();
+    persist();
     openEmployee(curEmp);
   }
 }
@@ -2992,7 +2998,7 @@ function dropTask(ev, targetTid) {
   
   tasksForDay.forEach((t, i) => { t.order = i; });
   
-  if(window.persist) persist();
+  persist();
   openEmployee(curEmp);
 }
 window.dragTask = dragTask;
@@ -3175,7 +3181,7 @@ function saveEmployee() {
     ci: Math.floor(Math.random() * TT_COLORS.length),
     joined: Date.now()
   });
-  if(window.persist) persist();
+  persist();
   closeAddEmpModal();
   renderTeam();
 }
