@@ -1344,7 +1344,7 @@ async function loginApp() {
 const RTDB_URL = 'https://system-labs-default-rtdb.firebaseio.com';
 
 async function rtdbGet(path) {
-  const res = await fetch(`${RTDB_URL}/${path}.json`);
+  const res = await fetch(`${RTDB_URL}/${path}.json?_t=${Date.now()}`, { cache: 'no-store' });
   if (!res.ok) throw new Error('RTDB read failed: ' + res.status);
   return res.json();
 }
@@ -1513,7 +1513,12 @@ async function connectToWorkspace(workspaceId, userName) {
           updateGreeting();
           if (typeof renderTeam === 'function') renderTeam();
           if (typeof renderRecurringList === 'function') renderRecurringList();
-          if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function') openEmployee(curEmp);
+          if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function') {
+            const empView = document.getElementById('v-employee');
+            if (empView && empView.classList.contains('active')) {
+              openEmployee(curEmp);
+            }
+          }
           if (typeof lgRender === 'function' && document.getElementById('v-leadgen').classList.contains('active')) lgRender();
           showToast('🔄 Workspace updated from another session');
           const activeId = typeof curSOP === 'function' ? curSOP()?.id : null;
@@ -1593,7 +1598,10 @@ function showView(id, navEl) {
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if (navEl) navEl.classList.add('active');
   if (id==='dashboard') renderDashboard();
-  if (id==='team') renderTeam();
+  if (id==='team') {
+    if (typeof curEmp !== 'undefined') curEmp = null;
+    renderTeam();
+  }
   if (id==='all') { S.deptFilter=null; renderListView(S.sops,'All SOPs','var(--mute)'); }
   if (id==='leadgen') { if (typeof lgRender === 'function') lgRender(); }
 }
