@@ -829,13 +829,13 @@ select option{background:var(--canvas-card)}
         </div>
       </div>
       <div class="lg-tabs" id="lg-tabs">
-        <div class="lg-tab active" data-ch="overview" onclick="lgSwitchChannel('overview',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>Overview</div>
-        <div class="lg-tab" data-ch="linkedin" onclick="lgSwitchChannel('linkedin',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</div>
-        <div class="lg-tab" data-ch="meta" onclick="lgSwitchChannel('meta',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Meta Ads</div>
-        <div class="lg-tab" data-ch="whatsapp" onclick="lgSwitchChannel('whatsapp',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp</div>
-        <div class="lg-tab" data-ch="email" onclick="lgSwitchChannel('email',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</div>
-        <div class="lg-tab" data-ch="coldcall" onclick="lgSwitchChannel('coldcall',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Cold Calling</div>
-        <div class="lg-tab" data-ch="pipeline" onclick="lgSwitchChannel('pipeline',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:6px;vertical-align:-2px"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>Pipeline</div>
+        <div class="lg-tab active" data-ch="overview" onclick="lgSwitchChannel('overview',this)">📊 Overview</div>
+        <div class="lg-tab" data-ch="linkedin" onclick="lgSwitchChannel('linkedin',this)">💼 LinkedIn</div>
+        <div class="lg-tab" data-ch="meta" onclick="lgSwitchChannel('meta',this)">📱 Meta Ads</div>
+        <div class="lg-tab" data-ch="whatsapp" onclick="lgSwitchChannel('whatsapp',this)">💬 WhatsApp</div>
+        <div class="lg-tab" data-ch="email" onclick="lgSwitchChannel('email',this)">✉️ Email</div>
+        <div class="lg-tab" data-ch="coldcall" onclick="lgSwitchChannel('coldcall',this)">📞 Cold Calling</div>
+        <div class="lg-tab" data-ch="pipeline" onclick="lgSwitchChannel('pipeline',this)">🗂️ Pipeline</div>
       </div>
       <div class="lg-stats" id="lg-stats"></div>
       <div class="lg-toolbar" id="lg-toolbar">
@@ -3131,13 +3131,14 @@ function saveEmployee() {
 ════════════════════════════════ */
 if (!S.leadgen) S.leadgen = {};
 
+// ── Channels Config ──
 const LG_CHANNELS = {
   linkedin: {
-    label: 'LinkedIn', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>', color: '#0a66c2',
+    label: 'LinkedIn', icon: '💼', color: '#0a66c2',
     cols: ['requestsSent','accepted','positiveReplies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Requests Sent','Accepted','Positive Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
-    defaultTarget: {requestsSent: 800},
-    hasLeadDetails: true
+    hasLeadDetails: true,
+    defaultTarget: {requestsSent: 800}
   },
   meta: {
     label: 'Meta Ads', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>', color: '#1877f2',
@@ -3147,21 +3148,21 @@ const LG_CHANNELS = {
     hasLeadDetails: true
   },
   whatsapp: {
-    label: 'WhatsApp', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>', color: '#25d366',
+    label: 'WhatsApp', icon: '💬', color: '#25d366',
     cols: ['messagesSent','replies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Messages Sent','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
     defaultTarget: {messagesSent: 500},
     hasLeadDetails: true
   },
   email: {
-    label: 'Email', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', color: '#ea4335',
+    label: 'Email', icon: '✉️', color: '#ea4335',
     cols: ['emailsSent','opens','replies','meetingsBooked','clientsConverted','revenue'],
     headers: ['Emails Sent','Opens','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
     defaultTarget: {emailsSent: 1000},
     hasLeadDetails: true
   },
   coldcall: {
-    label: 'Cold Calling', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>', color: '#f59e0b',
+    label: 'Cold Calling', icon: '📞', color: '#f59e0b',
     cols: ['callsAnswered','connected','interested','meetingsBooked','clientsConverted','revenue'],
     headers: ['Calls Answered','Connected','Interested','Meetings Booked','Clients Converted','Revenue (₹)'],
     defaultTarget: {callsAnswered: 200},
@@ -3410,7 +3411,7 @@ function lgUpdateLeadStatusGlobal(channel, leadId, monthKey, newStatus) {
 window.lgUpdateLeadStatusGlobal = lgUpdateLeadStatusGlobal;
 
 function lgDeleteLeadGlobal(channel, leadId, monthKey) {
-  if (!confirm('Delete this lead?')) return;
+  if (!confirm('This followup will be permanently deleted. Are you sure?')) return;
   const data = S.leadgen[channel][monthKey];
   data.leads = (data.leads || []).filter(l => l.id !== leadId);
   persist();
@@ -3447,34 +3448,12 @@ function lgRenderStats() {
     statsHtml += `<div class="lg-stat"><div class="lg-stat-val" style="color:${cfg.color}">${display}</div><div class="lg-stat-label">${cfg.headers[i]}</div>${sub ? `<div class="lg-stat-sub">${sub}</div>` : ''}</div>`;
   });
   
-  let targetHtml = '';
-  if (cfg.defaultTarget) {
-    if (!data.target) data.target = { ...cfg.defaultTarget };
-    const targetCol = Object.keys(cfg.defaultTarget)[0];
-    const targetVal = data.target[targetCol];
-    const actual = t[targetCol] || 0;
-    const pct = targetVal > 0 ? ((actual/targetVal)*100).toFixed(0) : 0;
-    
-    targetHtml = `
-      <div style="padding:16px 20px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:12px;display:flex;align-items:center;gap:16px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        <span style="font-size:14px;font-weight:600;color:var(--ink)">Monthly Target (${cfg.headers[cfg.cols.indexOf(targetCol)]}):</span>
-        <input type="number" min="0" class="lg-inp" value="${targetVal}" onchange="lgSetTarget('${lgChannel}','${targetCol}',this.value)" style="width:100px;font-size:14px;font-weight:600;">
-        <span style="font-size:14px;color:var(--blue);font-weight:600">Currently at ${actual} (${pct}%)</span>
-        <div style="flex:1"></div>
-        <div style="width:200px;height:8px;background:rgba(0,0,0,0.06);border-radius:4px;overflow:hidden">
-          <div style="height:100%;background:var(--blue);width:${Math.min(pct, 100)}%;transition:width 0.3s ease"></div>
-        </div>
-      </div>
-    `;
-  }
-
   if (cfg.hasBudget) {
     statsHtml = `<div class="lg-stat"><div class="lg-stat-val" style="color:var(--yellow)">₹${(data.budget || 0).toLocaleString('en-IN')}</div><div class="lg-stat-label">Ad Budget</div></div>` + statsHtml;
   }
   
-  document.getElementById('lg-stats').style.flexDirection = 'column';
-  document.getElementById('lg-stats').innerHTML = targetHtml + '<div style="display:flex;gap:16px;flex-wrap:wrap;width:100%;">' + statsHtml + '</div>';
+  document.getElementById('lg-stats').style.flexDirection = 'row';
+  document.getElementById('lg-stats').innerHTML = statsHtml;
 }
 
 function lgRenderChannel(ch) {
@@ -3538,7 +3517,20 @@ function lgRenderChannel(ch) {
   });
   rows += '<td></td></tr>';
 
-
+  // Target row
+  if (cfg.defaultTarget) {
+    if (!data.target) data.target = { ...cfg.defaultTarget };
+    rows += `<tr style="background:rgba(255,255,255,0.02)"><td class="lg-date-cell" colspan="2" style="font-weight:600;color:var(--mute);text-transform:uppercase;font-size:10px;letter-spacing:1px">Target</td>`;
+    cfg.cols.forEach(col => {
+      if (data.target[col] !== undefined) {
+        const targetVal = data.target[col];
+        rows += `<td><input class="lg-inp" type="number" min="0" value="${targetVal}" onchange="lgSetTarget('${ch}','${col}',this.value)" placeholder="0"></td>`;
+      } else {
+        rows += '<td></td>';
+      }
+    });
+    rows += '<td></td></tr>';
+  }
 
   document.getElementById('lg-grid-wrap').innerHTML = `
     <table class="lg-grid">
