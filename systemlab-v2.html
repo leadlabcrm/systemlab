@@ -418,6 +418,64 @@ select option{background:var(--canvas-card)}
   .mermaid-wrap svg marker path { fill: #000 !important; stroke: none !important; }
   .mermaid-wrap svg .edgeLabel { background: #fff !important; color: #000 !important; }
 }
+/* ── LEAD GENERATION ── */
+.lg-head{display:flex;justify-content:space-between;align-items:flex-end;padding:24px 28px 18px;border-bottom:1px solid var(--hairline);flex-shrink:0}
+.lg-tabs{display:flex;gap:4px;padding:8px 28px;border-bottom:1px solid var(--hairline);flex-shrink:0;background:rgba(255,255,255,0.01)}
+.lg-tab{padding:6px 14px;font-size:12px;font-weight:500;color:var(--mute);border-radius:var(--r-pill);cursor:pointer;transition:all 0.13s;border:1px solid transparent;background:transparent}
+.lg-tab:hover{color:var(--body);background:rgba(255,255,255,0.03)}
+.lg-tab.active{color:var(--ink);background:rgba(255,255,255,0.06);border-color:var(--hairline)}
+.lg-month-nav{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.02);padding:4px;border-radius:var(--r-pill);border:1px solid var(--hairline)}
+.lg-month-nav button{padding:2px 8px;border:none;background:transparent;color:var(--mute);cursor:pointer;font-size:14px}
+.lg-month-nav button:hover{color:var(--ink)}
+.lg-month-label{font-size:12px;font-weight:600;min-width:100px;text-align:center;color:var(--ink)}
+.lg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;padding:16px 28px;border-bottom:1px solid var(--hairline);flex-shrink:0}
+.lg-stat{background:var(--canvas-card);border:1px solid var(--hairline);border-radius:var(--r-md);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.lg-stat-val{font-size:22px;font-weight:600;letter-spacing:-0.03em;line-height:1}
+.lg-stat-label{font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:0.06em;font-weight:600}
+.lg-stat-sub{font-size:10px;color:var(--mute2);font-family:var(--mono)}
+.lg-grid-wrap{flex:1;overflow:auto;padding:0 28px 28px}
+.lg-grid{width:100%;border-collapse:collapse;margin-top:14px}
+.lg-grid th{position:sticky;top:0;background:var(--canvas-card);font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mute);padding:8px 10px;text-align:center;border-bottom:2px solid var(--hairline);z-index:2;white-space:nowrap}
+.lg-grid th:first-child,.lg-grid td:first-child{text-align:left;padding-left:14px}
+.lg-grid td{padding:5px 6px;text-align:center;border-bottom:1px solid var(--hairline);font-size:13px;color:var(--body)}
+.lg-grid tr:hover{background:rgba(255,255,255,0.02)}
+.lg-grid tr.lg-total-row{background:rgba(255,122,23,0.04);border-top:2px solid var(--sunset)}
+.lg-grid tr.lg-total-row td{font-weight:700;color:var(--ink);padding:10px 6px;font-size:13px}
+.lg-grid .lg-date-cell{font-weight:500;color:var(--ink);white-space:nowrap;font-size:12px}
+.lg-grid .lg-day-cell{color:var(--mute);font-size:11px;font-family:var(--mono)}
+.lg-grid input.lg-inp{width:60px;padding:4px 6px;text-align:center;font-size:12px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:4px;color:var(--ink);font-family:var(--mono)}
+.lg-grid input.lg-inp:focus{border-color:var(--sunset);outline:none}
+.lg-grid input.lg-inp-wide{width:80px}
+.lg-grid .lg-link-cell{display:flex;align-items:center;gap:4px}
+.lg-grid .lg-clickable{color:var(--blue);cursor:pointer;text-decoration:underline;font-size:12px}
+.lg-grid .lg-clickable:hover{color:var(--ink)}
+.lg-toolbar{display:flex;align-items:center;gap:8px;padding:10px 28px;border-bottom:1px solid var(--hairline);flex-shrink:0}
+.lg-toolbar .btn{font-size:11px}
+/* Lead detail modal */
+.lg-detail-list{max-height:350px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.lg-detail-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:var(--r-sm)}
+.lg-detail-item .lg-lead-name{font-size:13px;font-weight:500;color:var(--ink);flex:1}
+.lg-detail-item .lg-lead-link{font-size:11px;color:var(--blue);text-decoration:none;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lg-detail-item .lg-lead-link:hover{text-decoration:underline}
+.lg-detail-item .lg-lead-note{font-size:11px;color:var(--mute);flex:2}
+.lg-detail-item .lg-lead-date{font-size:10px;color:var(--mute2);font-family:var(--mono);white-space:nowrap}
+/* Dashboard overview cards */
+.lg-dash-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px 28px}
+.lg-dash-card{background:var(--canvas-card);border:1px solid var(--hairline);border-radius:var(--r-md);padding:20px;cursor:pointer;transition:border-color 0.13s}
+.lg-dash-card:hover{border-color:rgba(255,255,255,0.18)}
+.lg-dash-card-icon{font-size:28px;margin-bottom:10px}
+.lg-dash-card-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.lg-dash-card-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.lg-dash-metric{display:flex;flex-direction:column;gap:2px}
+.lg-dash-metric-val{font-size:18px;font-weight:600;color:var(--ink);letter-spacing:-0.02em}
+.lg-dash-metric-label{font-size:9px;color:var(--mute);text-transform:uppercase;letter-spacing:0.06em;font-weight:600}
+.lg-funnel{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:12px;padding-top:8px;border-top:1px solid var(--hairline)}
+.lg-funnel-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height 0.3s}
+.lg-funnel-bar-label{font-size:8px;color:var(--mute);text-align:center;margin-top:4px}
+@media print{
+  .lg-grid-wrap{overflow:visible!important}
+  .lg-head,.lg-tabs,.lg-toolbar,.sidebar,.topbar{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -478,6 +536,13 @@ select option{background:var(--canvas-card)}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           All SOPs
           <span class="nav-count" id="cnt-all">0</span>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Growth</div>
+        <div class="nav-item" data-view="leadgen" onclick="showView('leadgen',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Lead Generation
         </div>
       </div>
       <div class="sidebar-section">
@@ -732,6 +797,81 @@ select option{background:var(--canvas-card)}
     </div>
 
 
+    <!-- LEAD GENERATION VIEW -->
+    <div id="v-leadgen" class="view">
+      <div class="lg-head">
+        <div>
+          <div class="dash-h1">Lead Generation</div>
+          <div class="dash-sub">Track outreach, conversions, and revenue across all channels.</div>
+        </div>
+        <div class="lg-month-nav">
+          <button onclick="lgChangeMonth(-1)">❮</button>
+          <div class="lg-month-label" id="lg-month-label">May 2026</div>
+          <button onclick="lgChangeMonth(1)">❯</button>
+        </div>
+      </div>
+      <div class="lg-tabs" id="lg-tabs">
+        <div class="lg-tab active" data-ch="overview" onclick="lgSwitchChannel('overview',this)">📊 Overview</div>
+        <div class="lg-tab" data-ch="linkedin" onclick="lgSwitchChannel('linkedin',this)">💼 LinkedIn</div>
+        <div class="lg-tab" data-ch="meta" onclick="lgSwitchChannel('meta',this)">📱 Meta Ads</div>
+        <div class="lg-tab" data-ch="whatsapp" onclick="lgSwitchChannel('whatsapp',this)">💬 WhatsApp</div>
+        <div class="lg-tab" data-ch="email" onclick="lgSwitchChannel('email',this)">✉️ Email</div>
+        <div class="lg-tab" data-ch="coldcall" onclick="lgSwitchChannel('coldcall',this)">📞 Cold Calling</div>
+      </div>
+      <div class="lg-stats" id="lg-stats"></div>
+      <div class="lg-toolbar" id="lg-toolbar">
+        <button class="btn btn-sm" onclick="lgExportPDF()">📄 Export PDF</button>
+        <button class="btn btn-sm" onclick="lgExportCSV()">📊 Export CSV</button>
+        <button class="btn btn-sm" id="lg-btn-leads" style="display:none" onclick="lgShowLeadList('positive')">👥 View Positive Replies</button>
+        <button class="btn btn-sm" id="lg-btn-meetings" style="display:none" onclick="lgShowLeadList('meeting')">📅 View Meetings Booked</button>
+        <button class="btn btn-sm" id="lg-btn-converted" style="display:none" onclick="lgShowLeadList('converted')">🏆 View Conversions</button>
+        <div style="flex:1"></div>
+        <span class="eyebrow" id="lg-save-status" style="color:var(--green)"></span>
+      </div>
+      <div class="lg-grid-wrap" id="lg-grid-wrap"></div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- LEAD DETAIL MODAL -->
+<div class="modal-overlay" id="lead-detail-modal">
+  <div class="modal" style="width:700px;max-width:95vw">
+    <div class="modal-head">
+      <div class="modal-title" id="lead-modal-title">Positive Replies</div>
+      <button class="btn btn-xs btn-ghost" onclick="this.closest('.modal-overlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="lead-modal-body" class="lg-detail-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD LEAD MODAL -->
+<div class="modal-overlay" id="add-lead-modal">
+  <div class="modal" style="width:480px">
+    <div class="modal-head">
+      <div class="modal-title" id="add-lead-title">+ Add Lead Detail</div>
+      <button class="btn btn-xs btn-ghost" onclick="this.closest('.modal-overlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="addLeadDay">
+      <input type="hidden" id="addLeadType">
+      <div class="form-group" style="margin-bottom:12px">
+        <label style="font-size:11px;color:var(--mute);margin-bottom:4px;display:block">Name</label>
+        <input type="text" id="addLeadName" class="inp" placeholder="Contact name" style="width:100%;box-sizing:border-box">
+      </div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label style="font-size:11px;color:var(--mute);margin-bottom:4px;display:block">Profile Link / Phone / Email</label>
+        <input type="text" id="addLeadLink" class="inp" placeholder="https://linkedin.com/in/..." style="width:100%;box-sizing:border-box">
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label style="font-size:11px;color:var(--mute);margin-bottom:4px;display:block">Notes</label>
+        <textarea id="addLeadNotes" class="inp" placeholder="What they said, next steps..." style="width:100%;box-sizing:border-box;height:80px;resize:none"></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="lgSaveLeadDetail()">Save Lead</button>
+    </div>
   </div>
 </div>
 
@@ -1199,21 +1339,22 @@ async function rtdbSet(path, data) {
 }
 
 function rtdbListen(path, callback) {
-  // Use Server-Sent Events (EventSource) for real-time RTDB listening
   const url = `${RTDB_URL}/${path}.json`;
-  let lastData = null;
-  const poll = async () => {
+  const evtSource = new EventSource(url);
+  evtSource.addEventListener('put', (e) => {
     try {
-      const data = await rtdbGet(path);
-      const str = JSON.stringify(data);
-      if (str !== lastData) {
-        lastData = str;
-        callback(data);
+      const payload = JSON.parse(e.data);
+      if (payload.path === "/") {
+        callback(payload.data);
+      } else {
+        rtdbGet(path).then(callback).catch(() => {});
       }
-    } catch(e) { /* silently ignore poll errors */ }
-  };
-  const interval = setInterval(poll, 5000);
-  return () => clearInterval(interval);
+    } catch(err) {}
+  });
+  evtSource.addEventListener('patch', (e) => {
+    rtdbGet(path).then(callback).catch(() => {});
+  });
+  return () => evtSource.close();
 }
 
 let cloudEnabled = false;
@@ -1252,6 +1393,7 @@ async function connectToWorkspace(workspaceId, userName) {
       S.employees = remoteS.employees || [];
       S.tasks = remoteS.tasks || [];
       S.att = remoteS.att || {};
+      S.leadgen = remoteS.leadgen || {};
       loadedFromCloud = true;
       cloudEnabled = true;
       console.log('Loaded workspace from Firebase:', workspaceId);
@@ -1276,6 +1418,7 @@ async function connectToWorkspace(workspaceId, userName) {
         S.employees = d.employees || [];
         S.tasks = d.tasks || [];
         S.att = d.att || {};
+        S.leadgen = d.leadgen || {};
         console.log('Loaded workspace from localStorage:', workspaceId);
       } catch(e) {}
     }
@@ -1291,11 +1434,11 @@ async function connectToWorkspace(workspaceId, userName) {
 
   // ─── STEP 4: Save auth + cache locally ───
   localStorage.setItem('systemlab_auth', JSON.stringify({workspaceId, userEmail: userName}));
-  localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}}));
+  localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, leadgen: S.leadgen||{}}));
 
   // ─── STEP 5: If cloud was empty but we have data, push to cloud ───
   if (cloudEnabled && !loadedFromCloud) {
-    rtdbSet(path, { data: JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}}) })
+    rtdbSet(path, { data: JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, leadgen: S.leadgen||{}}) })
       .then(() => console.log('Pushed local data to Firebase.'))
       .catch(e => console.log('Firebase push failed:', e.message));
   }
@@ -1322,8 +1465,8 @@ async function connectToWorkspace(workspaceId, userName) {
       if (!remoteData || !remoteData.data) return;
       try {
         const remoteS = JSON.parse(remoteData.data);
-        const localStr = JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, recurring: S.recurring||[]});
-        const remoteStr = JSON.stringify({depts: remoteS.depts, sops: remoteS.sops, workspaceName: remoteS.workspaceName, employees: remoteS.employees||[], tasks: remoteS.tasks||[], att: remoteS.att||{}, recurring: remoteS.recurring||[]});
+        const localStr = JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, recurring: S.recurring||[], leadgen: S.leadgen||{}});
+        const remoteStr = JSON.stringify({depts: remoteS.depts, sops: remoteS.sops, workspaceName: remoteS.workspaceName, employees: remoteS.employees||[], tasks: remoteS.tasks||[], att: remoteS.att||{}, recurring: remoteS.recurring||[], leadgen: remoteS.leadgen||{}});
         if (remoteStr !== localStr) {
           S.depts = remoteS.depts || S.depts;
           S.sops = remoteS.sops || S.sops;
@@ -1332,13 +1475,15 @@ async function connectToWorkspace(workspaceId, userName) {
           S.tasks = remoteS.tasks || S.tasks || [];
           S.att = remoteS.att || S.att || {};
           S.recurring = remoteS.recurring || S.recurring || [];
-          localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees, tasks: S.tasks, att: S.att, recurring: S.recurring}));
+          S.leadgen = remoteS.leadgen || S.leadgen || {};
+          localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees, tasks: S.tasks, att: S.att, recurring: S.recurring, leadgen: S.leadgen}));
           renderSidebar();
           renderDashboard();
           updateGreeting();
           if (typeof renderTeam === 'function') renderTeam();
           if (typeof renderRecurringList === 'function') renderRecurringList();
           if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function') openEmployee(curEmp);
+          if (typeof lgRender === 'function' && document.getElementById('v-leadgen').classList.contains('active')) lgRender();
           showToast('🔄 Workspace updated from another session');
           const activeId = typeof curSOP === 'function' ? curSOP()?.id : null;
           if (activeId) {
@@ -1359,7 +1504,7 @@ async function connectToWorkspace(workspaceId, userName) {
 
 
 function persist() {
-  const payload = {depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, recurring: S.recurring||[]};
+  const payload = {depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, recurring: S.recurring||[], leadgen: S.leadgen||{}};
   const str = JSON.stringify(payload);
   localStorage.setItem('systemlab_v2', str);
   if (currentWorkspaceId) {
@@ -1419,6 +1564,7 @@ function showView(id, navEl) {
   if (id==='dashboard') renderDashboard();
   if (id==='team') renderTeam();
   if (id==='all') { S.deptFilter=null; renderListView(S.sops,'All SOPs','var(--mute)'); }
+  if (id==='leadgen') { if (typeof lgRender === 'function') lgRender(); }
 }
 
 function showDept(id, navEl) {
@@ -2166,6 +2312,8 @@ document.addEventListener('keydown', e => {
   if (e.key==='Escape') { closePalette(); closeFlowModal(); closeLoomModal(); closeDeptManager(); closeVersionDrawer(); document.getElementById('confirm-box').classList.remove('open'); }
 });
 
+
+
 /* ════════════════════════════════
    SCROLL SYNC
 ════════════════════════════════ */
@@ -2193,6 +2341,23 @@ document.getElementById('ed-preview').addEventListener('click', e => {
 
 // --- NATIVE TEAM LOGIC ---
 let TT_TODAY = new Date().toISOString().split('T')[0];
+let isCustomDate = false;
+
+function refreshToday() {
+  if (!isCustomDate) {
+    const realToday = new Date().toISOString().split('T')[0];
+    if (TT_TODAY !== realToday) {
+      TT_TODAY = realToday;
+      if (typeof curEmp !== 'undefined' && curEmp && document.getElementById('v-employee').classList.contains('active')) {
+        openEmployee(curEmp);
+      }
+    }
+  }
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') refreshToday();
+});
+setInterval(refreshToday, 60000);
 let TT_REPORT_MODE = false;
 const TT_COLORS = [
   {bg:'#fecaca',fg:'#991b1b'},{bg:'#fef08a',fg:'#854d0e'},{bg:'#bbf7d0',fg:'#166534'},
@@ -2221,7 +2386,9 @@ function changeTTDate(offset) {
   const d = new Date(TT_TODAY);
   d.setDate(d.getDate() + offset);
   TT_TODAY = d.toISOString().split('T')[0];
-  
+  const realToday = new Date().toISOString().split('T')[0];
+  isCustomDate = (TT_TODAY !== realToday);
+  if (window.persist) persist();
   if (document.getElementById('v-team').classList.contains('active')) {
     renderTeam();
   } else if (document.getElementById('v-employee').classList.contains('active')) {
@@ -2271,7 +2438,8 @@ function getTasks(eid, date) {
         name: r.name,
         mins: parseInt(r.mins),
         done: false,
-        spawnedFrom: r.id
+        spawnedFrom: r.id,
+        order: Date.now()
       };
       S.tasks.push(newTask);
       tasks.push(newTask);
@@ -2281,7 +2449,7 @@ function getTasks(eid, date) {
   
   if (spawned && window.persist) persist();
   
-  return tasks;
+  return tasks.sort((a,b) => (a.order || 0) - (b.order || 0));
 }
 
 function getAtt(eid, date) {
@@ -2553,7 +2721,8 @@ function addTask() {
     name: name,
     mins: parseInt(dur.value, 10),
     done: false,
-    doneAt: null
+    doneAt: null,
+    order: Date.now()
   });
   
   input.value = '';
@@ -2709,7 +2878,7 @@ document.getElementById('empDetailHead').innerHTML = `
     document.getElementById('taskList').innerHTML = `<div class="empty" style="padding:40px;text-align:center;color:var(--mute)"><div style="font-size:28px;opacity:0.2;margin-bottom:8px">📋</div><div style="font-weight:600;color:var(--body)">No tasks yet</div><div style="font-size:12px;margin-top:4px">Add tasks above — plan for 8 hours</div></div>`;
   } else {
     document.getElementById('taskList').innerHTML = tasks.map(t => `
-      <div class="task-row ${t.done?'done':''}">
+      <div class="task-row ${t.done?'done':''}" draggable="true" ondragstart="dragTask(event, '${t.id}')" ondragover="allowDropTask(event)" ondrop="dropTask(event, '${t.id}')">
         <div class="tcheck ${t.done?'checked':''}" onclick="toggleTask('${t.id}')"></div>
         <div class="tname ${t.done?'struck':''}">${t.name}</div>
         <div class="tdur">${fmtMins(t.mins)}</div>
@@ -2729,6 +2898,34 @@ document.getElementById('empDetailHead').innerHTML = `
   
   showView('employee', document.querySelector('.nav-item[data-view="team"]'));
 }
+
+let draggedTaskId = null;
+function dragTask(ev, tid) {
+  draggedTaskId = tid;
+  ev.dataTransfer.effectAllowed = "move";
+}
+function allowDropTask(ev) {
+  ev.preventDefault();
+}
+function dropTask(ev, targetTid) {
+  ev.preventDefault();
+  if (draggedTaskId === targetTid) return;
+  const tasksForDay = getTasks(curEmp, TT_TODAY);
+  const fromIdx = tasksForDay.findIndex(t => t.id === draggedTaskId);
+  const toIdx = tasksForDay.findIndex(t => t.id === targetTid);
+  if (fromIdx < 0 || toIdx < 0) return;
+  
+  const [moved] = tasksForDay.splice(fromIdx, 1);
+  tasksForDay.splice(toIdx, 0, moved);
+  
+  tasksForDay.forEach((t, i) => { t.order = i; });
+  
+  if(window.persist) persist();
+  openEmployee(curEmp);
+}
+window.dragTask = dragTask;
+window.allowDropTask = allowDropTask;
+window.dropTask = dropTask;
 
 
 
@@ -2910,6 +3107,438 @@ function saveEmployee() {
   closeAddEmpModal();
   renderTeam();
 }
+
+/* ════════════════════════════════
+   LEAD GENERATION MODULE
+════════════════════════════════ */
+if (!S.leadgen) S.leadgen = {};
+
+const LG_CHANNELS = {
+  linkedin: {
+    label: 'LinkedIn', icon: '💼', color: '#0a66c2',
+    cols: ['requestsSent','accepted','positiveReplies','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Requests Sent','Accepted','Positive Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
+    target: {requestsSent: 800},
+    hasLeadDetails: true
+  },
+  meta: {
+    label: 'Meta Ads', icon: '📱', color: '#1877f2',
+    cols: ['adSpent','totalLeads','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Ad Spent (₹)','Total Leads','Meetings Booked','Clients Converted','Revenue (₹)'],
+    hasBudget: true,
+    hasLeadDetails: true
+  },
+  whatsapp: {
+    label: 'WhatsApp', icon: '💬', color: '#25d366',
+    cols: ['messagesSent','replies','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Messages Sent','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
+    hasLeadDetails: true
+  },
+  email: {
+    label: 'Email', icon: '✉️', color: '#ea4335',
+    cols: ['emailsSent','opens','replies','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Emails Sent','Opens','Replies','Meetings Booked','Clients Converted','Revenue (₹)'],
+    hasLeadDetails: true
+  },
+  coldcall: {
+    label: 'Cold Calling', icon: '📞', color: '#f59e0b',
+    cols: ['callsMade','connected','interested','meetingsBooked','clientsConverted','revenue'],
+    headers: ['Calls Made','Connected','Interested','Meetings Booked','Clients Converted','Revenue (₹)'],
+    hasLeadDetails: true
+  }
+};
+
+let lgMonth = new Date().getMonth();
+let lgYear = new Date().getFullYear();
+let lgChannel = 'overview';
+
+function lgMonthKey() { return `${lgYear}-${String(lgMonth+1).padStart(2,'0')}`; }
+function lgDaysInMonth() { return new Date(lgYear, lgMonth + 1, 0).getDate(); }
+function lgMonthLabel() { return new Date(lgYear, lgMonth).toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+function lgDateLabel(day) {
+  const d = new Date(lgYear, lgMonth, day);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function lgDayLabel(day) {
+  const d = new Date(lgYear, lgMonth, day);
+  return d.toLocaleDateString('en-US',{weekday:'short'});
+}
+
+function lgGetData(channel) {
+  const mk = lgMonthKey();
+  if (!S.leadgen[channel]) S.leadgen[channel] = {};
+  if (!S.leadgen[channel][mk]) S.leadgen[channel][mk] = { days: {}, budget: 0, leads: [] };
+  return S.leadgen[channel][mk];
+}
+
+function lgSetVal(channel, day, col, val) {
+  const data = lgGetData(channel);
+  if (!data.days[day]) data.days[day] = {};
+  data.days[day][col] = parseFloat(val) || 0;
+  persist();
+  lgRenderStats();
+  document.getElementById('lg-save-status').textContent = '✓ Saved';
+  setTimeout(() => { document.getElementById('lg-save-status').textContent = ''; }, 1500);
+}
+
+function lgChangeMonth(offset) {
+  lgMonth += offset;
+  if (lgMonth < 0) { lgMonth = 11; lgYear--; }
+  if (lgMonth > 11) { lgMonth = 0; lgYear++; }
+  lgRender();
+}
+
+function lgSwitchChannel(ch, el) {
+  lgChannel = ch;
+  document.querySelectorAll('.lg-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  lgRender();
+}
+
+function lgRender() {
+  document.getElementById('lg-month-label').textContent = lgMonthLabel();
+  if (lgChannel === 'overview') {
+    lgRenderOverview();
+  } else {
+    lgRenderChannel(lgChannel);
+  }
+}
+
+function lgCalcTotals(channel) {
+  const data = lgGetData(channel);
+  const cfg = LG_CHANNELS[channel];
+  const totals = {};
+  cfg.cols.forEach(c => totals[c] = 0);
+  const days = lgDaysInMonth();
+  for (let d = 1; d <= days; d++) {
+    const row = data.days[d] || {};
+    cfg.cols.forEach(c => { totals[c] += (row[c] || 0); });
+  }
+  return totals;
+}
+
+function lgRenderOverview() {
+  // Hide channel-specific buttons
+  document.getElementById('lg-btn-leads').style.display = 'none';
+  document.getElementById('lg-btn-meetings').style.display = 'none';
+  document.getElementById('lg-btn-converted').style.display = 'none';
+
+  // Calculate cross-channel totals
+  let totalMeetings = 0, totalConverted = 0, totalRevenue = 0;
+  const channelCards = Object.keys(LG_CHANNELS).map(ch => {
+    const t = lgCalcTotals(ch);
+    const cfg = LG_CHANNELS[ch];
+    totalMeetings += t.meetingsBooked || 0;
+    totalConverted += t.clientsConverted || 0;
+    totalRevenue += t.revenue || 0;
+    const primaryCol = cfg.cols[0];
+    const primaryVal = t[primaryCol] || 0;
+    const primaryLabel = cfg.headers[0];
+    const convRate = primaryVal > 0 ? ((t.meetingsBooked || 0) / primaryVal * 100).toFixed(1) : '0.0';
+    return { ch, cfg, totals: t, primaryVal, primaryLabel, convRate };
+  });
+
+  // Stats bar
+  document.getElementById('lg-stats').innerHTML = `
+    <div class="lg-stat"><div class="lg-stat-val" style="color:var(--blue)">${totalMeetings}</div><div class="lg-stat-label">Total Meetings</div></div>
+    <div class="lg-stat"><div class="lg-stat-val" style="color:var(--green)">${totalConverted}</div><div class="lg-stat-label">Clients Converted</div></div>
+    <div class="lg-stat"><div class="lg-stat-val" style="color:var(--sunset)">₹${totalRevenue.toLocaleString('en-IN')}</div><div class="lg-stat-label">Total Revenue</div></div>
+    <div class="lg-stat"><div class="lg-stat-val" style="color:var(--purple)">${totalMeetings > 0 ? ((totalConverted/totalMeetings)*100).toFixed(0) : 0}%</div><div class="lg-stat-label">Close Rate</div></div>
+  `;
+
+  // Channel cards
+  document.getElementById('lg-grid-wrap').innerHTML = `
+    <div class="lg-dash-cards">${channelCards.map(c => `
+      <div class="lg-dash-card" onclick="lgSwitchChannel('${c.ch}', document.querySelector('.lg-tab[data-ch=\\'${c.ch}\\']'))">
+        <div class="lg-dash-card-icon">${c.cfg.icon}</div>
+        <div class="lg-dash-card-title">${c.cfg.label}</div>
+        <div class="lg-dash-card-metrics">
+          <div class="lg-dash-metric"><div class="lg-dash-metric-val">${c.primaryVal.toLocaleString()}</div><div class="lg-dash-metric-label">${c.primaryLabel}</div></div>
+          <div class="lg-dash-metric"><div class="lg-dash-metric-val" style="color:var(--blue)">${c.totals.meetingsBooked || 0}</div><div class="lg-dash-metric-label">Meetings</div></div>
+          <div class="lg-dash-metric"><div class="lg-dash-metric-val" style="color:var(--green)">${c.totals.clientsConverted || 0}</div><div class="lg-dash-metric-label">Converted</div></div>
+          <div class="lg-dash-metric"><div class="lg-dash-metric-val" style="color:var(--sunset)">₹${(c.totals.revenue || 0).toLocaleString('en-IN')}</div><div class="lg-dash-metric-label">Revenue</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--mute)">Conv Rate: <span style="color:var(--ink);font-weight:600">${c.convRate}%</span></div>
+      </div>`).join('')}
+    </div>
+  `;
+}
+
+function lgRenderStats() {
+  if (lgChannel === 'overview') return;
+  const cfg = LG_CHANNELS[lgChannel];
+  const t = lgCalcTotals(lgChannel);
+  const data = lgGetData(lgChannel);
+  let statsHtml = '';
+  cfg.cols.forEach((col, i) => {
+    const val = t[col] || 0;
+    const isRevenue = col === 'revenue';
+    const isMoney = col === 'adSpent';
+    const display = isRevenue || isMoney ? '₹' + val.toLocaleString('en-IN') : val.toLocaleString();
+    let sub = '';
+    if (col === 'accepted' && t.requestsSent > 0) sub = `${(val/t.requestsSent*100).toFixed(1)}% accept rate`;
+    if (col === 'positiveReplies' && t.accepted > 0) sub = `${(val/t.accepted*100).toFixed(1)}% reply rate`;
+    if (col === 'replies' && (t.messagesSent > 0 || t.emailsSent > 0)) {
+      const sent = t.messagesSent || t.emailsSent;
+      sub = `${(val/sent*100).toFixed(1)}% reply rate`;
+    }
+    if (col === 'meetingsBooked') {
+      const firstCol = t[cfg.cols[0]] || 0;
+      if (firstCol > 0) sub = `${(val/firstCol*100).toFixed(1)}% conv rate`;
+    }
+    if (col === 'clientsConverted' && t.meetingsBooked > 0) sub = `${(val/t.meetingsBooked*100).toFixed(1)}% close rate`;
+    if (col === 'connected' && t.callsMade > 0) sub = `${(val/t.callsMade*100).toFixed(1)}% connect rate`;
+    if (col === 'interested' && t.connected > 0) sub = `${(val/t.connected*100).toFixed(1)}% interest rate`;
+    if (col === 'opens' && t.emailsSent > 0) sub = `${(val/t.emailsSent*100).toFixed(1)}% open rate`;
+    statsHtml += `<div class="lg-stat"><div class="lg-stat-val" style="color:${cfg.color}">${display}</div><div class="lg-stat-label">${cfg.headers[i]}</div>${sub ? `<div class="lg-stat-sub">${sub}</div>` : ''}</div>`;
+  });
+  if (cfg.hasBudget) {
+    statsHtml = `<div class="lg-stat"><div class="lg-stat-val" style="color:var(--yellow)">₹${(data.budget || 0).toLocaleString('en-IN')}</div><div class="lg-stat-label">Ad Budget</div></div>` + statsHtml;
+  }
+  document.getElementById('lg-stats').innerHTML = statsHtml;
+}
+
+function lgRenderChannel(ch) {
+  const cfg = LG_CHANNELS[ch];
+  const data = lgGetData(ch);
+  const days = lgDaysInMonth();
+
+  // Show/hide lead detail buttons
+  if (cfg.hasLeadDetails) {
+    document.getElementById('lg-btn-leads').style.display = 'inline-flex';
+    document.getElementById('lg-btn-meetings').style.display = 'inline-flex';
+    document.getElementById('lg-btn-converted').style.display = 'inline-flex';
+  } else {
+    document.getElementById('lg-btn-leads').style.display = 'none';
+    document.getElementById('lg-btn-meetings').style.display = 'none';
+    document.getElementById('lg-btn-converted').style.display = 'none';
+  }
+
+  lgRenderStats();
+
+  // Build grid
+  let budgetRow = '';
+  if (cfg.hasBudget) {
+    budgetRow = `<tr style="background:rgba(234,179,8,0.05)"><td class="lg-date-cell" colspan="2" style="font-weight:600;color:var(--yellow)">Ad Budget</td><td><input class="lg-inp lg-inp-wide" type="number" value="${data.budget || ''}" onchange="lgSetBudget('${ch}',this.value)" placeholder="0"></td>${cfg.cols.slice(1).map(() => '<td></td>').join('')}<td></td></tr>`;
+  }
+
+  let rows = '';
+  const totals = {};
+  cfg.cols.forEach(c => totals[c] = 0);
+
+  for (let d = 1; d <= days; d++) {
+    const row = data.days[d] || {};
+    const isWeekend = [0,6].includes(new Date(lgYear, lgMonth, d).getDay());
+    rows += `<tr style="${isWeekend ? 'background:rgba(255,255,255,0.015)':''}">`;
+    rows += `<td class="lg-date-cell">${lgDateLabel(d)}</td>`;
+    rows += `<td class="lg-day-cell">${lgDayLabel(d)}</td>`;
+    cfg.cols.forEach(col => {
+      const val = row[col] || 0;
+      totals[col] += val;
+      rows += `<td><input class="lg-inp${col==='revenue'||col==='adSpent'?' lg-inp-wide':''}" type="number" value="${val || ''}" onchange="lgSetVal('${ch}',${d},'${col}',this.value)" placeholder="0"></td>`;
+    });
+    // Action column for lead details
+    if (cfg.hasLeadDetails) {
+      const dayLeads = (data.leads || []).filter(l => l.day === d);
+      rows += `<td style="white-space:nowrap">`;
+      rows += `<button class="btn btn-xs btn-ghost" style="font-size:10px;padding:2px 6px" onclick="lgOpenAddLead('${ch}',${d},'positive')">+ Lead</button>`;
+      if (dayLeads.length > 0) {
+        rows += ` <span class="badge badge-active" style="font-size:9px">${dayLeads.length}</span>`;
+      }
+      rows += `</td>`;
+    } else {
+      rows += '<td></td>';
+    }
+    rows += '</tr>';
+  }
+
+  // Total row
+  rows += `<tr class="lg-total-row"><td class="lg-date-cell" colspan="2">Total</td>`;
+  cfg.cols.forEach(col => {
+    const v = totals[col];
+    const isM = col === 'revenue' || col === 'adSpent';
+    rows += `<td>${isM ? '₹'+v.toLocaleString('en-IN') : v.toLocaleString()}</td>`;
+  });
+  rows += '<td></td></tr>';
+
+  // Target row for LinkedIn
+  if (cfg.target) {
+    const targetCol = Object.keys(cfg.target)[0];
+    const targetVal = cfg.target[targetCol];
+    const actual = totals[targetCol];
+    const pct = (actual / targetVal * 100).toFixed(0);
+    rows += `<tr style="background:rgba(255,122,23,0.04)"><td class="lg-date-cell" colspan="2" style="color:var(--sunset);font-weight:600">Target</td>`;
+    cfg.cols.forEach(col => {
+      if (col === targetCol) {
+        rows += `<td style="color:var(--sunset);font-weight:600">${targetVal} (${pct}%)</td>`;
+      } else {
+        rows += '<td></td>';
+      }
+    });
+    rows += '<td></td></tr>';
+  }
+
+  document.getElementById('lg-grid-wrap').innerHTML = `
+    <table class="lg-grid">
+      <thead><tr><th>Date</th><th>Day</th>${cfg.headers.map(h => `<th>${h}</th>`).join('')}<th>Actions</th></tr></thead>
+      <tbody>${budgetRow}${rows}</tbody>
+    </table>
+  `;
+}
+
+function lgSetBudget(ch, val) {
+  const data = lgGetData(ch);
+  data.budget = parseFloat(val) || 0;
+  persist();
+  lgRenderStats();
+}
+
+// ── Lead Detail Management ──
+function lgOpenAddLead(ch, day, type) {
+  document.getElementById('addLeadDay').value = day;
+  document.getElementById('addLeadType').value = type;
+  document.getElementById('addLeadName').value = '';
+  document.getElementById('addLeadLink').value = '';
+  document.getElementById('addLeadNotes').value = '';
+  document.getElementById('add-lead-title').textContent = `+ Add Lead — ${LG_CHANNELS[ch].label} — ${lgDateLabel(day)}`;
+  document.getElementById('add-lead-modal').classList.add('open');
+  document.getElementById('addLeadName').focus();
+}
+window.lgOpenAddLead = lgOpenAddLead;
+
+function lgSaveLeadDetail() {
+  const day = parseInt(document.getElementById('addLeadDay').value);
+  const type = document.getElementById('addLeadType').value;
+  const name = document.getElementById('addLeadName').value.trim();
+  const link = document.getElementById('addLeadLink').value.trim();
+  const notes = document.getElementById('addLeadNotes').value.trim();
+  if (!name) { showToast('Please enter a name','error'); return; }
+
+  const data = lgGetData(lgChannel);
+  if (!data.leads) data.leads = [];
+  data.leads.push({
+    id: 'lg_' + Date.now().toString(36),
+    day, type, name, link, notes,
+    createdAt: new Date().toISOString(),
+    status: type
+  });
+
+  persist();
+  document.getElementById('add-lead-modal').classList.remove('open');
+  lgRenderChannel(lgChannel);
+  showToast('✅ Lead saved');
+}
+window.lgSaveLeadDetail = lgSaveLeadDetail;
+
+function lgShowLeadList(filterType) {
+  const data = lgGetData(lgChannel);
+  const leads = (data.leads || []).filter(l => {
+    if (filterType === 'positive') return true;
+    if (filterType === 'meeting') return l.status === 'meeting' || l.type === 'meeting';
+    if (filterType === 'converted') return l.status === 'converted' || l.type === 'converted';
+    return true;
+  });
+
+  const titles = { positive: '👥 All Leads — ' + lgMonthLabel(), meeting: '📅 Meetings Booked — ' + lgMonthLabel(), converted: '🏆 Converted Clients — ' + lgMonthLabel() };
+  document.getElementById('lead-modal-title').textContent = titles[filterType] || 'Leads';
+
+  if (leads.length === 0) {
+    document.getElementById('lead-modal-body').innerHTML = '<div style="text-align:center;padding:30px;color:var(--mute)">No leads recorded yet for this month.</div>';
+  } else {
+    document.getElementById('lead-modal-body').innerHTML = leads.map(l => `
+      <div class="lg-detail-item">
+        <div class="lg-lead-date">${lgDateLabel(l.day)}</div>
+        <div class="lg-lead-name">${l.name}</div>
+        ${l.link ? `<a class="lg-lead-link" href="${l.link}" target="_blank">${l.link}</a>` : ''}
+        <div class="lg-lead-note">${l.notes || '—'}</div>
+        <select style="font-size:10px;padding:2px 6px;background:var(--canvas-soft);border:1px solid var(--hairline);border-radius:4px;color:var(--body)" onchange="lgUpdateLeadStatus('${l.id}',this.value)">
+          <option value="positive" ${l.status==='positive'?'selected':''}>Positive Reply</option>
+          <option value="meeting" ${l.status==='meeting'?'selected':''}>Meeting Booked</option>
+          <option value="converted" ${l.status==='converted'?'selected':''}>Converted</option>
+          <option value="lost" ${l.status==='lost'?'selected':''}>Lost</option>
+        </select>
+        <button class="tdel" onclick="lgDeleteLead('${l.id}')" style="color:var(--mute2)">×</button>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('lead-detail-modal').classList.add('open');
+}
+window.lgShowLeadList = lgShowLeadList;
+
+function lgUpdateLeadStatus(leadId, newStatus) {
+  const data = lgGetData(lgChannel);
+  const lead = (data.leads || []).find(l => l.id === leadId);
+  if (lead) {
+    lead.status = newStatus;
+    persist();
+    showToast('Lead status updated');
+  }
+}
+window.lgUpdateLeadStatus = lgUpdateLeadStatus;
+
+function lgDeleteLead(leadId) {
+  const data = lgGetData(lgChannel);
+  data.leads = (data.leads || []).filter(l => l.id !== leadId);
+  persist();
+  lgShowLeadList('positive');
+  lgRenderChannel(lgChannel);
+}
+window.lgDeleteLead = lgDeleteLead;
+
+// ── Export ──
+function lgExportPDF() {
+  window.print();
+}
+window.lgExportPDF = lgExportPDF;
+
+function lgExportCSV() {
+  if (lgChannel === 'overview') { showToast('Select a channel first','error'); return; }
+  const cfg = LG_CHANNELS[lgChannel];
+  const data = lgGetData(lgChannel);
+  const days = lgDaysInMonth();
+
+  let csv = 'Date,Day,' + cfg.headers.join(',') + '\n';
+  const totals = {};
+  cfg.cols.forEach(c => totals[c] = 0);
+
+  for (let d = 1; d <= days; d++) {
+    const row = data.days[d] || {};
+    csv += `${lgDateLabel(d)},${lgDayLabel(d)},`;
+    csv += cfg.cols.map(c => {
+      const v = row[c] || 0;
+      totals[c] += v;
+      return v;
+    }).join(',') + '\n';
+  }
+  csv += 'Total,,' + cfg.cols.map(c => totals[c]).join(',') + '\n';
+
+  // Add leads if any
+  if (data.leads && data.leads.length > 0) {
+    csv += '\nLead Details\nDate,Name,Link,Notes,Status\n';
+    data.leads.forEach(l => {
+      csv += `${lgDateLabel(l.day)},"${l.name}","${l.link || ''}","${l.notes || ''}",${l.status}\n`;
+    });
+  }
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `SystemLab_${cfg.label}_${lgMonthLabel().replace(' ','_')}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`📊 ${cfg.label} report exported`);
+}
+window.lgExportCSV = lgExportCSV;
+
+// Expose functions
+window.lgChangeMonth = lgChangeMonth;
+window.lgSwitchChannel = lgSwitchChannel;
+window.lgSetVal = lgSetVal;
+window.lgSetBudget = lgSetBudget;
+window.lgRender = lgRender;
 
 /* GO */
 // bootApp() will be called by Firebase module below
