@@ -1526,16 +1526,50 @@ async function connectToWorkspace(workspaceId, userName) {
             const updatedSOP = S.sops.find(s=>s.id===activeId);
             const edTa = document.getElementById('ed-ta');
             if (updatedSOP && edTa && edTa.value !== updatedSOP.body) {
-              // Only overwrite if the user is NOT actively typing in it right now
               if (document.activeElement !== edTa) {
                 edTa.value = updatedSOP.body;
-                onMdInput();
+                if (typeof onMdInput === 'function') onMdInput();
               }
             }
           }
         }
       } catch(e) { console.error('Poll parse error', e); }
     });
+
+  // HYBRID FALLBACK: Silent background polling every 8s to catch any dropped EventSource packets
+  if (window.hybridSyncInterval) clearInterval(window.hybridSyncInterval);
+  window.hybridSyncInterval = setInterval(async () => {
+    try {
+      const remoteData = await rtdbGet(path);
+      if (!remoteData || !remoteData.data) return;
+      const remoteS = JSON.parse(remoteData.data);
+      const localStr = JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees||[], tasks: S.tasks||[], att: S.att||{}, recurring: S.recurring||[], leadgen: S.leadgen||{}});
+      const remoteStr = JSON.stringify({depts: remoteS.depts, sops: remoteS.sops, workspaceName: remoteS.workspaceName, employees: remoteS.employees||[], tasks: remoteS.tasks||[], att: remoteS.att||{}, recurring: remoteS.recurring||[], leadgen: remoteS.leadgen||{}});
+      
+      if (remoteStr !== localStr) {
+        S.depts = remoteS.depts || S.depts;
+        S.sops = remoteS.sops || S.sops;
+        if (remoteS.workspaceName) S.workspaceName = remoteS.workspaceName;
+        S.employees = remoteS.employees || S.employees || [];
+        S.tasks = remoteS.tasks || S.tasks || [];
+        S.att = remoteS.att || S.att || {};
+        S.recurring = remoteS.recurring || S.recurring || [];
+        S.leadgen = remoteS.leadgen || S.leadgen || {};
+        
+        localStorage.setItem(localKey, JSON.stringify({depts: S.depts, sops: S.sops, workspaceName: S.workspaceName, employees: S.employees, tasks: S.tasks, att: S.att, recurring: S.recurring, leadgen: S.leadgen}));
+        if (typeof renderSidebar === 'function') renderSidebar();
+        if (typeof renderDashboard === 'function') renderDashboard();
+        if (typeof updateGreeting === 'function') updateGreeting();
+        if (typeof renderTeam === 'function' && document.getElementById('v-team').classList.contains('active')) renderTeam();
+        if (typeof renderRecurringList === 'function') renderRecurringList();
+        if (typeof curEmp !== 'undefined' && curEmp && typeof openEmployee === 'function') {
+          const empView = document.getElementById('v-employee');
+          if (empView && empView.classList.contains('active')) openEmployee(curEmp);
+        }
+        if (typeof lgRender === 'function' && document.getElementById('v-leadgen').classList.contains('active')) lgRender();
+      }
+    } catch (err) {}
+  }, 8000);
 }
 
 
