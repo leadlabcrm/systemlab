@@ -757,10 +757,7 @@ select option{background:var(--canvas-card)}
           <div class="dash-h1">Team</div>
           <div class="dash-sub">Track daily attendance and active execution.</div>
         </div>
-        <div style="display:flex; align-items:center; gap:16px;">
-          <div id="team-date-nav"></div>
-          <button class="btn btn-primary" onclick="openAddEmpModal()">Add Team Member</button>
-        </div>
+        <button class="btn btn-primary" onclick="openAddEmpModal()">Add Team Member</button>
       </div>
       <div class="lg-tabs" id="team-toolbar" style="justify-content:space-between; padding:12px 32px;"></div>
       <div class="lg-stats" id="team-stats" style="border-bottom:none; padding-top:0;"></div>
@@ -2561,26 +2558,23 @@ function renderTeam() {
   const localDate = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
   const monthName = localDate.toLocaleDateString('en-US', {month:'long', year:'numeric'});
 
-  document.getElementById('team-date-nav').innerHTML = `
+  document.getElementById('team-toolbar').innerHTML = `
+      <!-- Left: Date Navigator -->
       <div style="display:flex; align-items:center; gap:8px; background:var(--canvas-soft); padding:4px; border-radius:var(--r-pill); border:1px solid var(--hairline); width: 220px; justify-content: space-between;">
         <button class="btn" style="padding:2px 8px; border:none; background:transparent" onclick="${TT_REPORT_MODE ? 'changeTTMonth(-1)' : 'changeTTDate(-1)'}">❮</button>
         <div style="font-size:12px; font-weight:600; text-align:center; color:var(--ink)">${TT_REPORT_MODE ? monthName : formatTTDate()}</div>
         <button class="btn" style="padding:2px 8px; border:none; background:transparent" onclick="${TT_REPORT_MODE ? 'changeTTMonth(1)' : 'changeTTDate(1)'}">❯</button>
       </div>
-  `;
-
-  document.getElementById('team-toolbar').innerHTML = `
-      <div style="display:flex; align-items:center; gap: 16px; width: 100%; justify-content: space-between;">
-        <!-- Left: Daily/Monthly Toggle -->
-        <div style="display:flex; background:var(--canvas-soft); border:1px solid var(--hairline); border-radius:var(--r-pill); padding:2px;">
-          <button class="btn btn-sm" style="border:none; background:${!TT_REPORT_MODE?'var(--ink)':'transparent'}; color:${!TT_REPORT_MODE?'#000':'var(--mute)'}; border-radius:var(--r-pill);" onclick="TT_REPORT_MODE=false; renderTeam()">Daily</button>
-          <button class="btn btn-sm" style="border:none; background:${TT_REPORT_MODE?'var(--ink)':'transparent'}; color:${TT_REPORT_MODE?'#000':'var(--mute)'}; border-radius:var(--r-pill);" onclick="TT_REPORT_MODE=true; renderTeam()">Monthly Report</button>
-        </div>
-        
-        <!-- Right: Download CSV -->
-        <div>
-          <button class="btn btn-sm" onclick="downloadMonthlyReport()">📊 Download CSV</button>
-        </div>
+      
+      <!-- Center: Daily/Monthly Toggle -->
+      <div style="display:flex; background:var(--canvas-soft); border:1px solid var(--hairline); border-radius:var(--r-pill); padding:2px; margin: 0 auto;">
+        <button class="btn btn-sm" style="border:none; background:${!TT_REPORT_MODE?'var(--ink)':'transparent'}; color:${!TT_REPORT_MODE?'#000':'var(--mute)'}; border-radius:var(--r-pill);" onclick="TT_REPORT_MODE=false; renderTeam()">Daily</button>
+        <button class="btn btn-sm" style="border:none; background:${TT_REPORT_MODE?'var(--ink)':'transparent'}; color:${TT_REPORT_MODE?'#000':'var(--mute)'}; border-radius:var(--r-pill);" onclick="TT_REPORT_MODE=true; renderTeam()">Monthly Report</button>
+      </div>
+      
+      <!-- Right: Download CSV -->
+      <div style="width: 220px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-sm" onclick="downloadMonthlyReport()">📊 Download CSV</button>
       </div>
   `;
 
